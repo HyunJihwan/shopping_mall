@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.dw.mappers.adminMapper">
+	
+	<select id="category" resultType="kr.or.dw.domain.CategoryVO">
+	select level, cateName, cateCode, cateCodeRef 
+	from goods_category
+    start with cateCodeRef is null connect by prior cateCode = cateCodeRef
+	</select>
+	
+	<!-- 상품 등록 -->
+	<insert id="register">
+ 	insert into tbl_goods (gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes)
+     values (tbl_goods_seq.nextval, #{gdsName}, #{cateCode}, #{gdsPrice}, #{gdsStock}, #{gdsDes})
+	</insert>
+	
+	<!-- 상품 목록 -->   
+	<select id="goodslist" resultType="kr.or.dw.domain.GoodsVO">
+	   select
+	    gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate
+	    from tbl_goods
+	        order by gdsNum desc
+	</select>
+	
+</mapper>
