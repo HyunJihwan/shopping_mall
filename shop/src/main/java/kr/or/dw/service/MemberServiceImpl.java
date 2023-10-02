@@ -2,6 +2,8 @@ package kr.or.dw.service;
 
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,17 @@ public class MemberServiceImpl implements MemberService {
 		
 		memberDAO.signup(vo);
 		
+	}
+
+	@Override
+	public MemberVO signin(MemberVO vo) throws SQLException {
+		
+		return memberDAO.signin(vo);
+	}
+
+	@Override
+	public void signout(HttpSession session) throws SQLException {
+		session.invalidate();
 	}
 
 }
