@@ -177,13 +177,18 @@ textarea#gdsDes {
 					</div>
 					
 					<div class="inputArea">
-					   <label for="gdsImg">이미지</label>
-					   <p>원본 이미지</p>
-					   <img src="${pageContext.request.contextPath}/${goods.gdsImg}" class="oriImg"/>
-					   
-					   <p>썸네일</p>
-					   <img src="${pageContext.request.contextPath}/${goods.gdsThumbImg}" class="thumbImg"/>
+				    <label for="gdsImg">이미지</label>
+				    <p>원본 이미지</p>
+				    <c:if test="${empty goods.gdsImg}">
+				        <p>이미지가 없습니다.</p>
+				    </c:if>
+				    <c:if test="${!empty goods.gdsImg}">
+				        <img src="${goods.gdsImg}" class="oriImg" />
+				    </c:if>
+				    <p>썸네일</p>
+				    	<img src="${goods.gdsThumbImg}" class="thumbImg"/>
 					</div>
+									
 					
 					<div class="inputArea">
 						<button type="button" id="modify_Btn" class="btn btn-warning">수정</button>

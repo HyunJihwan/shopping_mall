@@ -9,6 +9,7 @@
 <link rel="stylesheet"
 	href="/resources/bootstrap/css/bootstrap-theme.min.css">
 <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
+<script src="/resources/ckeditor/ckeditor.js"></script>
 
 </head>
 <body>
@@ -174,6 +175,17 @@ textarea#gdsDes {
 					<div class="inputArea">
 						<label for="gdsDes">상품소개</label>
 						<textarea rows="5" cols="50" id="gdsDes" name="gdsDes"></textarea>
+						<script>
+						   var ckeditor_config = {
+						     resize_enaleb : false,
+						     enterMode : CKEDITOR.ENTER_BR,
+						     shiftEnterMode : CKEDITOR.ENTER_P,
+						     filebrowserUploadUrl : "/admin/goods/ckUpload"
+						   };
+						   
+						   CKEDITOR.replace("gdsDes", ckeditor_config);
+						</script>
+						
 					</div>
 
 					<div class="inputArea">
@@ -185,13 +197,13 @@ textarea#gdsDes {
 
 						<script>
 					    $("#gdsImg").change(function(){
-					     if(this.files && this.files[0]) {
-					      var reader = new FileReader;
-					      reader.onload = function(data) {
-					       $(".select_img img").attr("src", data.target.result).width(500);          
-					      }
-					      reader.readAsDataURL(this.files[0]);
-					     }
+						     if(this.files && this.files[0]) {
+						      var reader = new FileReader;
+						      reader.onload = function(data) {
+						       $(".select_img img").attr("src", data.target.result).width(500);          
+						      }
+						      reader.readAsDataURL(this.files[0]);
+						     }
 					    });
    						</script>
    						
