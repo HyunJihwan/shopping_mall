@@ -12,8 +12,8 @@
 	
 	<!-- 상품 등록 -->
 	<insert id="register">
- 	insert into tbl_goods (gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes)
-     values (tbl_goods_seq.nextval, #{gdsName}, #{cateCode}, #{gdsPrice}, #{gdsStock}, #{gdsDes})
+ 	insert into tbl_goods (gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, gdsImg, gdsThumbImg)
+     values (tbl_goods_seq.nextval, #{gdsName}, #{cateCode}, #{gdsPrice}, #{gdsStock}, #{gdsDes},#{gdsImg}, #{gdsThumbImg})
 	</insert>
 	
 	<!-- 상품 목록 -->   
@@ -24,4 +24,39 @@
 	        order by gdsNum desc
 	</select>
 	
+	<!-- 상품 조회 -->
+<!-- 	<select id="goodsView" resultType="kr.or.dw.domain.GoodsVO"> -->
+<!-- 		select gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate -->
+<!-- 		from tbl_goods -->
+<!-- 		where gdsNum = #{gdsNum} -->
+<!-- 	</select> -->
+	
+	<!-- 상품 조회  + 카테고리 조인 -->
+	<select id="goodsView" resultType="kr.or.dw.domain.GoodsViewVO">
+		select
+    	 g.gdsNum, g.gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate,
+    	  g.gdsImg, g.gdsThumbImg
+    	 FROM TBL_GOODS g, GOODS_CATEGORY c
+    	 WHERE 1=1
+    	 AND g.cateCode = c.cateCode 
+    	 AND g.gdsNum = #{gdsNum}
+	</select>
+	
+	<update id="goodsModify">
+		update tbl_goods
+     set
+         gdsName = #{gdsName},
+         <if test="cateCode != ''.toString()">
+		cateCode = #{cateCode},
+		</if>
+         gdsPrice = #{gdsPrice},
+         gdsStock = #{gdsStock},
+         gdsDes = #{gdsDes}
+     where gdsNum = ${gdsNum}
+	</update>
+	
+	<delete id="goodsDelete">
+		DELETE FROM tbl_goods
+		WHERE gdsNum = #{gdsNum}
+	</delete>
 </mapper>

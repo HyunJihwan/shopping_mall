@@ -4,8 +4,9 @@ import java.util.Date;
 
 import lombok.Data;
 
+
 @Data
-public class GoodsVO {
+public class GoodsViewVO {
 	
 	private int gdsNum;
 	private String gdsName;
@@ -16,6 +17,8 @@ public class GoodsVO {
 	private String gdsImg;
 	private Date gdsDate;
 	
+	private String cateName;
+	private String cateCodeRef;
 	private String gdsThumbImg;
 	
-}   
+}

@@ -16,7 +16,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 		HttpSession session = req.getSession();
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		
-		if(member == null && member.equals("")) {
+		if(member == null || member.equals("")) {
 			res.sendRedirect("/member/signin");
 			return false;
 		}

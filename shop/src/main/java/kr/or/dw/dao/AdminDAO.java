@@ -5,6 +5,7 @@ import java.util.List;
 
 import kr.or.dw.domain.CategoryVO;
 import kr.or.dw.domain.GoodsVO;
+import kr.or.dw.domain.GoodsViewVO;
 
 public interface AdminDAO {
 	
@@ -16,5 +17,14 @@ public interface AdminDAO {
 	
 	// 상품 목록
 	List<GoodsVO> goodslist() throws SQLException;
+	
+	// 상품 조회
+	GoodsViewVO goodsView(int gdsNum) throws SQLException;
+	
+	// 상품 수정
+	void goodsModify(GoodsVO vo) throws SQLException;
+	
+	// 상품 삭제
+	void goodsDelete(int gdsNum) throws SQLException;
 
 }
