@@ -16,7 +16,7 @@ public interface AdminService {
 	void register(GoodsVO vo) throws SQLException;
 	
 	// 상품 목록
-	List<GoodsVO> goodslist() throws SQLException;
+	List<GoodsViewVO> goodslist() throws SQLException;
 	
 	// 상품 조회
 	GoodsViewVO goodsView(int gdsNum) throws SQLException;

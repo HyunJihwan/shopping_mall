@@ -31,7 +31,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<GoodsVO> goodslist() throws SQLException {
+	public List<GoodsViewVO> goodslist() throws SQLException {
 		
 		return adminDAO.goodslist();
 	}
