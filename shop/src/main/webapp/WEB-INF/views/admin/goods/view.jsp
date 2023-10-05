@@ -195,7 +195,7 @@ textarea#gdsDes {
 					
 					<div class="inputArea">
 						<button type="button" id="modify_Btn" class="btn btn-warning">수정</button>
-						<button type="button" id="delete_Btn" class="btn btn-danger">삭제</button>
+						<button type="button" id="delete_Btn" class="btn btn-danger" >삭제</button>
 					
 					<script>
 						var formObj = $("form[role='form']");
