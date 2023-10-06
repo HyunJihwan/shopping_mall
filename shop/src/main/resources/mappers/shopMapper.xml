@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.dw.mappers.shopMapper">
+   
+
+<select id="list" resultType="kr.or.dw.domain.GoodsViewVO">
+select
+    g.gdsNum, g.gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate, g.gdsImg, g.gdsThumbImg
+        from tbl_goods g
+            inner join goods_category c
+                on g.cateCode = c.cateCode           
+            where g.cateCode = #{cateCode}
+</select>
+
+<!-- 상품 소감(댓글) 작성 -->
+<insert id="registReply">
+   insert into tbl_reply (gdsNum, userId, repNum, repCon)
+       values (#{gdsNum}, #{userId}, tbl_reply_seq.nextval, #{repCon})
+</insert>
+
+<!-- 상품 소감(댓글) 리스트 -->
+<select id="replyList" resultType="kr.or.dw.domain.ReplyListVO">
+  SELECT r.gdsNum, r.userId, r.repNum, r.repCon, r.repDate, m.userName
+       FROM TBL_REPLY r, TBL_MEMBER m
+       WHERE 1=1 
+       AND r.USERID = m.USERID 
+       AND gdsNum = #{gdsNum}
+</select>
+
+</mapper>
