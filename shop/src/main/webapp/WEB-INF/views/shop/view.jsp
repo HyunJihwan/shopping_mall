@@ -216,17 +216,41 @@ function replyList(){
 					   <c:if test="${member != null}">
 					   <section class="replyForm">
 					    <form role="form" method="post" autocomplete="off">
+					    
 					    <input type="hidden" name="gdsNum" id= "gdsNum" value="${view.gdsNum}">
+					    
 					     <div class="input_area">
 					      <textarea name="repCon" id="repCon"></textarea>
 					     </div>
 					     
 					     <div class="input_area">
-					      <button type="submit" id="reply_btn">소감 남기기</button>
-					      
-					      
-					      
-					      
+					      <button type="button" id="reply_btn">소감 남기기</button>
+					   	   <script>
+
+$("#reply_btn").click(function(){
+ 
+	 var formObj = $(".replyForm form[role='form']");
+	 var gdsNum = $("#gdsNum").val();
+	 var repCon = $("#repCon").val()
+	 
+	 var data = {
+	   gdsNum : gdsNum,
+	   repCon : repCon
+	   };
+	 
+	 $.ajax({
+	  url : "/shop/view/registReply",
+	  type : "post",
+	  data : data,
+	  success : function(){
+	   replyList();
+	   $("#repCon").val("");
+	  }
+	 });
+});
+
+</script>
+					   	   
 					     </div>
 					     
 					    </form>
@@ -277,30 +301,7 @@ function replyList(){
 	</footer>
 </div>
 </body>
-<script>
 
-$("#reply_btn").click(function(){
- 
-	 var formObj = $(".replyForm form[role='form']");
-	 var gdsNum = $("#gdsNum").val();
-	 var repCon = $("#repCon").val()
-	 
-	 var data = {
-	   gdsNum : gdsNum,
-	   repCon : repCon
-	   };
-	 
-	 $.ajax({
-	  url : "/shop/view/registReply",
-	  type : "post",
-	  data : data,
-	  success : function(){
-	   replyList();
-	  }
-	 });
-});
-
-</script>
 
 
 

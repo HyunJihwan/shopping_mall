@@ -102,7 +102,6 @@ public class AdminController {
 		logger.info("get goods list");
 		
 		List<GoodsViewVO> list  = adminService.goodslist();
-		
 		model.addAttribute("list", list);
 	}
 	

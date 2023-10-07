@@ -14,7 +14,7 @@
 </head>
 <body>
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-	<style>
+<style>
 body {
 	font-family: '맑은 고딕', verdana;
 	padding: 0;

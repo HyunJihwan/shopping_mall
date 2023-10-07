@@ -4,6 +4,12 @@
 <html>
 <head>
 	<title>지환 Home</title>
+	<script src="/resources/jquery/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="/resources/bootstrap/css/bootstrap-theme.min.css">
+<script src="/resources/bootstrap/js/bootstrap.min.js"></script>
+<script src="/resources/ckeditor/ckeditor.js"></script>
 <style>
 	
 		body { margin:0; padding:0; font-family:'맑은 고딕', verdana; }

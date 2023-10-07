@@ -50,7 +50,7 @@ public class ShopController {
 	}
 	
 //	@RequestMapping(value = "/view" , method = RequestMethod.GET)
-//	public void getView(@RequestParam("n") int gdsNum, Model model) {
+//	public void getView(@RequestParam("n") int gdsNum, Model model) throws SQLException {
 //		
 //		logger.info("get view");
 //		
@@ -67,7 +67,7 @@ public class ShopController {
 	    logger.info("get view");
 
 	    GoodsViewVO view = shopService.goodsView(gdsNum);
-
+	    
 	    mnv.addObject("view", view); // 모델에 데이터 추가
 	    mnv.setViewName(url); // 뷰 이름 설정
 	    
@@ -97,9 +97,11 @@ public class ShopController {
 	public void registReply(@RequestBody ReplyVO reply, HttpSession session) throws Exception {
 	   logger.info("regist reply");
 	   
+	   System.out.println("등록할건데1");
 	   MemberVO member = (MemberVO)session.getAttribute("member");
+	   System.out.println("등록할건데2");
 	   reply.setUserId(member.getUserId());
-	   
+	   System.out.println("등록할건데3");
 	   shopService.registReply(reply);
 	   
 	}
