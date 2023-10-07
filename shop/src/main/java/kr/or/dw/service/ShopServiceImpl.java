@@ -40,4 +40,18 @@ public class ShopServiceImpl implements ShopService {
 		
 		return shopDAO.replyList(gdsNum);
 	}
+
+	@Override
+	public void deleteReply(ReplyVO reply) throws SQLException {
+		shopDAO.deleteReply(reply);
+		
+	}
+
+	@Override
+	public String idCheck(int repNum) throws SQLException {
+		shopDAO.idCheck(repNum);
+		return null;
+	}
+
+	
 }

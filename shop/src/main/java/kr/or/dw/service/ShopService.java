@@ -17,4 +17,11 @@ public interface ShopService {
 
 	List<ReplyListVO> replyList(int gdsNum) throws SQLException;
 
+	String idCheck(int repNum) throws SQLException;
+	
+	void deleteReply(ReplyVO reply) throws SQLException;
+
+
+	
+
 }

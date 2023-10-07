@@ -17,4 +17,10 @@ public interface ShopDAO {
 
 	List<ReplyListVO> replyList(int gdsNum) throws SQLException;
 
+	void deleteReply(ReplyVO reply) throws SQLException;
+
+	void idCheck(int repNum) throws SQLException;
+
+	
+
 }

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.or.dw.dao.ShopDAO;
 import kr.or.dw.domain.GoodsViewVO;
 import kr.or.dw.domain.MemberVO;
 import kr.or.dw.domain.ReplyListVO;
@@ -91,10 +92,10 @@ public class ShopController {
 //		return "redirect:/shop/view?n=" + reply.getGdsNum();
 //	}
 	
-	
+	// 상품댓글달기  ajax
 	@ResponseBody
 	@RequestMapping(value = "/view/registReply", method = RequestMethod.POST)
-	public void registReply(@RequestBody ReplyVO reply, HttpSession session) throws Exception {
+	public void registReply(ReplyVO reply, HttpSession session) throws Exception {
 	   logger.info("regist reply");
 	   
 	   System.out.println("등록할건데1");
@@ -106,6 +107,7 @@ public class ShopController {
 	   
 	}
 	
+	// 댓글리스트 ajax
 	@ResponseBody
 	@RequestMapping(value = "/view/replyList", method = RequestMethod.GET)
 	public List<ReplyListVO> getReplyList(@RequestParam("n") int gdsNum) throws SQLException {
@@ -116,8 +118,37 @@ public class ShopController {
 		return reply;
 		
 	}
+	
+	
 
 	
+	// 상품 소감(댓글) 삭제
+	@ResponseBody
+	@RequestMapping(value = "/view/deleteReply", method = RequestMethod.POST)
+	public int getReplyList(ReplyVO reply,  HttpSession session) throws Exception {
+	   logger.info("post delete reply");
+
+	   int result = 0;
+	   
+
+	   MemberVO member = (MemberVO)session.getAttribute("member");
+	   String userId = shopService.idCheck(reply.getRepNum());
+	   System.out.println("위의 유저아이디" + userId);
+	   System.out.println("멤버유저아이디 : " + member.getUserId());
+	   
+	   if(member.getUserId().equals(userId)) {
+	    System.out.println("리절트의 값 " + result);
+	    reply.setUserId(member.getUserId());
+	    shopService.deleteReply(reply);
+	    
+	    result = 1;
+	   }
+	   
+	   return result;   
+	}
+
+
+
 	
 	
 }

@@ -24,8 +24,13 @@ function replyList(){
 	       + "<span class='userName'>" + this.userName + " "
 	       + "<span class='date'>" + repDate + " "
 	       + "</div>"
-	       + "<div class='replyContent'>" + this.repCon + "</div>"
-	       + "</li>";             
+	       + "<div class='replyContent'>" + this.repCon + "</div>" 
+	        
+	       + "<div class='replyFooter'>"
+	       + "<button type='button' class='modify' data-repNum='" + this.repNum + "'>M</button>"
+	       + "<button type='button' class='delete' data-repNum='" + this.repNum + "'>D</button>"
+	       + "</div>"
+	       + "</li>";           
 	    });
 	    
 	    $("section.replyList ol").html(str);
@@ -116,6 +121,9 @@ function replyList(){
    section.replyList div.userInfo .userName { font-size:24px; font-weight:bold; }
    section.replyList div.userInfo .date { color:#999; display:inline-block; margin-left:10px; }
    section.replyList div.replyContent { padding:10px; margin:20px 0; }
+   section.replyList div.replyFooter {margin-bottom:10px; }
+   
+   section.replyList div.replyFooter button { font-size:14px; border: 1px solid #999; background:none; margin-right:10px; }
 </style>
 
 	
@@ -213,11 +221,11 @@ function replyList(){
 					    <p>소감을 남기시려면 <a href="/member/signin">로그인</a>해주세요</p>
 					   </c:if>
 					   
-					   <c:if test="${member != null}">
+					   <c:if test="${member != null }">
 					   <section class="replyForm">
 					    <form role="form" method="post" autocomplete="off">
 					    
-					    <input type="hidden" name="gdsNum" id= "gdsNum" value="${view.gdsNum}">
+					    <input type="hidden" name="gdsNum" id="gdsNum" value="${view.gdsNum}">
 					    
 					     <div class="input_area">
 					      <textarea name="repCon" id="repCon"></textarea>
@@ -225,43 +233,42 @@ function replyList(){
 					     
 					     <div class="input_area">
 					      <button type="button" id="reply_btn">소감 남기기</button>
-					   	   <script>
+						
+						<script>
+						   $("#reply_btn").click(function(){
+						    
+						    var formObj = $(".replyForm form[role='form']");
+						    var gdsNum = $("#gdsNum").val();
+						    var repCon = $("#repCon").val()
+						    
+						    var data = {
+						      gdsNum : gdsNum,
+						      repCon : repCon
+						      };
+						    
+						    $.ajax({
+						     url : "/shop/view/registReply",
+						     type : "post",
+						     data : data,
+						     success : function(data){
+						      replyList();
+						      alert("댓글 등록되었습니다!");
+						      $("#repCon").val("");
+						     },
+						     error : function(data){
+							  alert("다시 확인해주세요!");
+							}
+						    });
+						   });
+						</script>
 
-$("#reply_btn").click(function(){
- 
-	 var formObj = $(".replyForm form[role='form']");
-	 var gdsNum = $("#gdsNum").val();
-	 var repCon = $("#repCon").val()
-	 
-	 var data = {
-	   gdsNum : gdsNum,
-	   repCon : repCon
-	   };
-	 
-	 $.ajax({
-	  url : "/shop/view/registReply",
-	  type : "post",
-	  data : data,
-	  success : function(){
-	   replyList();
-	   $("#repCon").val("");
-	  }
-	 });
-});
-
-</script>
-					   	   
-					     </div>
+						</div>
 					     
 					    </form>
 					   </section>
 					   </c:if>
 					   
-					   <section class="replyList">
-					    <ol>
-					     <li>댓글 목록</li>
-					       </ol>    
-					   </section>
+					  
 					   
 					   <section class="replyList">
 						   <ol>
@@ -280,7 +287,33 @@ $("#reply_btn").click(function(){
 						  <script>
 							replyList();
 						  </script>
-						       
+						   
+						   <script>
+							   $(document).on("click", ".delete", function(){
+
+							       var data = {repNum : $(this).attr("data-repNum")};
+							       
+							       $.ajax({
+							    	   url : "/shop/view/deleteReply",
+							    	   type : "post",
+							    	   data : data,
+							    	   success : function(result){
+					
+							    	    if(result == 1) {
+							    	     replyList();
+							    	    } else {
+								    	    console.log(result);
+							    	     alert("작성자 본인만 할 수 있습니다.");      
+							    	    }
+							    	   },
+							    	   error : function(){
+							    	    alert("로그인하셔야합니다.")
+							    	   }
+							    	});
+							   });
+							</script>
+						   
+						   
 						</section>
 					   
 					</div>

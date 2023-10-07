@@ -29,4 +29,20 @@ select
        AND gdsNum = #{gdsNum}
 </select>
 
+
+<select id="idCheck" resultType="String">
+	select userId
+  from tbl_reply
+      where repNum = #{repNum}
+</select>
+
+<delete id="deleteReply">
+	delete from tbl_reply
+	where repNum = #{repNum}
+	AND userId = #{userId}
+</delete>
+
+
+
+
 </mapper>

@@ -44,5 +44,19 @@ public class ShopDAOImpl implements ShopDAO {
 		
 		return sql.selectList(namespace + ".replyList", gdsNum);
 	}
+
+	@Override
+	public void deleteReply(ReplyVO reply) throws SQLException {
+		sql.delete(namespace + ".deleteReply", reply); 
+		
+	}
+
+	@Override
+	public void idCheck(int repNum) throws SQLException {
+		sql.selectOne(namespace + ".idCheck", repNum);
+		
+	}
+
+	
 	
 }
