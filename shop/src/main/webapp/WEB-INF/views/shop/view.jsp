@@ -5,6 +5,33 @@
 <head>
 	<title>지환 Home</title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+function replyList(){
+    
+	   var gdsNum = ${view.gdsNum};
+	   $.getJSON("/shop/view/replyList" + "?n=" + gdsNum, function(data){
+	    var str = "";
+	    
+	    $(data).each(function(){
+	     
+	     console.log(data);
+	     
+	     var repDate = new Date(this.repDate);
+	     repDate = repDate.toLocaleDateString("ko-US")
+	     
+	     str += "<li data-gdsNum='" + this.gdsNum + "'>"
+	       + "<div class='userInfo'>"
+	       + "<span class='userName'>" + this.userName + " "
+	       + "<span class='date'>" + repDate + " "
+	       + "</div>"
+	       + "<div class='replyContent'>" + this.repCon + "</div>"
+	       + "</li>";             
+	    });
+	    
+	    $("section.replyList ol").html(str);
+	   });
+	 }
+</script>
 
 <style>
 	
@@ -76,6 +103,21 @@
     div.goods div.goodsInfo p.addToCart button { font-size:22px; padding:5px 10px; border:1px solid #eee; background:none; }
    div.goods div.gdsDes { font-size:18px; clear:both; padding-top:30px; }
 </style>
+<style>
+   section.replyForm { padding:30px 0; }
+   section.replyForm div.input_area { margin:10px 0; }
+   section.replyForm textarea { font-size:16px; font-family:'맑은 고딕', verdana; padding:10px; width:500px;; height:150px; }
+   section.replyForm button { font-size:20px; padding:5px 10px; margin:10px 0; background:#fff; border:1px solid #ccc; }
+   
+   section.replyList { padding:30px 0; }
+   section.replyList ol { padding:0; margin:0; }
+   section.replyList ol li { padding:10px 0; border-bottom:2px solid #eee; }
+   section.replyList div.userInfo { }
+   section.replyList div.userInfo .userName { font-size:24px; font-weight:bold; }
+   section.replyList div.userInfo .date { color:#999; display:inline-block; margin-left:10px; }
+   section.replyList div.replyContent { padding:10px; margin:20px 0; }
+</style>
+
 	
 </head>
 <body>
@@ -174,13 +216,17 @@
 					   <c:if test="${member != null}">
 					   <section class="replyForm">
 					    <form role="form" method="post" autocomplete="off">
-					    <input type="hidden" name="gdsNum" value="${view.gdsNum}">
+					    <input type="hidden" name="gdsNum" id= "gdsNum" value="${view.gdsNum}">
 					     <div class="input_area">
 					      <textarea name="repCon" id="repCon"></textarea>
 					     </div>
 					     
 					     <div class="input_area">
 					      <button type="submit" id="reply_btn">소감 남기기</button>
+					      
+					      
+					      
+					      
 					     </div>
 					     
 					    </form>
@@ -192,19 +238,25 @@
 					     <li>댓글 목록</li>
 					       </ol>    
 					   </section>
+					   
 					   <section class="replyList">
 						   <ol>
-						   <c:forEach items="${reply}" var="reply">
-						
-						    <li>
-						        <div class="userInfo">
-						         <span class="userName">${reply.userName} 
-						         <span class="date"><fmt:formatDate value="${reply.repDate}" pattern="yyyy-MM-dd" /> 
-						        </div>
-						        <div class="replyContent">${reply.repCon}</div>
-						      </li>
-						     </c:forEach>
+<!-- 						  댓글 리스트돌린거  -->
+<%-- 						   <c:forEach items="${reply}" var="reply"> --%>
+<!-- 						    <li> -->
+<!-- 						        <div class="userInfo"> -->
+<%-- 						         <span class="userName">${reply.userName}  --%>
+<%-- 						         <span class="date"><fmt:formatDate value="${reply.repDate}" pattern="yyyy-MM-dd" />  --%>
+<!-- 						        </div> -->
+<%-- 						        <div class="replyContent">${reply.repCon}</div> --%>
+<!-- 						      </li> -->
+<%-- 						     </c:forEach> --%>
+						    
 						    </ol>    
+						  <script>
+							replyList();
+						  </script>
+						       
 						</section>
 					   
 					</div>
@@ -227,41 +279,30 @@
 </body>
 <script>
 
-$("#reply_btn").on("click", function() {
-    alert("댓글 등록완료");
+$("#reply_btn").click(function(){
+ 
+	 var formObj = $(".replyForm form[role='form']");
+	 var gdsNum = $("#gdsNum").val();
+	 var repCon = $("#repCon").val()
+	 
+	 var data = {
+	   gdsNum : gdsNum,
+	   repCon : repCon
+	   };
+	 
+	 $.ajax({
+	  url : "/shop/view/registReply",
+	  type : "post",
+	  data : data,
+	  success : function(){
+	   replyList();
+	  }
+	 });
 });
 
-
-//     $(document).ready(function () {
-//         $("#reply_btn").click(function () {
-//             var gdsNum = ${view.gdsNum};
-//             var repCon = $("#repCon").val();
-            
-//             $.ajax({
-//                 type: "POST",
-//                 url: "shop/view",
-//                 data: {
-//                     gdsNum: gdsNum,
-//                     repCon: repCon
-//                 },
-//                 success: function (response) {
-//                     if (response === "Success") {
-//                         alert("소감이 성공적으로 제출되었습니다.");
-//                         // 소감 제출 후 추가 작업을 수행할 수 있습니다.
-//                         // 예를 들어, 화면 갱신 또는 추가 데이터 가져오기 등
-//                     } else if (response === "Unauthorized") {
-//                         alert("로그인 후 소감을 남길 수 있습니다.");
-//                     } else {
-//                         alert("소감 제출 중 오류가 발생했습니다.");
-//                     }
-//                 },
-//                 error: function () {
-//                     alert("서버와의 통신 중 오류가 발생했습니다.");
-//                 }
-//             });
-//         });
-//     });
 </script>
+
+
 
 
 </html>

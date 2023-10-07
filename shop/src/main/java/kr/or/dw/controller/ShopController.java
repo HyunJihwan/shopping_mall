@@ -58,7 +58,8 @@ public class ShopController {
 //		model.addAttribute("view" , view);
 //	}
 	
-	// 상품조회 
+	
+	// 상품조회  ModelAndView 작성
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
 	public ModelAndView getView(@RequestParam("n") int gdsNum, ModelAndView mnv) throws SQLException {
 		
@@ -70,44 +71,49 @@ public class ShopController {
 	    mnv.addObject("view", view); // 모델에 데이터 추가
 	    mnv.setViewName(url); // 뷰 이름 설정
 	    
-	    List<ReplyListVO> reply = shopService.replyList(gdsNum);
-	    mnv.addObject("reply", reply);
+//	    List<ReplyListVO> reply = shopService.replyList(gdsNum);
+//	    mnv.addObject("reply", reply);
 	    
 	    return mnv;
 	}
 	
-	@RequestMapping(value = "/view", method = RequestMethod.POST)
-	public String registReply(ReplyVO reply, HttpSession session) throws SQLException {
-		logger.info("regist reply");
-		
-		MemberVO member = (MemberVO)session.getAttribute("member");
-		reply.setUserId(member.getUserId());
-		
-		shopService.registReply(reply);
-		
-		return "redirect:/shop/view?n=" + reply.getGdsNum();
-	}
+	// 상품 댓글 달기
 	
 //	@RequestMapping(value = "/view", method = RequestMethod.POST)
-//	public ResponseEntity<String> registReply(@RequestBody ReplyVO reply, HttpSession session)  {
-//	    logger.info("regist reply");
-//
-//	    MemberVO member = (MemberVO) session.getAttribute("member");
-//	    reply.setUserId(member.getUserId());
-//
-//	    try {
-//	        shopService.registReply(reply);
-//	        if (reply.getUserId() != null) {
-//	            return new ResponseEntity<>("Success", HttpStatus.OK);
-//	        } else {
-//	            return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
-//	        }
-//	    } catch (SQLException e) {
-//	        // 예외 처리를 원하는 대로 수행하세요.
-//	    }
-//		return null;
+//	public String registReply(ReplyVO reply, HttpSession session) throws SQLException {
+//		logger.info("regist reply");
+//		
+//		MemberVO member = (MemberVO)session.getAttribute("member");
+//		reply.setUserId(member.getUserId());
+//		
+//		shopService.registReply(reply);
+//		
+//		return "redirect:/shop/view?n=" + reply.getGdsNum();
 //	}
-
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/view/registReply", method = RequestMethod.POST)
+	public void registReply(@RequestBody ReplyVO reply, HttpSession session) throws Exception {
+	   logger.info("regist reply");
+	   
+	   MemberVO member = (MemberVO)session.getAttribute("member");
+	   reply.setUserId(member.getUserId());
+	   
+	   shopService.registReply(reply);
+	   
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/view/replyList", method = RequestMethod.GET)
+	public List<ReplyListVO> getReplyList(@RequestParam("n") int gdsNum) throws SQLException {
+		logger.info("get reply list");
+		System.out.println("왜 안됨1");
+		List<ReplyListVO> reply = shopService.replyList(gdsNum);
+		System.out.println("왜 안됨2");
+		return reply;
+		
+	}
 
 	
 	
