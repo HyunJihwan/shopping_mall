@@ -179,7 +179,8 @@ public class AdminController {
 	public void postCKEditorImgUpload(HttpServletRequest req, HttpServletResponse res,
 			@RequestParam MultipartFile upload) throws Exception {
 		logger.info("post CKEditor img upload");
-
+		
+		System.out.println("chk업로드 쪽: ");
 		// 랜덤 문자 생성
 		UUID uid = UUID.randomUUID();
 
@@ -189,7 +190,7 @@ public class AdminController {
 		// 인코딩
 		res.setCharacterEncoding("utf-8");
 		res.setContentType("text/html;charset=utf-8");
-
+		
 		try {
 
 			String fileName = upload.getOriginalFilename(); // 파일 이름 가져오기
