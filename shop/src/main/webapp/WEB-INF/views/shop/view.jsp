@@ -29,8 +29,8 @@ function replyList(){
 	     + "<c:if test='${member != null}'>"
 	    
 	     + "<div class='replyFooter'>"
-	     + "<button type='button' class='modify' data-repNum='" + this.repNum + "'>M</button>"
-	     + "<button type='button' class='delete' data-repNum='" + this.repNum + "'>D</button>"
+	     + "<button type='button' class='modify' data-repNum='" + this.repNum + "'>수정</button>"
+	     + "<button type='button' class='delete' data-repNum='" + this.repNum + "'>삭제</button>"
 	     + "</div>"
 	    
 	     + "</c:if>"
@@ -308,7 +308,7 @@ function replyList(){
 						   // 밑의 modify 코드
 						   $(document).on("click", ".modify", function(){
 // 							   $(".replyModal").attr("style", "display:block;");
-							   $("replyModal").fadeIn(200);
+							   $(".replyModal").fadeIn(200);
 
 								var repNum = $(this).attr("data-repNum");
 								var repCon = $(this).parent().parent().children(".replyContent").text();
