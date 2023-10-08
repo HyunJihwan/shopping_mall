@@ -19,18 +19,24 @@ function replyList(){
 	     var repDate = new Date(this.repDate);
 	     repDate = repDate.toLocaleDateString("ko-US")
 	     
-	     str += "<li data-gdsNum='" + this.gdsNum + "'>"
-	       + "<div class='userInfo'>"
-	       + "<span class='userName'>" + this.userName + " "
-	       + "<span class='date'>" + repDate + " "
-	       + "</div>"
-	       + "<div class='replyContent'>" + this.repCon + "</div>" 
-	        
-	       + "<div class='replyFooter'>"
-	       + "<button type='button' class='modify' data-repNum='" + this.repNum + "'>M</button>"
-	       + "<button type='button' class='delete' data-repNum='" + this.repNum + "'>D</button>"
-	       + "</div>"
-	       + "</li>";           
+	     str += "<li data-repNum='" + this.repNum + "'>" //"<li data-gdsNum='" + this.gdsNum + "'>"
+	     + "<div class='userInfo'>"
+	     + "<span class='userName'>" + this.userName + " "
+	     + "<span class='date'>" + repDate + " "
+	     + "</div>"
+	     + "<div class='replyContent'>" + this.repCon + "</div>"
+	    
+	     + "<c:if test='${member != null}'>"
+	    
+	     + "<div class='replyFooter'>"
+	     + "<button type='button' class='modify' data-repNum='" + this.repNum + "'>M</button>"
+	     + "<button type='button' class='delete' data-repNum='" + this.repNum + "'>D</button>"
+	     + "</div>"
+	    
+	     + "</c:if>"
+	    
+	     + "</li>";   
+	       
 	    });
 	    
 	    $("section.replyList ol").html(str);
@@ -124,6 +130,14 @@ function replyList(){
    section.replyList div.replyFooter {margin-bottom:10px; }
    
    section.replyList div.replyFooter button { font-size:14px; border: 1px solid #999; background:none; margin-right:10px; }
+</style>
+<style>
+   div.replyModal { position:relative; z-index:1; display: none;}
+   div.modalBackground { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0, 0, 0, 0.8); z-index:-1; }
+   div.modalContent { position:fixed; top:20%; left:calc(50% - 250px); width:500px; height:250px; padding:20px 10px; background:#fff; border:2px solid #666; }
+   div.modalContent textarea { font-size:16px; font-family:'맑은 고딕', verdana; padding:10px; width:500px; height:200px; }
+   div.modalContent button { font-size:20px; padding:5px 10px; margin:10px 0; background:#fff; border:1px solid #ccc; }
+   div.modalContent button.modal_cancel { margin-left:20px; }
 </style>
 
 	
@@ -288,11 +302,32 @@ function replyList(){
 							replyList();
 						  </script>
 						   
+						   
+						   
 						   <script>
+						   // 밑의 modify 코드
+						   $(document).on("click", ".modify", function(){
+// 							   $(".replyModal").attr("style", "display:block;");
+							   $("replyModal").fadeIn(200);
+
+								var repNum = $(this).attr("data-repNum");
+								var repCon = $(this).parent().parent().children(".replyContent").text();
+
+								$(".modal_repCon").val(repCon);
+								$(".modal_modify_btn").attr("data-repNum", repNum);
+								
+							   
+							});
+
+						   
 							   $(document).on("click", ".delete", function(){
 
+								var delConfirm = confirm("정말로 삭제하시겠습니까?");
+
+								if(delConfirm){
+									
 							       var data = {repNum : $(this).attr("data-repNum")};
-							       
+								   console.log(data);
 							       $.ajax({
 							    	   url : "/shop/view/deleteReply",
 							    	   type : "post",
@@ -301,6 +336,7 @@ function replyList(){
 					
 							    	    if(result == 1) {
 							    	     replyList();
+							    	     alert("댓글이 삭제되었습니다.")
 							    	    } else {
 								    	    console.log(result);
 							    	     alert("작성자 본인만 할 수 있습니다.");      
@@ -310,6 +346,7 @@ function replyList(){
 							    	    alert("로그인하셔야합니다.")
 							    	   }
 							    	});
+								}
 							   });
 							</script>
 						   
@@ -333,6 +370,65 @@ function replyList(){
 		</div>
 	</footer>
 </div>
+
+<div class="replyModal">
+
+   <div class="modalContent">
+    
+    <div>
+     <textarea class="modal_repCon" name="modal_repCon"></textarea>
+    </div>
+    
+    <div>
+     <button type="button" class="modal_modify_btn">수정</button>
+     <button type="button" class="modal_cancel">취소</button>
+    </div>
+    
+   </div>
+
+   <div class="modalBackground"></div>
+   
+</div>
+
+<script>
+$(".modal_modify_btn").click(function(){
+
+	var modifyConfrim = confirm("정말로 수정하시겠습니까?");
+
+	if(modifyConfrim) {
+		var data = {
+					repNum : $(this).attr("data-repNum"),
+					repCon : $(".modal_repCon").val()
+					};	// ReplyVO 형태의 데이터 생성
+
+		$.ajax({
+			url : "/shop/view/modifyReply",
+			type : "post",
+			data : data,
+			success : function(result){
+				if(result == 1){
+					replyList(); // 리스트 새로고침
+					$(".replyModal").fadeOut(200);
+				}else{
+					alert("작성자 본인만 가능.");	// 다른 사람의 경우
+				}
+			},
+			error : function(){
+					alert("로그인 해주시기 바랍니다.");
+			}
+	
+		});
+		
+	}
+});
+
+$(".modal_cancel").click(function(){
+//    $(".replyModal").attr("style", "display:none;");
+   $(".replyModal").fadeOut(200);
+});
+</script>
+
+
 </body>
 
 

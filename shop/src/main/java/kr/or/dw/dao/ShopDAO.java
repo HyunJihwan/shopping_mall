@@ -19,7 +19,9 @@ public interface ShopDAO {
 
 	void deleteReply(ReplyVO reply) throws SQLException;
 
-	void idCheck(int repNum) throws SQLException;
+	String idCheck(int repNum) throws SQLException;
+
+	void modifyReply(ReplyVO reply) throws SQLException;
 
 	
 

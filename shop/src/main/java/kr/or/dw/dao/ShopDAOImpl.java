@@ -52,8 +52,14 @@ public class ShopDAOImpl implements ShopDAO {
 	}
 
 	@Override
-	public void idCheck(int repNum) throws SQLException {
-		sql.selectOne(namespace + ".idCheck", repNum);
+	public String idCheck(int repNum) throws SQLException {
+		return sql.selectOne(namespace + ".idCheck", repNum);
+		
+	}
+
+	@Override
+	public void modifyReply(ReplyVO reply) throws SQLException {
+		sql.update(namespace + ".modifyReply", reply);
 		
 	}
 

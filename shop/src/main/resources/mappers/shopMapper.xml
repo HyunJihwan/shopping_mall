@@ -42,7 +42,12 @@ select
 	AND userId = #{userId}
 </delete>
 
-
+<update id="modifyReply">
+	update tbl_reply 
+	set repCon = #{repCon}
+	where userId = #{userId}
+	AND repNum = #{repNum}
+</update>
 
 
 </mapper>

@@ -130,24 +130,46 @@ public class ShopController {
 
 	   int result = 0;
 	   
-
 	   MemberVO member = (MemberVO)session.getAttribute("member");
 	   String userId = shopService.idCheck(reply.getRepNum());
+	   
 	   System.out.println("위의 유저아이디" + userId);
 	   System.out.println("멤버유저아이디 : " + member.getUserId());
 	   
-	   if(member.getUserId().equals(userId)) {
+	   if(member.getUserId().equals(userId) && !member.getUserId().equals("")) {
 	    System.out.println("리절트의 값 " + result);
 	    reply.setUserId(member.getUserId());
 	    shopService.deleteReply(reply);
 	    
 	    result = 1;
+	  
 	   }
 	   
 	   return result;   
 	}
 
-
+	// 상품 소감 (댓글) 수정
+	@ResponseBody
+	@RequestMapping(value = "/view/modifyReply", method = RequestMethod.POST)
+	public int modifyReply(ReplyVO reply, HttpSession session) throws SQLException {
+		logger.info("modify reply");
+		
+		int result = 0;
+		
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		
+		String userId = shopService.idCheck(reply.getRepNum());
+		
+		System.out.println("위의 유저아이디" + userId);
+		System.out.println("멤버유저아이디 : " + member.getUserId());
+		
+		if(member.getUserId().equals(userId)) {
+			reply.setUserId(member.getUserId());
+			shopService.modifyReply(reply);
+			result = 1;
+		}
+		return result;
+	}
 
 	
 	

@@ -49,8 +49,14 @@ public class ShopServiceImpl implements ShopService {
 
 	@Override
 	public String idCheck(int repNum) throws SQLException {
-		shopDAO.idCheck(repNum);
-		return null;
+		
+		return shopDAO.idCheck(repNum);
+	}
+
+	@Override
+	public void modifyReply(ReplyVO reply) throws SQLException {
+		shopDAO.modifyReply(reply);
+		
 	}
 
 	
