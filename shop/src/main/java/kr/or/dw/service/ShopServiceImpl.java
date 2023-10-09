@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.or.dw.dao.ShopDAO;
+import kr.or.dw.domain.CartListVO;
+import kr.or.dw.domain.CartVO;
 import kr.or.dw.domain.GoodsViewVO;
 import kr.or.dw.domain.ReplyListVO;
 import kr.or.dw.domain.ReplyVO;
@@ -57,6 +59,18 @@ public class ShopServiceImpl implements ShopService {
 	public void modifyReply(ReplyVO reply) throws SQLException {
 		shopDAO.modifyReply(reply);
 		
+	}
+
+	@Override
+	public void addCart(CartVO cart) throws SQLException {
+		shopDAO.addCart(cart);
+		
+	}
+
+	@Override
+	public List<CartListVO> cartList(String userId) throws SQLException {
+		
+		return shopDAO.cartList(userId);
 	}
 
 	

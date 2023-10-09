@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.dao.ShopDAO;
+import kr.or.dw.domain.CartListVO;
+import kr.or.dw.domain.CartVO;
 import kr.or.dw.domain.GoodsViewVO;
 import kr.or.dw.domain.MemberVO;
 import kr.or.dw.domain.ReplyListVO;
@@ -171,6 +173,43 @@ public class ShopController {
 		return result;
 	}
 
+	// 카트 담기
+	@ResponseBody
+	@RequestMapping(value = "/view/addCart", method = RequestMethod.POST)
+	public int addCart(CartVO cart,HttpSession session) throws SQLException {
+		logger.info("post cart insert");
+		int result = 0;
+		System.out.println("클릭이또안되네하");
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		
+		if(member != null && !member.getUserId().equals("")) {			
+			System.out.println("2클릭이또안되네하2");
+			cart.setUserId(member.getUserId());
+			shopService.addCart(cart);
+			result = 1;
+		}
+		
+		return result;
+		
+	}
+	
+	// 카트 목록
+	@RequestMapping(value = "/cartList", method = RequestMethod.GET)
+	public ModelAndView getCartList(HttpSession session,ModelAndView mnv) throws SQLException {
+		logger.info("get cart list");
+		String url = "/shop/cartList";
+		
+		
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		String userId = member.getUserId();
+		
+		List<CartListVO> cartList = shopService.cartList(userId);
+		
+		mnv.setViewName(url);
+		mnv.addObject("cartList" , cartList);
+		
+		return mnv;
+	}
 	
 	
 }

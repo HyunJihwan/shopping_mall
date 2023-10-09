@@ -49,5 +49,19 @@ select
 	AND repNum = #{repNum}
 </update>
 
+<insert id="addCart">
+	insert into tbl_cart (cartNum, userId, gdsNum, cartStock)
+	values (tbl_cart_seq.nextval, #{userId}, #{gdsNum}, #{cartStock})
+</insert>
+
+<select id="cartList" resultType="kr.or.dw.domain.CartListVO">
+	SELECT row_number() over(order by c.cartNum desc) as num,
+     c.cartNum, c.userId, c.gdsNum, c.cartStock, c.addDate,
+     g.gdsName, g.gdsPrice, g.gdsThumbImg
+    FROM TBL_CART c ,TBL_GOODS g
+    WHERE 1=1
+    AND c.GDSNUM = g.GDSNUM
+    AND c.USERID = #{userId}
+</select>
 
 </mapper>

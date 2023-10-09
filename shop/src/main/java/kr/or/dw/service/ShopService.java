@@ -3,6 +3,8 @@ package kr.or.dw.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import kr.or.dw.domain.CartListVO;
+import kr.or.dw.domain.CartVO;
 import kr.or.dw.domain.GoodsViewVO;
 import kr.or.dw.domain.ReplyListVO;
 import kr.or.dw.domain.ReplyVO;
@@ -27,6 +29,12 @@ public interface ShopService {
 	
 	// 댓글 수정
 	void modifyReply(ReplyVO reply) throws SQLException;
+	
+	// 상품 담기
+	void addCart(CartVO cart) throws SQLException;
+	
+	// 상품 조회
+	List<CartListVO> cartList(String userId) throws SQLException;
 
 
 	

@@ -2,5 +2,5 @@
     pageEncoding="UTF-8"%>
 
 <h1 class="title">
-	<a href="/">JIHWAN</a>
+	<a href="/" style="background-color: red">JIHWAN GUN</a>
 </h1>

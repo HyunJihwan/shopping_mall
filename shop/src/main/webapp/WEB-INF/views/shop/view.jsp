@@ -98,21 +98,95 @@ function replyList(){
    section#content div.goodsThumb img { width:200px; height:200px; }
    section#content div.goodsName { padding:10px 0; text-align:center; }
    section#content div.goodsName a { color:#000; }
+   .addCart_btn {
+    font-size: 14px;
+    background-color: #3498db;
+    color: black; /* 빨간색으로 글자 색상 변경 */
+    border: 2px solid #fff;
+    border-radius: 6px;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+   
 </style>
 
 <style>
-   div.goods div.goodsImg { float:left; width:350px; }
-   div.goods div.goodsImg img { width:350px; height:auto; }
+/*    div.goods div.goodsImg { float:left; width:350px; } */
+/*    div.goods div.goodsImg img { width:350px; height:auto; } */
    
-   div.goods div.goodsInfo { float:right; width:330px; font-size:22px; }
-   div.goods div.goodsInfo p { margin:0 0 20px 0; }
-   div.goods div.goodsInfo p span { display:inline-block; width:100px; margin-right:15px; }
+/*    div.goods div.goodsInfo { float:right; width:330px; font-size:15px; } */
+/*    div.goods div.goodsInfo p { margin:0 0 20px 0; } */
+/*    div.goods div.goodsInfo p span { display:inline-block; width:100px; margin-right:15px; } */
    
-   div.goods div.goodsInfo p.cartStock input { font-size:22px; width:50px; padding:5px; margin:0; border:1px solid #eee; }
-   div.goods div.goodsInfo p.cartStock button { font-size:26px; border:none; background:none; }
-   div.goods div.goodsInfo p.addToCart { text-align:right; }
-    div.goods div.goodsInfo p.addToCart button { font-size:22px; padding:5px 10px; border:1px solid #eee; background:none; }
-   div.goods div.gdsDes { font-size:18px; clear:both; padding-top:30px; }
+/*    div.goods div.goodsInfo p.cartStock input { font-size:22px; width:50px; padding:5px; margin:0; border:1px solid #eee; } */
+/*    div.goods div.goodsInfo p.cartStock button { font-size:26px; border:none; background:none; } */
+/*    div.goods div.goodsInfo p.addToCart { text-align:right; } */
+/*     div.goods div.goodsInfo p.addToCart button { font-size:22px; padding:5px 10px; border:1px solid #eee; background:none; } */
+/*    div.goods div.gdsDes { font-size:18px; clear:both; padding-top:30px; } */
+div.goods div.goodsImg {
+    float: left;
+    width: 300px;
+}
+
+div.goods div.goodsImg img {
+    width: 100%;
+    height: auto;
+}
+
+div.goods div.goodsInfo {
+	font-family: Georgia;
+    font-style : normal;
+    float: right;
+    width: 330px;
+    font-size: 15px;
+    padding-left: 20px; /* 조절 가능한 여백 추가 */
+    margin-top: 10%;
+}
+
+div.goods div.goodsInfo p {
+    margin: 0 0 15px 0; /* 아래 여백을 조절했습니다. */
+}
+
+div.goods div.goodsInfo p span {
+    display: inline-block;
+    width: 100px;
+    margin-right: 15px;
+}
+
+div.goods div.goodsInfo p.cartStock input {
+    font-size: 18px; /* 폰트 크기 조절 */
+    width: 40px; /* 너비 조절 */
+    padding: 5px;
+    margin: 0;
+    border: 1px solid #eee;
+}
+
+div.goods div.goodsInfo p.cartStock button {
+    font-size: 20px; /* 폰트 크기 조절 */
+    border: none;
+    background: none;
+}
+
+div.goods div.goodsInfo p.addToCart {
+    text-align: right;
+}
+
+div.goods div.goodsInfo p.addToCart button {
+    font-size: 18px; /* 폰트 크기 조절 */
+    padding: 5px 10px;
+    border: 1px solid #eee;
+    background: none;
+}
+
+div.goods div.gdsDes {
+    font-size: 16px; /* 폰트 크기 조절 */
+    clear: both;
+    padding-top: 20px; /* 조절 가능한 여백 추가 */
+}
+
+
+
 </style>
 <style>
    section.replyForm { padding:30px 0; }
@@ -139,7 +213,10 @@ function replyList(){
    div.modalContent button { font-size:20px; padding:5px 10px; margin:10px 0; background:#fff; border:1px solid #ccc; }
    div.modalContent button.modal_cancel { margin-left:20px; }
 </style>
+<style>
+	
 
+</style>
 	
 </head>
 <body>
@@ -171,25 +248,25 @@ function replyList(){
 
 						<div class="goodsInfo">
 							<p class="gdsName">
-								<span>상품명 ${view.gdsName}
+								<span>상품명:  ${view.gdsName}
 							</p>
 
 							<p class="cateName">
-								<span>카테고리 ${view.cateName}
+								<span>카테고리: ${view.cateName}
 							</p>
 
 							<p class="gdsPrice">
-								<span>가격 <fmt:formatNumber pattern="###,###,###"
+								<span>가격 :<fmt:formatNumber pattern="###,###,###"
 										value="${view.gdsPrice}" /> 원 
 							</p>
 
 							<p class="gdsStock">
-								<span>재고 <fmt:formatNumber pattern="###,###,###"
+								<span>재고: <fmt:formatNumber pattern="###,###,###"
 										value="${view.gdsStock}" /> EA 
 							</p>
 
 							<p class="cartStock">
-							   <span>구입 수량 
+							   <span>구입 수량: 
 							   <button type="button" class="plus">+</button>
 							   <input type="number" class="numBox" min="1" max="${view.gdsStock}" value="1" readonly="readonly"/>
 							   <button type="button" class="minus">-</button>
@@ -222,7 +299,39 @@ function replyList(){
 						
 
 							<p class="addToCart">
-								<button type="button">카트에 담기</button>
+								<button type="button" class="addCart_btn">상품 추가</button>
+							<script>
+						 	   $(".addCart_btn").click(function(){
+							    var gdsNum = $("#gdsNum").val();
+							    var cartStock = $(".numBox").val();
+							             
+							    var data = {
+							      gdsNum : gdsNum,
+							      cartStock : cartStock
+							      };
+							    
+							    $.ajax({
+							     url : "/shop/view/addCart",
+							     type : "post",
+							     data : data,
+							     success : function(result){
+							      
+							      if(result == 1) {
+							       alert("카트 담기 성공");
+							       $(".numBox").val("1");
+							      } else {
+							       alert("회원만 사용할 수 있습니다.")
+							       $(".numBox").val("1");
+							      }
+							     },
+							     error : function(){
+							      alert("카트 담기 실패");
+							     }
+							    });
+							   });
+							</script>
+							
+								
 							</p>
 						</div>
 
