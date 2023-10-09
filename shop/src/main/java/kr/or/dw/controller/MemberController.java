@@ -3,21 +3,26 @@ package kr.or.dw.controller;
 import java.io.PrintWriter;
 import java.sql.SQLClientInfoException;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,7 +39,10 @@ public class MemberController {
 	
 	@Inject
 	MemberService memberService;
-
+	
+	@Autowired
+	private JavaMailSender mailSender;
+	
 	@Autowired
 	BCryptPasswordEncoder passEncoder;
 	    
@@ -47,15 +55,22 @@ public class MemberController {
 	
 	// 회원 가입 post
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String postSignup(MemberVO vo) throws Exception {
+	public String postSignup(MemberVO vo, String domainselect, HttpServletResponse res) throws Exception {
 	 logger.info("post signup");
-	  
+	 
+	 vo.setEmail(vo.getEmail() + domainselect);
 	 String inputPass = vo.getUserPass();
 	 String pass = passEncoder.encode(inputPass);
 	 vo.setUserPass(pass);
 
 	 memberService.signup(vo);
-
+	 
+	 res.setContentType("text/html; charset=utf-8");
+     PrintWriter out = res.getWriter();
+     out.println("<script>");
+     out.println("alert('회원가입이 정상적으로 되었습니다.');");
+     out.println("</script>");
+	 
 	 return "redirect:/";
 	 
 	}
@@ -96,4 +111,30 @@ public class MemberController {
 	     
 	   return "redirect:/";
 	}
+	
+	@RequestMapping(value = "/mailCheck", method = RequestMethod.GET)
+	@ResponseBody
+	public String mailCheck(String email) throws SQLException {
+		return memberService.mailCheck(email);
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/mailChecked" ,method = RequestMethod.GET)
+	public String mail(String email, String userName) throws SQLException {
+		
+		Map<String, String> map = new HashMap<>();
+		
+		
+		map.put("email", email);
+		map.put("userName", userName);
+		System.out.println(email);
+		System.out.println(userName);
+		
+		
+		int num = memberService.getMail(map);
+		
+		return Integer.toString(num);
+	}
+	
 }

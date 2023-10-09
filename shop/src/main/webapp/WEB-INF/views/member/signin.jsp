@@ -3,8 +3,25 @@
 	pageEncoding="UTF-8"%>
 <html>
 <head>
-<title>Home</title>
+<title>로그인 화면</title>
+		<script src="/resources/jquery/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="/resources/bootstrap/css/bootstrap-theme.min.css">
+<script src="/resources/bootstrap/js/bootstrap.min.js"></script>
+<script src="/resources/ckeditor/ckeditor.js"></script>
 </head>
+<style>
+	#signin_btn{
+		padding: 5px 10px;
+			background-color: #3498db;
+			color: #fff;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+	}
+</style>
 <body>
 	<div id="root">
 		<header id="header">

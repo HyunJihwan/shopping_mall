@@ -16,5 +16,8 @@ public class MemberVO {
 	private String userAddr3;
 	private Date regiDate;
 	private int verify;
-
+	private String email;
+	private String domainselect;
+	
+	
 }

@@ -2,6 +2,7 @@ package kr.or.dw.service;
 
 import java.sql.SQLClientInfoException;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,5 +15,9 @@ public interface MemberService {
 	public MemberVO signin(MemberVO vo) throws SQLException;
 
 	public void signout(HttpSession session) throws SQLException;
+
+	public String mailCheck(String email) throws SQLException;
+
+	public int getMail(Map<String, String> map) throws SQLException;
 
 }

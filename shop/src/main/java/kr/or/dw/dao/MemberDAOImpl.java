@@ -1,6 +1,7 @@
 package kr.or.dw.dao;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -29,6 +30,12 @@ public class MemberDAOImpl implements MemberDAO {
 	public MemberVO signin(MemberVO vo) throws SQLException {
 		
 		return sql.selectOne(namespace + ".signin", vo);
+	}
+
+	@Override
+	public int getMail(Map<String, String> map) throws SQLException {
+		
+		return sql.selectOne(namespace + ".getMail", map);
 	}
 
 	
