@@ -1,6 +1,8 @@
 package kr.or.dw.controller;
 
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -14,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +29,9 @@ import kr.or.dw.domain.CartListVO;
 import kr.or.dw.domain.CartVO;
 import kr.or.dw.domain.GoodsViewVO;
 import kr.or.dw.domain.MemberVO;
+import kr.or.dw.domain.OrderDetailVO;
+import kr.or.dw.domain.OrderListVO;
+import kr.or.dw.domain.OrderVO;
 import kr.or.dw.domain.ReplyListVO;
 import kr.or.dw.domain.ReplyVO;
 import kr.or.dw.service.ShopService;
@@ -209,7 +215,105 @@ public class ShopController {
 		return mnv;
 	}
 	
+	//카트 삭제
+	@ResponseBody
+	@RequestMapping(value = "/deleteCart" , method = RequestMethod.POST)
+	public int deleteCart(HttpSession session, @RequestParam(value = "chbox[]") List<String> chArr, CartVO cart) throws SQLException {
+		logger.info("delete Cart");
+		
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		String userId = member.getUserId();
+		
+		int result = 0;
+		int cartNum = 0;
+		
+		if(member != null) {
+			cart.setUserId(member.getUserId());
+			
+			for(String i : chArr) {
+				cartNum = Integer.parseInt(i);
+				cart.setCartNum(cartNum);
+				shopService.deleteCart(cart);
+			}
+			result = 1;
+			
+		}
+		return result;
+		
+	}
 	
+	// 주문
+	@RequestMapping(value ="/cartList", method = RequestMethod.POST)
+	public String order(HttpSession session, OrderVO order, OrderDetailVO orderDetail) throws SQLException {
+		logger.info("order");
+		
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		String userId = member.getUserId();
+		
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		String ym = year + new DecimalFormat("00").format(cal.get(Calendar.MONTH) + 1);
+		String ymd = ym + new DecimalFormat("00").format(cal.get(Calendar.DATE));
+		String subNum = "";
+		
+		for(int i=1; i <= 6; i++) {
+			subNum += (int)(Math.random() * 10);
+		}
+		
+		String orderId = ymd + "_" + subNum;
+		order.setOrderId(orderId);
+		order.setUserId(userId);
+		
+		shopService.orderInfo(order);
+		
+		orderDetail.setOrderId(orderId);
+		shopService.orderInfo_Details(orderDetail);
+		
+		shopService.cartAllDelete(userId);
+		
+		return "redirect:/shop/orderList";
+	}
+	
+	// 주문 목록
+	@RequestMapping(value = "/orderList", method = RequestMethod.GET)
+	public ModelAndView getOrderList(ModelAndView mnv,HttpSession session, OrderVO order) throws SQLException {
+		logger.info("get order list");
+		
+		String url = "/shop/orderList";
+		
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		String userId = member.getUserId();
+		
+		order.setUserId(userId);
+		
+		List<OrderVO> orderList = shopService.orderList(order);
+		mnv.setViewName(url);
+		mnv.addObject("orderList", orderList);
+		
+		return mnv;
+	}
+	
+	// 주문 상세 정보
+	@RequestMapping(value ="/orderView", method = RequestMethod.GET)
+	public ModelAndView getOrderList(HttpSession session, @RequestParam("n") String orderId, OrderVO order, ModelAndView mnv ) throws SQLException {
+		logger.info("get order view");
+		String url = "/shop/orderView";
+		
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		String userId = member.getUserId();
+		
+		order.setUserId(userId);
+		order.setOrderId(orderId);
+		
+		List<OrderListVO> orderView = shopService.orderView(order);
+		
+		mnv.setViewName(url);
+		mnv.addObject("orderView", orderView);
+		
+		return mnv;
+		
+		
+	}
 	
 	
 }

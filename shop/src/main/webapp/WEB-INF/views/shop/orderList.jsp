@@ -1,16 +1,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<html>
+<head>
+	<title>지환 Home</title>
 	<script src="/resources/jquery/jquery-3.3.1.min.js"></script>
 <link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet"
 	href="/resources/bootstrap/css/bootstrap-theme.min.css">
 <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" 
-		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-<html>
-<head>
-	<title>메인 Home</title>
+<script src="/resources/ckeditor/ckeditor.js"></script>
 <style>
 	
 		body { margin:0; padding:0; font-family:'맑은 고딕', verdana; }
@@ -58,75 +57,65 @@
 		
 /* 		footer#footer { margin-top:100px; border-radius:50px 50px 0 0; } */
 /* 		footer#footer div#footer_box { padding:0 20px; } */
-		.carousel-inner .carousel-item:last-of-type {
-    z-index: -1; /* 맨 뒤로 보내기 위한 음수 값 */
-}
 		
 	</style>
+	<style>
+/*    section#content ul li { display:inline-block; margin:10px; } */
+/*    section#content div.goodsThumb img { width:200px; height:200px; } */
+/*    section#content div.goodsName { padding:10px 0; text-align:center; } */
+/*    section#content div.goodsName a { color:#000; } */
+
+section#content ul li { border:5px solid #eee; padding:10px 20px; margin-bottom:20px; }
+ section#content .orderList span { font-size:20px; font-weight:bold; display:inline-block; width:90px; margin-right:10px; }
+</style>
+	
 </head>
 <body>
 <div id="root">
 	<header id="header">
 		<div id="header_box">
-			<%@ include file="include/header.jsp" %>
+			<%@ include file="../include/header.jsp" %>
 		</div>
 	</header>
 	
 	<nav id="nav">
 		<div id="nav_box">
-			<%@ include file="include/nav.jsp" %>
+			<%@ include file="../include/nav.jsp" %>
 		</div>
 	</nav>
 	
 	<section id="container">
 			
-		<div id="container_box" >
-			<section id="content" class="py-5 text-center container" >
-				<div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active" data-bs-interval="2000">
-      <img src="/resources/img/slide5.png" class="d-block w-100" alt="…">
-    </div>
-    <div class="carousel-item" data-bs-interval="2000">
-      <img src="/resources/img/slide6.png" class="d-block w-100" alt="…">
-    </div>
-    <div class="carousel-item" data-bs-interval="2000">
-      <img src="/resources/img/slide7.png" class="d-block w-100" alt="…">
-    </div>
-    <div class="carousel-item" data-bs-interval="2000">
-      <img src="/resources/img/slide8.png" class="d-block w-100" alt="…">
-    </div>
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
+		<div id="container_box">
+			<section id="content">
+   
+			   <ul class="orderList">
+			    <c:forEach items="${orderList}" var="orderList">
+			    <li>
+			    <div>
+			     <p><span style="width: 100%;">주문번호 <a href="/shop/orderView?n=${orderList.orderId}">${orderList.orderId}</a></p>
+			     <p><span style="width: 100%;">수령인 ${orderList.orderRec}</p>
+			     <p><span style="width: 100%;">주소 (${orderList.userAddr1}) ${orderList.userAddr2} ${orderList.userAddr3}</p>
+			     <p><span style="width: 100%;">가격 <fmt:formatNumber pattern="###,###,###" value="${orderList.amount}" /> 원</p>
+			    </div>
+			    </li>
+			    </c:forEach>
+			   </ul>
+
 			</section>
 			
 			<aside id="aside">
-				<%@ include file="include/aside.jsp" %>
+				<%@ include file="../include/aside.jsp" %>
 			</aside>
 			
 		</div>
 	</section>
 	
-	
-  <footer class="py-3 my-4" id="footer_box">
-  	<%@ include file="include/footer.jsp" %>
- 
-  </footer>
-
-	
-<!-- 	<footer id="footer"> -->
-<!-- 		<div id="footer_box"> -->
-<%-- 			<%@ include file="include/footer.jsp" %> --%>
-<!-- 		</div> -->
-<!-- 	</footer> -->
+	<footer id="footer">
+		<div id="footer_box">
+			<%@ include file="../include/footer.jsp" %>
+		</div>
+	</footer>
 </div>
 </body>
 </html>
