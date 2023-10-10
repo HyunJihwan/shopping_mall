@@ -143,8 +143,23 @@ section#content div.gdsInfo .delete button:hover {
 			
 			<section id="content">
 				   <ul>
+				   		<li>
+							<div class="allCheck">
+								<input type="checkbox" name="allCheck" id="allCheck"/><label for="allCheck">모두 선택</label>
+							</div>
+							
+							<div class="delBtn">
+								<button type="button" class="selectDelete_btn">선택 삭제</button>
+							</div>
+											   		
+				   		</li>
+				   
 				    <c:forEach items="${cartList}" var="cartList">
 				    <li>
+				    	<div class="checkBox">
+				    		<input type="checkbox" name="chBox" class="chBox" data-cartNum="${cartList.cartNum }"/>
+				    	</div>
+				    
 				     <div class="thumb">
 				      <img src="${cartList.gdsThumbImg}" />
 				     </div>

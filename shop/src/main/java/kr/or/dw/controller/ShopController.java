@@ -122,8 +122,6 @@ public class ShopController {
 	}
 	
 	
-
-	
 	// 상품 소감(댓글) 삭제
 	@ResponseBody
 	@RequestMapping(value = "/view/deleteReply", method = RequestMethod.POST)
@@ -210,6 +208,8 @@ public class ShopController {
 		
 		return mnv;
 	}
+	
+	
 	
 	
 }
