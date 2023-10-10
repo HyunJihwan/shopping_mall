@@ -128,13 +128,16 @@ textarea#gdsDes {
 }
 </style>
 <style>
-#container_box table td { width:900px; }
-#container_box table th { font-size:15px; font-weight:bold;
-						text-align:center;	padding:10px; border-bottom: 2px solid #666; }
-#container_box table tr:hover { background: #eee;}
-#container_box table td {padding: 10px; text-align:center; }
-#container_box table img { width:130px; height: auto};
-
+/*
+#container_box table { width:900px; }
+#container_box table th { font-size:20px; font-weight:bold;
+         text-align:center; padding:10px; border-bottom:2px solid #666; }
+#container_box table tr:hover { background:#eee; }
+#container_box table td { padding:10px; text-align:center; }
+#container_box table img { width:150px; height:auto; }
+*/
+   div#container_box ul li { border:5px solid #eee; padding:10px 20px; margin-bottom:20px; }
+   div#container_box .orderList span { font-size:20px; font-weight:bold; display:inline-block; width:90px; margin-right:10px; }
 </style>
 
 	<div id="root">
@@ -155,36 +158,23 @@ textarea#gdsDes {
 				<%@ include file="../include/aside.jsp"%>
 			</aside>
 			<div id="container_box">
-				<table>
-					<thead>
-						<tr>
-							<th>썸네일</th>
-							<th>상품정보</th>
-							<th>카테고리</th>
-							<th>가격</th>
-							<th>수량</th>
-							<th>등록날짜</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach items="${list}" var="list">
-							<tr>
-								<td><img src="${list.gdsThumbImg}"></td>
-								<td><a href="/admin/goods/view?p=${list.gdsNum}">${list.gdsName}</a>
-								</td>
-								<td>
-									<!-- ${list.cateCode} --> ${list.cateName}
-								</td>
-								<td><fmt:formatNumber value="${list.gdsPrice}"
-										pattern="###,###,###" /></td>
-								<td>${list.gdsStock}</td>
-								<td><fmt:formatDate value="${list.gdsDate}"
-										pattern="yyyy-MM-dd" /></td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-
+				<section id="content">
+					<ul class="orderList">
+					   <c:forEach items="${orderList}" var="orderList">
+					   <li>
+					   <div>
+					    <p><span style="width: 100%;">주문번호 <a href="/admin/shop/orderView?n=${orderList.orderId}">${orderList.orderId}</a></p>
+					    <p><span style="width: 100%;">주문자 ${orderList.userId}</p>
+					    <p><span style="width: 100%;">수령인 ${orderList.orderRec}</p>
+					    <p><span style="width: 100%;">주소 (${orderList.userAddr1}) ${orderList.userAddr2} ${orderList.userAddr3}</p>
+					    <p><span style="width: 100%;">가격 <fmt:formatNumber pattern="###,###,###" value="${orderList.amount}" /> 원</p> 
+					    
+					    <p><span style="width: 100%;">상태 ${orderList.delivery}</p>  
+					   </div>
+					   </li>
+					   </c:forEach>
+					</ul>	
+				</section>
 			</div>
 		</section>
 

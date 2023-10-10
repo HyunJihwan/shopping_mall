@@ -11,6 +11,8 @@ import kr.or.dw.dao.AdminDAO;
 import kr.or.dw.domain.CategoryVO;
 import kr.or.dw.domain.GoodsVO;
 import kr.or.dw.domain.GoodsViewVO;
+import kr.or.dw.domain.OrderListVO;
+import kr.or.dw.domain.OrderVO;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -52,6 +54,24 @@ public class AdminServiceImpl implements AdminService {
 	public void goodsDelete(int gdsNum) throws SQLException {
 		adminDAO.goodsDelete(gdsNum);
 		
+		
+	}
+
+	@Override
+	public List<OrderVO> orderList() throws SQLException {
+		
+		return adminDAO.orderList();
+	}
+
+	@Override
+	public List<OrderListVO> orderView(OrderVO order) throws SQLException {
+		// TODO Auto-generated method stub
+		return adminDAO.orderView(order);
+	}
+
+	@Override
+	public void delivery(OrderVO order) throws SQLException {
+		adminDAO.delivery(order);
 		
 	}
 

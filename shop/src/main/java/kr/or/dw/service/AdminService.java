@@ -6,6 +6,8 @@ import java.util.List;
 import kr.or.dw.domain.CategoryVO;
 import kr.or.dw.domain.GoodsVO;
 import kr.or.dw.domain.GoodsViewVO;
+import kr.or.dw.domain.OrderListVO;
+import kr.or.dw.domain.OrderVO;
 
 public interface AdminService {
 	
@@ -26,5 +28,14 @@ public interface AdminService {
 	
 	// 상품 삭제
 	void goodsDelete(int gdsNum) throws SQLException;
+	
+	// 주문 목록
+	List<OrderVO> orderList() throws SQLException;
+	
+	// 특정 주문 목록
+	List<OrderListVO> orderView(OrderVO order) throws SQLException;
+	
+	// 주문 상세변경
+	void delivery(OrderVO order) throws SQLException;
 
 }

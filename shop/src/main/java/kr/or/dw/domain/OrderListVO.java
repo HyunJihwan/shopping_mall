@@ -23,5 +23,6 @@ public class OrderListVO {
 	private String gdsThumbImg;
 	private int gdsPrice;
 	
+	private String delivery;
 	
 }

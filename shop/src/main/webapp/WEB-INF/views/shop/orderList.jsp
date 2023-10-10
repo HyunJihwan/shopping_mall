@@ -97,6 +97,8 @@ section#content ul li { border:5px solid #eee; padding:10px 20px; margin-bottom:
 			     <p><span style="width: 100%;">수령인 ${orderList.orderRec}</p>
 			     <p><span style="width: 100%;">주소 (${orderList.userAddr1}) ${orderList.userAddr2} ${orderList.userAddr3}</p>
 			     <p><span style="width: 100%;">가격 <fmt:formatNumber pattern="###,###,###" value="${orderList.amount}" /> 원</p>
+			     
+			     <p><span style="width: 100%;">상태 ${orderList.delivery}</p>  
 			    </div>
 			    </li>
 			    </c:forEach>

@@ -15,5 +15,6 @@ public class OrderVO {
 	private int amount;
 	private String orderDate;
 	
+	private String delivery;
 	
 }

@@ -105,26 +105,31 @@
       <p><span style="width: 100%;">수령인 :${orderView.orderRec}</p>
       <p><span style="width: 100%;">주소 : (${orderView.userAddr1}) ${orderView.userAddr2} ${orderView.userAddr3}</p>
       <p><span style="width: 100%;">가격 :<fmt:formatNumber pattern="###,###,###" value="${orderView.amount}" /> 원</p>
+      <p><span style="width: 100%;">상태 :${orderView.delivery}</p>
      </c:if>
      
     </c:forEach>
    </div>
    
    <ul class="orderView">
-    <c:forEach items="${orderView}" var="orderView">       
+    <c:forEach items="${orderView}" var="orderView" varStatus="status">       
+    <c:if test="${status.first}">
     <li>
      <div class="thumb">
       <img src="${orderView.gdsThumbImg}" />
      </div>
      <div class="gdsInfo">
+     
       <p>
        <span style="width: 100%;">상품명 : ${orderView.gdsName}<br />
        <span style="width: 100%;">개당 가격: <fmt:formatNumber pattern="###,###,###" value="${orderView.gdsPrice}" /> 원<br />
        <span style="width: 100%;">구입 수량 : ${orderView.cartStock} 개<br />
        <span style="width: 100%;">최종 가격: <fmt:formatNumber pattern="###,###,###" value="${orderView.gdsPrice * orderView.cartStock}" /> 원                  
       </p>
+      
      </div>
-    </li>       
+    </li>   
+    </c:if>    
     </c:forEach>
    </ul>
 </section>

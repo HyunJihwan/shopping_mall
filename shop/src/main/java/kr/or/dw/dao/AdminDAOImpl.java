@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 import kr.or.dw.domain.CategoryVO;
 import kr.or.dw.domain.GoodsVO;
 import kr.or.dw.domain.GoodsViewVO;
+import kr.or.dw.domain.OrderListVO;
+import kr.or.dw.domain.OrderVO;
 
 @Repository
 public class AdminDAOImpl implements AdminDAO{
@@ -58,6 +60,24 @@ public class AdminDAOImpl implements AdminDAO{
 	@Override
 	public void goodsDelete(int gdsNum) throws SQLException {
 		sql.delete(namespace + ".goodsDelete" ,gdsNum);
+		
+	}
+
+	@Override
+	public List<OrderVO> orderList() throws SQLException {
+		
+		return sql.selectList(namespace + ".orderList");
+	}
+
+	@Override
+	public List<OrderListVO> orderView(OrderVO order) throws SQLException {
+		// TODO Auto-generated method stub
+		return sql.selectList(namespace + ".orderView", order);
+	}
+
+	@Override
+	public void delivery(OrderVO order) throws SQLException {
+		sql.update(namespace + ".delivery", order);
 		
 	}
 
