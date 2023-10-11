@@ -63,6 +63,8 @@
 }
 		
 	</style>
+
+	
 </head>
 <body>
 <div id="root">
@@ -82,7 +84,7 @@
 			
 		<div id="container_box" >
 			<section id="content" class="py-5 text-center container" >
-				<div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+				<div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" data-bs-keyboard="false">
   <div class="carousel-inner">
     <div class="carousel-item active" data-bs-interval="2000">
       <img src="/resources/img/slide5.png" class="d-block w-100" alt="…">
@@ -118,15 +120,27 @@
 	
   <footer class="py-3 my-4" id="footer_box">
   	<%@ include file="include/footer.jsp" %>
- 
   </footer>
 
 	
-<!-- 	<footer id="footer"> -->
-<!-- 		<div id="footer_box"> -->
-<%-- 			<%@ include file="include/footer.jsp" %> --%>
-<!-- 		</div> -->
-<!-- 	</footer> -->
+	<!-- 	<footer id="footer"> -->
+	<!-- 		<div id="footer_box"> -->
+	<%-- 			<%@ include file="include/footer.jsp" %> --%>
+	<!-- 		</div> -->
+	<!-- 	</footer> -->
+
+
 </div>
 </body>
+<script>
+document.getElementById('carouselExampleInterval').addEventListener('mouseenter', function () {
+	  // 마우스가 캐로셀에 진입할 때 아무것도 하지 않음
+	});
+
+	document.getElementById('carouselExampleInterval').addEventListener('mouseleave', function () {
+	  // 마우스가 캐로셀에서 나갈 때 아무것도 하지 않음
+	});
+
+</script>
+
 </html>

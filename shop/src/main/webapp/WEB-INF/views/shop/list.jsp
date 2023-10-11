@@ -106,11 +106,16 @@
 		</div>
 	</section>
 	
-	<footer id="footer">
-		<div id="footer_box">
-			<%@ include file="../include/footer.jsp" %>
-		</div>
-	</footer>
+<!-- 	<footer id="footer"> -->
+<!-- 		<div id="footer_box"> -->
+<%-- 			<%@ include file="../include/footer.jsp" %> --%>
+<!-- 		</div> -->
+<!-- 	</footer> -->
+	<footer class="py-3 my-4" id="footer_box">
+  		<%@ include file="../include/footer.jsp" %>
+ 
+  	</footer>
+
 </div>
 </body>
 </html>

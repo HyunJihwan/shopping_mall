@@ -221,9 +221,11 @@ section#content div.gdsInfo .delete button:hover {
     
    </li>
    
+  
    <c:set var="sum" value="0"/>
    
-   <c:forEach items="${cartList}" var="cartList">
+   <c:forEach items="${cartList}" var="cartList" varStatus="status">
+    <c:if test="${status.first}">
    <li>
     <div class="checkBox">
      <input type="checkbox" name="chBox" class="chBox" data-cartNum="${cartList.cartNum}" />
@@ -239,13 +241,17 @@ section#content div.gdsInfo .delete button:hover {
      <img src="${cartList.gdsThumbImg}" />
     </div>
     <div class="gdsInfo">
+     
+		
+	
      <p>
       <span style="width: 100%;">상품명 : ${cartList.gdsName}<br />
       <span style="width: 100%;">개당 가격 : <fmt:formatNumber pattern="###,###,###" value="${cartList.gdsPrice}" /> 원<br />
       <span style="width: 100%;">구입 수량 : ${cartList.cartStock} 개<br />
       <span style="width: 100%;">최종 가격 :  <fmt:formatNumber pattern="###,###,###" value="${cartList.gdsPrice * cartList.cartStock}" /> 원
      </p>
-     
+    
+   
      <div class="delete">
       <button type="button" class="delete_${cartList.cartNum }_btn" data-cartNum="${cartList.cartNum}">삭제</button>
      	<script>
@@ -277,7 +283,7 @@ section#content div.gdsInfo .delete button:hover {
     </div>     
    </li>
    <c:set var="sum" value="${sum + (cartList.gdsPrice * cartList.cartStock)}"/>
-   
+   </c:if>
    </c:forEach>
    
    <div class="listReuslt">
@@ -360,11 +366,16 @@ section#content div.gdsInfo .delete button:hover {
 	
 	
 	
-	<footer id="footer">
-		<div id="footer_box">
-			<%@ include file="../include/footer.jsp" %>
-		</div>
-	</footer>
+<!-- 	<footer id="footer"> -->
+<!-- 		<div id="footer_box"> -->
+<%-- 			<%@ include file="../include/footer.jsp" %> --%>
+<!-- 		</div> -->
+<!-- 	</footer> -->
+	 <footer class="py-3 my-4" id="footer_box">
+  		<%@ include file="../include/footer.jsp" %>
+ 
+  	</footer>
+
 </div>
 </body>
 </html>

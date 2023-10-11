@@ -90,14 +90,23 @@ section#content ul li { border:5px solid #eee; padding:10px 20px; margin-bottom:
 			<section id="content">
    
 			   <ul class="orderList">
-			    <c:forEach items="${orderList}" var="orderList">
+			  <c:if test="${empty orderList }">
+			    <tr>
+			        <td>
+			            <div class="center-text" style ="text-align: center;"> <!-- 새로운 div 요소 추가 -->
+			                <h2 style="margin-top: 10%; color: blue; font: bold;" >주문 내역이 없습니다.</h2>
+			            </div>
+			        </td>
+			    </tr>
+			</c:if>
+			    <c:forEach items="${orderList}" var="orderList" varStatus="status">
+			    
 			    <li>
 			    <div>
 			     <p><span style="width: 100%;">주문번호 <a href="/shop/orderView?n=${orderList.orderId}">${orderList.orderId}</a></p>
 			     <p><span style="width: 100%;">수령인 ${orderList.orderRec}</p>
 			     <p><span style="width: 100%;">주소 (${orderList.userAddr1}) ${orderList.userAddr2} ${orderList.userAddr3}</p>
 			     <p><span style="width: 100%;">가격 <fmt:formatNumber pattern="###,###,###" value="${orderList.amount}" /> 원</p>
-			     
 			     <p><span style="width: 100%;">상태 ${orderList.delivery}</p>  
 			    </div>
 			    </li>
@@ -113,11 +122,18 @@ section#content ul li { border:5px solid #eee; padding:10px 20px; margin-bottom:
 		</div>
 	</section>
 	
-	<footer id="footer">
-		<div id="footer_box">
-			<%@ include file="../include/footer.jsp" %>
-		</div>
-	</footer>
+<!-- 	<footer id="footer"> -->
+<!-- 		<div id="footer_box"> -->
+<%-- 			<%@ include file="../include/footer.jsp" %> --%>
+<!-- 		</div> -->
+<!-- 	</footer> -->
+	
+	<footer class="py-3 my-4" id="footer_box">
+  		<%@ include file="../include/footer.jsp" %>
+ 
+  	</footer>
+	
+
 </div>
 </body>
 </html>

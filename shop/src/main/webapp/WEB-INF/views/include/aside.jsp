@@ -3,10 +3,28 @@
 
 <h3>카테고리</h3>
 
+<style>
+.low {
+    z-index: 1;
+}
+
+</style>
+<script>
+    const lowItems = document.querySelectorAll('.low li a');
+    lowItems.forEach(item => {
+        item.addEventListener('click', function(event) {
+        	event.preventDefault();
+        });
+    });
+</script>
+
+
+
+
 <ul>
-	<li><a href="/shop/list?c=100&l=1">무기</a>
+	<li><a href="/shop/list?c=100&l=1" >무기</a>
 		
-		<ul class="low">
+		<ul class="low" >
 			<li><a href="/shop/list?c=101&l=2">돌격소총</a></li>
 			<li><a href="/shop/list?c=102&l=2">기관단총</a></li>
 			<li><a href="/shop/list?c=103&l=2">경기관총</a></li>

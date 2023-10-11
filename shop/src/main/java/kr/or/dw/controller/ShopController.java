@@ -306,6 +306,7 @@ public class ShopController {
 		order.setOrderId(orderId);
 		
 		List<OrderListVO> orderView = shopService.orderView(order);
+		System.out.println("나는오더 뷰 " + orderView);
 		
 		mnv.setViewName(url);
 		mnv.addObject("orderView", orderView);
