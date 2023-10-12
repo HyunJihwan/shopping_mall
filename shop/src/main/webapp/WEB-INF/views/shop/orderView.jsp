@@ -112,27 +112,25 @@
    </div>
    
    <ul class="orderView">
-    <c:forEach items="${orderView}" var="orderView" varStatus="status">       
-    <c:if test="${status.first}">
-    <li>
-     <div class="thumb">
-      <img src="${orderView.gdsThumbImg}" />
-     </div>
-     <div class="gdsInfo">
-     
-      <p>
-       <span style="width: 100%;">상품명 : ${orderView.gdsName}<br />
-       <span style="width: 100%;">개당 가격: <fmt:formatNumber pattern="###,###,###" value="${orderView.gdsPrice}" /> 원<br />
-       <span style="width: 100%;">구입 수량 : ${orderView.cartStock} 개<br />
-       <span style="width: 100%;">최종 가격: <fmt:formatNumber pattern="###,###,###" value="${orderView.gdsPrice * orderView.cartStock}" /> 원                  
-      </p>
-      
-     </div>
-    </li>   
-    </c:if>    
-    </c:forEach>
-   </ul>
-</section>
+					<c:forEach items="${orderView}" var="orderView" varStatus="status">					
+					<c:if test="${status.first }">
+					<li>
+						<div class="thumb">
+							<img src="${orderView.gdsThumbImg}" />
+						</div>
+						<div class="gdsInfo">
+							<p>
+								<span style="width: 100%;">상품명</span>${orderView.gdsName}<br />
+								<span style="width: 100%;">개당 가격</span><fmt:formatNumber pattern="###,###,###" value="${orderView.gdsPrice}" /> 원<br />
+								<span style="width: 100%;">구입 수량</span>${orderView.cartStock} 개<br />
+								<span style="width: 100%;">최종 가격</span><fmt:formatNumber pattern="###,###,###" value="${orderView.gdsPrice * orderView.cartStock}" /> 원                   
+							</p>
+						</div>
+					</li>
+					</c:if>					
+					</c:forEach>
+				</ul>
+	</section>
 			
 			<aside id="aside">
 				<%@ include file="../include/aside.jsp" %>

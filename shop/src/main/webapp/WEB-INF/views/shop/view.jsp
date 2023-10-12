@@ -262,77 +262,28 @@ div.goods div.gdsDes {
 
 							<p class="gdsStock">
 								<span>재고: <fmt:formatNumber pattern="###,###,###"
-										value="${view.gdsStock}" /> EA 
+										value="${view.gdsStock}" /> 개
 							</p>
-
+							
+							<c:if test="${view.gdsStock !=0 }">
+							
 							<p class="cartStock">
 							   <span>구입 수량: 
 							   <button type="button" class="plus">+</button>
 							   <input type="number" class="numBox" min="1" max="${view.gdsStock}" value="1" readonly="readonly"/>
 							   <button type="button" class="minus">-</button>
-							   
-							   <script>
-							    $(".plus").click(function(){
-							     var num = $(".numBox").val();
-							     var plusNum = Number(num) + 1;
-							     
-							     if(plusNum >= ${view.gdsStock}) {
-							      $(".numBox").val(num);
-							     } else {
-							      $(".numBox").val(plusNum);            
-							     }
-							    });
-							    
-							    $(".minus").click(function(){
-							     var num = $(".numBox").val();
-							     var minusNum = Number(num) - 1;
-							     
-							     if(minusNum <= 0) {
-							      $(".numBox").val(num);
-							     } else {
-							      $(".numBox").val(minusNum);            
-							     }
-							    });
-							   </script>
-							   
 							</p>	
 						
 
 							<p class="addToCart">
 								<button type="button" class="addCart_btn">상품 추가</button>
-							<script>
-						 	   $(".addCart_btn").click(function(){
-							    var gdsNum = $("#gdsNum").val();
-							    var cartStock = $(".numBox").val();
-							             
-							    var data = {
-							      gdsNum : gdsNum,
-							      cartStock : cartStock
-							      };
-							    
-							    $.ajax({
-							     url : "/shop/view/addCart",
-							     type : "post",
-							     data : data,
-							     success : function(result){
-							      
-							      if(result == 1) {
-							       alert("카트 담기 성공");
-							       $(".numBox").val("1");
-							      } else {
-							       alert("회원만 사용할 수 있습니다.")
-							       $(".numBox").val("1");
-							      }
-							     },
-							     error : function(){
-							      alert("카트 담기 실패");
-							     }
-							    });
-							   });
-							</script>
-							
-								
 							</p>
+							
+							</c:if>
+							
+							<c:if test="${view.gdsStock == 0 }">
+								<p>상품 수량이 부족합니다.</p>
+							</c:if>
 						</div>
 
 						<div class="gdsDes">${view.gdsDes}</div>
@@ -541,7 +492,61 @@ $(".modal_cancel").click(function(){
    $(".replyModal").fadeOut(200);
 });
 </script>
+<script>
+$(".plus").click(function(){
+ var num = $(".numBox").val();
+ var plusNum = Number(num) + 1;
+ 
+ if(plusNum >= ${view.gdsStock}) {
+  $(".numBox").val(num);
+ } else {
+  $(".numBox").val(plusNum);            
+ }
+});
 
+$(".minus").click(function(){
+ var num = $(".numBox").val();
+ var minusNum = Number(num) - 1;
+ 
+ if(minusNum <= 0) {
+  $(".numBox").val(num);
+ } else {
+  $(".numBox").val(minusNum);            
+ }
+});
+</script>
+
+<script>
+ $(".addCart_btn").click(function(){
+ var gdsNum = $("#gdsNum").val();
+ var cartStock = $(".numBox").val();
+          
+ var data = {
+   gdsNum : gdsNum,
+   cartStock : cartStock
+   };
+ 
+ $.ajax({
+  url : "/shop/view/addCart",
+  type : "post",
+  data : data,
+  success : function(result){
+   
+   if(result == 1) {
+    alert("카트 담기 성공");
+    $(".numBox").val("1");
+   } else {
+    alert("회원만 사용할 수 있습니다.")
+    $(".numBox").val("1");
+   }
+  },
+  error : function(){
+   alert("카트 담기 실패");
+  }
+ });
+});
+</script>
+							   
 
 </body>
 

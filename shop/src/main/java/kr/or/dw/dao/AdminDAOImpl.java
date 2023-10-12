@@ -14,6 +14,7 @@ import kr.or.dw.domain.GoodsVO;
 import kr.or.dw.domain.GoodsViewVO;
 import kr.or.dw.domain.OrderListVO;
 import kr.or.dw.domain.OrderVO;
+import kr.or.dw.domain.ReplyListVO;
 
 @Repository
 public class AdminDAOImpl implements AdminDAO{
@@ -78,6 +79,23 @@ public class AdminDAOImpl implements AdminDAO{
 	@Override
 	public void delivery(OrderVO order) throws SQLException {
 		sql.update(namespace + ".delivery", order);
+		
+	}
+
+	@Override
+	public void changeStock(GoodsVO goods) throws SQLException {
+		sql.update(namespace + ".changeStock", goods);		
+	}
+
+	@Override
+	public List<ReplyListVO> allReply() throws SQLException {
+		
+		return sql.selectList(namespace + ".allReply");
+	}
+
+	@Override
+	public void deleteReply(int repNum) throws SQLException {
+		sql.delete(namespace + ".deleteReply",repNum);
 		
 	}
 

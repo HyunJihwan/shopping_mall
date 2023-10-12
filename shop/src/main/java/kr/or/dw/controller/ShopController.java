@@ -296,6 +296,7 @@ public class ShopController {
 	// 주문 상세 정보
 	@RequestMapping(value ="/orderView", method = RequestMethod.GET)
 	public ModelAndView getOrderList(HttpSession session, @RequestParam("n") String orderId, OrderVO order, ModelAndView mnv ) throws SQLException {
+		
 		logger.info("get order view");
 		String url = "/shop/orderView";
 		

@@ -35,6 +35,8 @@ import kr.or.dw.domain.GoodsVO;
 import kr.or.dw.domain.GoodsViewVO;
 import kr.or.dw.domain.OrderListVO;
 import kr.or.dw.domain.OrderVO;
+import kr.or.dw.domain.ReplyListVO;
+import kr.or.dw.domain.ReplyVO;
 import kr.or.dw.service.AdminService;
 import kr.or.dw.utils.UploadFileUtils;
 import net.sf.json.JSONArray;
@@ -261,7 +263,43 @@ public class AdminController {
 		
 		adminService.delivery(order);
 		
+		List<OrderListVO> orderView = adminService.orderView(order);
+		
+		GoodsVO goods = new GoodsVO();
+		
+		for(OrderListVO i : orderView) {
+			goods.setGdsNum(i.getGdsNum());
+			goods.setGdsStock(i.getCartStock());
+			adminService.changeStock(goods);
+		}
+		
+		
 		return "redirect:/admin/shop/orderView?n=" + order.getOrderId();
+	}
+	
+	// 상품 소감 
+	@RequestMapping(value = "/shop/allReply", method = RequestMethod.GET)
+	public ModelAndView getAllReply(ModelAndView mnv) throws SQLException {
+		logger.info("get all reply");
+		String url = "/admin/shop/allReply";
+		
+		List<ReplyListVO> reply = adminService.allReply();
+		System.out.println("리플라이 리스트 :" +  reply);
+		mnv.setViewName(url);
+		mnv.addObject("reply", reply);
+		
+		return mnv;
+		
+	}
+	
+	// 소감 삭제
+	@RequestMapping(value ="/shop/allReply", method = RequestMethod.POST)
+	public String deleteReply(ReplyVO reply) throws SQLException {
+		logger.info("post all reply");
+		
+		adminService.deleteReply(reply.getRepNum());
+		
+		return "redirect:/admin/shop/allReply";
 	}
 	
 }

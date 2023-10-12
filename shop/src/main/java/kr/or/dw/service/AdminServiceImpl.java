@@ -13,6 +13,7 @@ import kr.or.dw.domain.GoodsVO;
 import kr.or.dw.domain.GoodsViewVO;
 import kr.or.dw.domain.OrderListVO;
 import kr.or.dw.domain.OrderVO;
+import kr.or.dw.domain.ReplyListVO;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -72,6 +73,24 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void delivery(OrderVO order) throws SQLException {
 		adminDAO.delivery(order);
+		
+	}
+
+	@Override
+	public void changeStock(GoodsVO goods) throws SQLException {
+		adminDAO.changeStock(goods);
+		
+	}
+
+	@Override
+	public List<ReplyListVO> allReply() throws SQLException {
+		
+		return adminDAO.allReply();
+	}
+
+	@Override
+	public void deleteReply(int repNum) throws SQLException {
+		adminDAO.deleteReply(repNum);
 		
 	}
 

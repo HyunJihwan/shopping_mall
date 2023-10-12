@@ -76,18 +76,18 @@
 
 <!-- 특정 주문 목록 -->
 <select id="orderView" resultType="kr.or.dw.domain.OrderListVO">
-   select
-       o.orderId, o.userId, o.orderRec,
-       o.userAddr1, o.userAddr2, o.userAddr3,
-       o.orderPhon, o.amount, o.orderDate, o.delivery,
-       d.orderDetailsNum, d.gdsNum, d.cartStock,
-       g.gdsName, g.gdsThumbImg, g.gdsPrice
-   from tbl_order o
-           inner join tbl_order_details d
-               on o.orderId = d.orderId
-           inner join tbl_goods g
-               on d.gdsNum = g.gdsNum
-       where o.orderId = #{orderId}
+  select 
+		    o.orderId, o.userId, o.orderRec,
+		    o.userAddr1, o.userAddr2, o.userAddr3,
+		    o.orderPhon, o.amount, o.orderDate, o.delivery,
+		    d.orderDetailsNum, d.gdsNum, d.cartStock,
+		    g.gdsName, g.gdsThumbImg, g.gdsPrice
+		from tbl_order o
+		        inner join tbl_order_details d
+		            on o.orderId = d.orderId
+		        inner join tbl_goods g
+		            on d.gdsNum = g.gdsNum
+		    where o.orderId = #{orderId}
 </select>
 
 <update id="delivery">
@@ -95,5 +95,32 @@
 	set delivery = #{delivery}
 	where orderId = #{orderId}
 </update>
+
+<update id="changeStock">
+	update tbl_goods
+	set	gdsStock = gdsStock - #{gdsStock}
+	where gdsNum = #{gdsNum}
+</update>
+
+<!--  상품 수량 조절 보조  -->
+<select id="changeStock_sub" resultType="kr.or.dw.domain.OrderDetailVO">
+select orderId, gdsNum, cartStock
+from tbl_order_details
+where orderId = #{orderId}
+</select>
+
+<select id="allReply" resultType="kr.or.dw.domain.ReplyListVO">
+select
+     r.gdsNum, r.userId, r.repNum, r.repCon, r.repDate,
+     m.userName
+ from tbl_reply r
+      inner join tbl_member m
+         on r.userId = m.userId
+</select>
+
+<delete id="deleteReply">
+DELETE FROM tbl_reply
+where repNum = #{repNum}
+</delete>
 
 </mapper>

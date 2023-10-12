@@ -10,6 +10,10 @@
     <a href="/member/signup">회원가입</a>
    </li>
 </c:if>
+<li>
+	<a href="/board/list">게시판</a>
+</li>
+
 <c:if test="${member != null}">
 	
 	<c:if test="${member.verify == 9}">

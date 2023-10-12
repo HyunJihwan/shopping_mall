@@ -8,6 +8,7 @@ import kr.or.dw.domain.GoodsVO;
 import kr.or.dw.domain.GoodsViewVO;
 import kr.or.dw.domain.OrderListVO;
 import kr.or.dw.domain.OrderVO;
+import kr.or.dw.domain.ReplyListVO;
 
 public interface AdminService {
 	
@@ -35,7 +36,16 @@ public interface AdminService {
 	// 특정 주문 목록
 	List<OrderListVO> orderView(OrderVO order) throws SQLException;
 	
-	// 주문 상세변경
+	// 배송상태
 	void delivery(OrderVO order) throws SQLException;
+	
+	// 상품 수량 조절
+	void changeStock(GoodsVO goods) throws SQLException;
+	
+	// 모든 소감 댓글
+	List<ReplyListVO> allReply() throws SQLException;
+	
+	// 댓글 삭제
+	void deleteReply(int repNum) throws SQLException;
 
 }

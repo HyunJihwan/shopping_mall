@@ -186,26 +186,30 @@ textarea#gdsDes {
 						    <input type="hidden" name="orderId" value="${orderView.orderId}" />
 						    <input type="hidden" name="delivery" class="delivery" value="" />
 						    
+						    
 						    <button type="button" class="delivery1_btn">배송 중</button>
 						    <button type="button" class="delivery2_btn">배송 완료</button>
 						    
-						    <script>
-						     $(".delivery1_btn").click(function(){
-						      $(".delivery").val("배송 중");
-						      run();
-						     });
-						     
-						     $(".delivery2_btn").click(function(){
-						      $(".delivery").val("배송 완료");
-						      run();
-						      
-						     });
-						     
-						     function run(){
-						      $(".deliveryForm").submit();
-						     }
 						    
+						    <script>
+						    
+					        $(".deliveryForm").each(function () {
+					            var form = $(this);
+					            var deliveryField = form.find(".delivery");
+
+					            form.find(".delivery1_btn").click(function () {
+					                deliveryField.val("배송 중");
+					                form.submit();
+					            });
+
+					            form.find(".delivery2_btn").click(function () {
+					                deliveryField.val("배송 완료");
+					                form.submit();
+					            });
+					        });
+					        
 						    </script>
+						   
 						   </form>
 					</div>
 					   
@@ -215,24 +219,23 @@ textarea#gdsDes {
 				</div>
 				
 				<ul class="orderView">
-				   <c:forEach items="${orderView}" var="orderView" varStatus="status">
-				   <c:if test="${status.first}"> 
-				   <li>
-				    <div class="thumb">
-				     <img src="${orderView.gdsThumbImg}" />
-				    </div>
-				    <div class="gdsInfo">
-				     <p>
-				      <span style="width: 100%;">상품명 ${orderView.gdsName}<br />
-				      <span style="width: 100%;">개당 가격 <fmt:formatNumber pattern="###,###,###" value="${orderView.gdsPrice}" /> 원<br />
-				      <span style="width: 100%;">구입 수량 ${orderView.cartStock} 개<br />
-				      <span style="width: 100%;">최종 가격 <fmt:formatNumber pattern="###,###,###" value="${orderView.gdsPrice * orderView.cartStock}" /> 원                  
-				     </p>
-				    </div>
-				   </li>      
-				   </c:if> 
-				   </c:forEach>
+					<c:forEach items="${orderView}" var="orderView">					
+					<li>
+						<div class="thumb">
+							<img src="${orderView.gdsThumbImg}" />
+						</div>
+						<div class="gdsInfo">
+							<p>
+								<span>상품명</span>${orderView.gdsName}<br />
+								<span>개당 가격</span><fmt:formatNumber pattern="###,###,###" value="${orderView.gdsPrice}" /> 원<br />
+								<span>구입 수량</span>${orderView.cartStock} 개<br />
+								<span>최종 가격</span><fmt:formatNumber pattern="###,###,###" value="${orderView.gdsPrice * orderView.cartStock}" /> 원                   
+							</p>
+						</div>
+					</li>					
+					</c:forEach>
 				</ul>
+			
 			</div>
 		</section>
 
