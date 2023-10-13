@@ -136,39 +136,34 @@ td a:hover {
 			
 		<div id="container_box">
 			<section id="content">
-					<table>
-						<thead>
-							<tr>
-								<th>번호</th>
-								<th>제목</th>
-								<th>작성일</th>
-								<th>작성자</th>
-								<th>조회수</th>
-							</tr>
-<%-- 							<c:if test="${member != null}"> --%>
-							<tr>
-							<a href="/board/write">글 작성</a>
-							</tr>
-<%-- 							</c:if> --%>
-						</thead>
-						
-						<tbody>
-							<c:forEach items="${list}" var="list">
-								<tr>
-									<td>${list.bno}</td>
-									<td><a href="/board/view?bno=${list.bno}">${list.title}</a>
-									</td>
-									<td><fmt:formatDate value="${list.regDate}"
-											pattern="yyyy-MM-dd" /></td>
-									<td>${list.userId}</td>
-									<td>${list.viewCnt}</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-
-					</table>
-				</section>
+				
+			<label>제목</label>
+			${view.title}<br />
 			
+			<label>작성자</label>
+			${view.userId}<br />
+			
+			<label>내용</label><br />
+			${view.content}<br />
+				<br>
+
+					<c:if test="${member != null }">
+						<c:choose>
+							<c:when test="${view.userId eq member.userId}">
+								<div>
+									<a href="/board/modify?bno=${view.bno}">게시물 수정</a>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a
+										href="/board/delete?bno=${view.bno}">게시물 삭제</a>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<p>자신의 게시물이 아니면 삭제할수없습니다.</p>
+							</c:otherwise>
+						</c:choose>
+					</c:if>
+
+				</section>
+
 <!-- 			<aside id="aside"> -->
 <%-- 				<%@ include file="../include/aside.jsp" %> --%>
 <!-- 			</aside> -->

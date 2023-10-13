@@ -136,39 +136,23 @@ td a:hover {
 			
 		<div id="container_box">
 			<section id="content">
-					<table>
-						<thead>
-							<tr>
-								<th>번호</th>
-								<th>제목</th>
-								<th>작성일</th>
-								<th>작성자</th>
-								<th>조회수</th>
-							</tr>
-<%-- 							<c:if test="${member != null}"> --%>
-							<tr>
-							<a href="/board/write">글 작성</a>
-							</tr>
-<%-- 							</c:if> --%>
-						</thead>
-						
-						<tbody>
-							<c:forEach items="${list}" var="list">
-								<tr>
-									<td>${list.bno}</td>
-									<td><a href="/board/view?bno=${list.bno}">${list.title}</a>
-									</td>
-									<td><fmt:formatDate value="${list.regDate}"
-											pattern="yyyy-MM-dd" /></td>
-									<td>${list.userId}</td>
-									<td>${list.viewCnt}</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-
-					</table>
-				</section>
+				<form role=form method="post">
+				
+				<label>제목</label>	
+				<input type="text" name="title" value="${view.title }"/></br/>
+				
+				<label>작성자</label>	
+				<input type="text" name="userId" value="${view.userId }"/></br/>
+				
+				<label>내용</label>	
+				<textarea cols="50" rows="5" name="content">${view.content }</textarea></br/>	
+					
+				<button type="submit">수정 완료</button>	
+				
+				</form>	
 			
+				</section>
+
 <!-- 			<aside id="aside"> -->
 <%-- 				<%@ include file="../include/aside.jsp" %> --%>
 <!-- 			</aside> -->

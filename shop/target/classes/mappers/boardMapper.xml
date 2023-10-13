@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.dw.mappers.boardMapper">
+
+<select id="list" resultType="kr.or.dw.domain.BoardVO">
+	select
+  	bno, title, content, userId, regDate, viewCnt
+ 	from tbl_board
+ 	order by bno desc
+</select>
+
+<insert id="write" parameterType="kr.or.dw.domain.BoardVO">
+	insert into 
+	tbl_board(bno,title,content,userId)
+	values(tbl_board_seq.nextval,#{title}, #{content}, #{userId})
+</insert>
+
+<select id="view" parameterType="int" resultType="kr.or.dw.domain.BoardVO">
+	select
+	bno,title,content,userId,regDate,viewCnt
+	from tbl_board
+	where bno = #{bno}
+	
+</select>
+
+<update id="modify" parameterType="kr.or.dw.domain.BoardVO">
+	update tbl_board
+	set title = #{title},
+		userId = #{userId},
+		content = #{content}
+	where bno = #{bno}
+</update>
+
+<delete id="delete">
+	delete from tbl_board
+	where bno = #{bno}
+</delete>
+
+<select id="getBoard" resultType="kr.or.dw.domain.BoardVO">
+	SELECT userId
+	from tbl_board
+	where bno = #{bno}
+</select>
+
+</mapper>
