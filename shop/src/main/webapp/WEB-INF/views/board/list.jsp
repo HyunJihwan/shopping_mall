@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>게시판 리스트?</title>
+<script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
 	<script src="/resources/jquery/jquery-3.3.1.min.js"></script>
 <link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet"
@@ -135,7 +136,7 @@ td a:hover {
 	<section id="container">
 			
 		<div id="container_box">
-			<section id="content">
+			<section id="content">	
 					<table>
 						<thead>
 							<tr>
@@ -145,11 +146,11 @@ td a:hover {
 								<th>작성자</th>
 								<th>조회수</th>
 							</tr>
-<%-- 							<c:if test="${member != null}"> --%>
+							<c:if test="${member != null}">
 							<tr>
 							<a href="/board/write">글 작성</a>
 							</tr>
-<%-- 							</c:if> --%>
+							</c:if>
 						</thead>
 						
 						<tbody>
@@ -160,13 +161,30 @@ td a:hover {
 									</td>
 									<td><fmt:formatDate value="${list.regDate}"
 											pattern="yyyy-MM-dd" /></td>
-									<td>${list.userId}</td>
+									<td>${list.userName}</td>
 									<td>${list.viewCnt}</td>
 								</tr>
 							</c:forEach>
 						</tbody>
 
 					</table>
+					
+					<div>
+					   <ul>
+					    <c:if test="${pageMaker.prev}">
+					     <li><a href="list${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a></li>
+					    </c:if>   
+					    
+					    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+					     <li><a href="list${pageMaker.makeQuery(idx)}">${idx}</a></li>
+					    </c:forEach>
+					      
+					    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+					     <li><a href="list${pageMaker.makeQuery(pageMaker.endPage + 1)}">다음</a></li>
+					    </c:if>   
+					   </ul>
+					</div>
+										
 				</section>
 			
 <!-- 			<aside id="aside"> -->

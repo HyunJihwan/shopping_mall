@@ -8,6 +8,8 @@ import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.or.dw.command.Criteria;
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.dao.BoardDAO;
 import kr.or.dw.domain.BoardVO;
 
@@ -18,9 +20,9 @@ public class BoardServiceImpl implements BoardService {
 	BoardDAO boardDAO;
 
 	@Override
-	public List<BoardVO> list() throws SQLException {
+	public List<BoardVO> list(Criteria cri) throws SQLException {
 		
-		return boardDAO.list();
+		return boardDAO.list(cri);
 	}
 
 	@Override
@@ -52,6 +54,13 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.getBoard(bno);
 		 
 	}
+
+	@Override
+	public int listCount() throws SQLException {
+		
+		return boardDAO.listCount();
+	}
+
 
 	
 	

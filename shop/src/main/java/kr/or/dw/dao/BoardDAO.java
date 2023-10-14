@@ -3,12 +3,14 @@ package kr.or.dw.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import kr.or.dw.command.Criteria;
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.domain.BoardVO;
 
 public interface BoardDAO {
 	
 	
-	List<BoardVO> list() throws SQLException;
+	List<BoardVO> list(Criteria cri) throws SQLException;
 
 	void write(BoardVO vo) throws SQLException;
 	
@@ -23,7 +25,9 @@ public interface BoardDAO {
 	
 	// 
 	BoardVO getBoard(int bno) throws SQLException;
-	
+
+	int listCount() throws SQLException;
+
 	
 
 }

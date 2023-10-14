@@ -5,11 +5,18 @@
 <mapper namespace="kr.or.dw.mappers.boardMapper">
 
 <select id="list" resultType="kr.or.dw.domain.BoardVO">
-	select
-  	bno, title, content, userId, regDate, viewCnt
- 	from tbl_board
- 	order by bno desc
+
+SELECT bno, title, content, userId, regDate, viewCnt, USERNAME
+FROM (
+    SELECT b.bno, b.title, b.content, b.userId, b.regDate, b.viewCnt, t.USERNAME, row_number() over(order by bno desc) as rNum
+    FROM TBL_BOARD b
+    JOIN TBL_MEMBER t ON b.USERID = t.USERID  
+) 
+WHERE rnum BETWEEN #{rowStart} AND #{rowEnd}
+AND 1=1
 </select>
+
+
 
 <insert id="write" parameterType="kr.or.dw.domain.BoardVO">
 	insert into 
@@ -19,10 +26,10 @@
 
 <select id="view" parameterType="int" resultType="kr.or.dw.domain.BoardVO">
 	select
-	bno,title,content,userId,regDate,viewCnt
-	from tbl_board
+	b.bno,b.title,b.content,b.userId,b.regDate,b.viewCnt,t.userName
+	from TBL_BOARD b, TBL_MEMBER t 
 	where bno = #{bno}
-	
+	AND b.userId = t.userId
 </select>
 
 <update id="modify" parameterType="kr.or.dw.domain.BoardVO">
@@ -44,4 +51,19 @@
 	where bno = #{bno}
 </select>
 
+<select id="listCount" resultType="int">
+ <![CDATA[
+ 	select count(*)
+ 	from tbl_board t, tbl_member m
+ 	where 1=1
+ 	AND t.userId = m.userId
+ 	AND bno > 0
+ ]]>
+</select>
+
+
+
 </mapper>
+
+
+

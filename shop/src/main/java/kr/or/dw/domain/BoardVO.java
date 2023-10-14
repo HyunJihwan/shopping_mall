@@ -14,4 +14,6 @@ public class BoardVO {
 	private Date regDate;
 	private int viewCnt;
 	
+	private String userName;
+	private int rownum;
 }

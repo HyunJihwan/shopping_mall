@@ -11,12 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.or.dw.command.Criteria;
+import kr.or.dw.command.PageMaker;
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.domain.BoardVO;
 import kr.or.dw.domain.MemberVO;
 import kr.or.dw.service.BoardService;
@@ -31,15 +35,19 @@ public class BoardController {
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	
 	@RequestMapping(value="/list", method = RequestMethod.GET)
-	public ModelAndView list(ModelAndView mnv) throws SQLException {
+	public ModelAndView list(ModelAndView mnv, Criteria cri) throws SQLException {
 		logger.info("get board");
 		String url = "/board/list";
 				
 		List<BoardVO> list = null;
-		list = boardService.list();
+		list = boardService.list(cri);
 		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(boardService.listCount());
 		mnv.setViewName(url);
 		mnv.addObject("list", list);
+		mnv.addObject("pageMaker",pageMaker);
 		
 		return mnv;
 	}
@@ -111,6 +119,15 @@ public class BoardController {
 	    boardService.delete(bno);
 	    return "redirect:/board/list";
 	}
+	
+	
 
+		
+		
+	
+		
+		
+		
+	
 	
 }

@@ -14,6 +14,7 @@
 	<a href="/board/list">게시판</a>
 </li>
 
+
 <c:if test="${member != null}">
 	
 	<c:if test="${member.verify == 9}">

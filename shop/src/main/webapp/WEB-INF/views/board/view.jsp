@@ -140,21 +140,24 @@ td a:hover {
 			<label>제목</label>
 			${view.title}<br />
 			
-			<label>작성자</label>
-			${view.userId}<br />
+			<label readonly>작성자</label>
+			${view.userName}<br />
 			
 			<label>내용</label><br />
 			${view.content}<br />
 				<br>
-
+			
+			
 					<c:if test="${member != null }">
 						<c:choose>
 							<c:when test="${view.userId eq member.userId}">
 								<div>
-									<a href="/board/modify?bno=${view.bno}">게시물 수정</a>
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a
-										href="/board/delete?bno=${view.bno}">게시물 삭제</a>
-								</div>
+									<button type="button" onclick="location.href='/board/modify?bno=${view.bno}'" >수정</button>
+<%-- 									<a href="/board/modify?bno=${view.bno}">게시물 수정</a> --%>
+<!-- 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  -->
+<%-- 									<a href="/board/delete?bno=${view.bno}">게시물 삭제</a> --%>
+									<button type="button" id="viewDel" onclick="location.href='/board/delete?bno=${view.bno}'" >삭제</button>
+									</div>
 							</c:when>
 							<c:otherwise>
 								<p>자신의 게시물이 아니면 삭제할수없습니다.</p>
@@ -171,7 +174,14 @@ td a:hover {
 		</div>
 	</section>
 	
-
+	<script>
+	$('#viewDel').on("click",function(){
+		if(confirm("정말 삭제하시겠습니까?")){
+			alert("삭제되었습니다.");
+		}
+	})
+	</script>
+	
 	<footer class="py-3 my-4" id="footer_box">
   		<%@ include file="../include/footer.jsp" %>
  
