@@ -3,6 +3,7 @@ package kr.or.dw.controller;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -21,9 +22,11 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.or.dw.command.Criteria;
 import kr.or.dw.command.PageMaker;
 import kr.or.dw.command.SearchCriteria;
+import kr.or.dw.domain.BoardReplyVO;
 import kr.or.dw.domain.BoardVO;
 import kr.or.dw.domain.MemberVO;
 import kr.or.dw.service.BoardService;
+import kr.or.dw.service.ReplyService;
 
 @Controller
 @RequestMapping("/board/*")
@@ -32,13 +35,16 @@ public class BoardController {
 	@Autowired
 	BoardService boardService;
 	
+	@Autowired
+	ReplyService replyService;
+	
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	
 	@RequestMapping(value="/list", method = RequestMethod.GET)
 	public ModelAndView list(ModelAndView mnv, Criteria cri) throws SQLException {
 		logger.info("get board");
 		String url = "/board/list";
-				
+		
 		List<BoardVO> list = null;
 		list = boardService.list(cri);
 		
@@ -78,6 +84,15 @@ public class BoardController {
 		BoardVO vo = boardService.view(bno);
 		
 		model.addAttribute("view" ,vo);
+			
+		// 댓글 구현 부분
+		
+		List<BoardReplyVO> reply = null;
+			
+		reply = replyService.list(bno);
+		
+		model.addAttribute("reply", reply);
+		
 	}
 	
 	@GetMapping
@@ -120,7 +135,19 @@ public class BoardController {
 	    return "redirect:/board/list";
 	}
 	
-	
+	@RequestMapping(value = "/listSearch", method = RequestMethod.GET)
+	public void listSearch(@ModelAttribute("scri") SearchCriteria scri, Model model) throws SQLException {
+		logger.info("get list search");
+		
+		List<BoardVO> searchList = boardService.listSearch(scri);
+		model.addAttribute("searchList" , searchList);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(scri);
+		pageMaker.setTotalCount(boardService.countSearch(scri));
+		model.addAttribute("pageMaker", pageMaker);
+		
+	}
 
 		
 		

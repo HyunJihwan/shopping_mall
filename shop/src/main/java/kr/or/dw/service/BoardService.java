@@ -5,6 +5,7 @@ import java.util.List;
 
 import kr.or.dw.command.Criteria;
 import kr.or.dw.command.SearchCriteria;
+import kr.or.dw.domain.BoardReplyVO;
 import kr.or.dw.domain.BoardVO;
 
 public interface BoardService {
@@ -27,6 +28,12 @@ public interface BoardService {
 	BoardVO getBoard(int bno) throws SQLException;
 
 	int listCount()throws SQLException;
+
+	List<BoardVO> listSearch(SearchCriteria scri) throws SQLException;
+	
+	int countSearch(SearchCriteria scri) throws SQLException;
+
+	
 
 
 

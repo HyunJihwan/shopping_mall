@@ -68,6 +68,17 @@ public class BoardDAOImpl implements BoardDAO {
 		return sql.selectOne(namespace + ".listCount");
 	}
 
+	@Override
+	public List<BoardVO> listSearch(SearchCriteria scri) throws SQLException {
+		
+		return sql.selectList(namespace + ".listSearch", scri);
+	}
+
+	@Override
+	public int countSearch(SearchCriteria scri) throws SQLException {
+		return sql.selectOne(namespace + ".countSearch", scri);
+	}
+
 	
 	
 }

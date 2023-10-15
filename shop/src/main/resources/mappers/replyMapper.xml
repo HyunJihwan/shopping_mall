@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.dw.mappers.replyMapper">
+
+<select id="list" resultType="kr.or.dw.domain.BoardReplyVO">
+	select r.*, m.USERNAME 
+	from tbl_board_reply r, TBL_BOARD b ,tbl_member m
+	where 1=1
+	AND r.BNO = b.BNO 
+	AND r.USERID = m.USERID
+	AND r.bno = #{bno}
+</select>
+
+<insert id="reply">
+	insert into tbl_board_reply (rno, bno, userId,content, regDate)
+	values(tbl_board_reply_seq.nextval, #{bno}, #{userId}, #{content}, sysdate)
+</insert>
+
+
+</mapper>

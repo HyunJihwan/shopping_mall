@@ -61,7 +61,35 @@ AND 1=1
  ]]>
 </select>
 
+<select id="listSearch" resultType="kr.or.dw.domain.BoardVO" parameterType="kr.or.dw.command.SearchCriteria">
+	SELECT bno, title, content, userId, regDate, viewCnt, USERNAME
+FROM (
+    SELECT b.bno, b.title, b.content, b.userId, b.regDate, b.viewCnt, t.USERNAME, row_number() over(order by bno desc) as rNum
+    FROM TBL_BOARD b
+    JOIN TBL_MEMBER t ON b.USERID = t.USERID  
+    <include refid="search"/>
+) 
+WHERE rnum BETWEEN #{rowStart} AND #{rowEnd}
+AND 1=1
+</select>
 
+<sql id="search">
+<if test="searchType != null">
+<if test="searchType == 't'.toString()">and title like '%' || #{keyword} || '%'</if>
+<if test="searchType == 'c'.toString()">and content like '%' || #{keyword} || '%'</if>
+<if test="searchType == 'w'.toString()">and userName like '%' || #{keyword} || '%'</if>
+<if test="searchType == 'tc'.toString()">and (title like '%' || #{keyword} || '%') or (content like '%' || #{keyword} || '%')</if>
+</if>
+</sql>
+
+<select id="countSearch" resultType="int">
+	select count(*)
+	from tbl_board
+	where 1=1
+	<![CDATA[
+   and bno > 0
+	]]>
+</select>
 
 </mapper>
 

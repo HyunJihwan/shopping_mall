@@ -1,12 +1,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <html>
 <head>
 <meta charset="UTF-8">
 <title>게시판 리스트?</title>
+<script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
 	<script src="/resources/jquery/jquery-3.3.1.min.js"></script>
 <link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet"
@@ -135,7 +136,34 @@ td a:hover {
 	<section id="container">
 			
 		<div id="container_box">
-			<section id="content">
+		
+			<section id="content">	
+			<div class="search">
+   <select name="searchType">
+    <option value="n"<c:out value="${scri.searchType == null ? 'selected' : ''}"/>>-----</option>
+    <option value="t"<c:out value="${scri.searchType eq 't' ? 'selected' : ''}"/>>제목</option>
+    <option value="c"<c:out value="${scri.searchType eq 'c' ? 'selected' : ''}"/>>내용</option>
+    <option value="w"<c:out value="${scri.searchType eq 'w' ? 'selected' : ''}"/>>작성자</option>
+    <option value="tc"<c:out value="${scri.searchType eq 'tc' ? 'selected' : ''}"/>>제목+내용</option>
+   </select>
+   
+   <input type="text" name="keyword" id="keywordInput" value="${scri.keyword}"/>
+
+   <button id="searchBtn">검색</button>
+   
+   <script>
+   $(function(){
+    $('#searchBtn').click(function() {
+     self.location = "listSearch"
+       + '${pageMaker.makeQuery(1)}'
+       + "&searchType="
+       + $("select option:selected").val()
+       + "&keyword="
+       + encodeURIComponent($('#keywordInput').val());
+      });
+   });     
+   </script>
+</div>
 					<table>
 						<thead>
 							<tr>
@@ -153,7 +181,7 @@ td a:hover {
 						</thead>
 						
 						<tbody>
-							<c:forEach items="${list}" var="list">
+							<c:forEach items="${searchList}" var="list">
 								<tr>
 									<td>${list.bno}</td>
 									<td><a href="/board/view?bno=${list.bno}">${list.title}</a>
@@ -165,19 +193,28 @@ td a:hover {
 								</tr>
 							</c:forEach>
 						</tbody>
-	
+
 					</table>
 					
 					<div>
-						<c:forEach begin="1" end="${pageNum }" var="num">
-							<span>
-								<a href="/board/listPage?num=${num }">${num }</a>
-							</span>
-						</c:forEach>
-					
+					   <ul>
+					    <c:if test="${pageMaker.prev}">
+					     <li><a href="listSearch${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a></li>
+					    </c:if>   
+					    
+					    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+					     <li><a href="listSearch${pageMaker.makeSearch(idx)}">${idx}</a></li>
+					    </c:forEach>
+					      
+					    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+					     <li><a href="listSearch${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a></li>
+					    </c:if>   
+					   </ul>
 					</div>
 					
 					
+					
+								
 				</section>
 			
 <!-- 			<aside id="aside"> -->

@@ -116,6 +116,37 @@ td a:hover {
     text-decoration: underline;
 }
 </style>
+<style>
+  /* Style for the comments section */
+  ul.comments {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  ul.comments li {
+    background-color: #f5f5f5;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+
+  ul.comments p {
+    margin: 0;
+  }
+
+  ul.comments p.author {
+    font-weight: bold;
+  }
+
+  ul.comments p.date {
+    font-size: 0.8em;
+    color: #777;
+  }
+
+  ul.comments p.content {
+    margin-top: 10px;
+  }
+</style>
 
 
 <body>
@@ -147,6 +178,49 @@ td a:hover {
 			${view.content}<br />
 				<br>
 			
+			<!-- 댓글구현 부 -->
+			<hr />
+
+			<ul>
+			  <c:forEach items="${reply}" var="reply">
+			 
+				<li>
+				    <div>
+				        <p>${reply.userName} / <fmt:formatDate value="${reply.regDate}"
+											pattern="yyyy-MM-dd" /></p>
+				        <p>${reply.content }</p>
+				    </div>
+				</li>
+							<p>
+								<a href="">수정</a> / <a href="">삭제</a>
+							</p>
+
+							<hr />
+
+						</c:forEach>
+			  
+			</ul>
+			
+			<div>
+			 <c:if test="${member != null }">
+    		<form method="post" action="/board/replyWrite">
+		        <p>
+		        	<input type="hidden" name="userId" value="${view.userId }"/>
+		            <label>댓글 작성자</label> <input type="text" name="userName" value=${member.userName }>
+		        </p>
+		       
+		        <p>
+		            <textarea rows="5" cols="50" name="content"></textarea>
+		        </p>
+		        
+		        <p>
+		        	<input type="hidden" name="bno" value="${view.bno}">
+		            <button type="submit">댓글 작성</button>
+		        </p>
+		    </form>
+    		</c:if>
+			</div>
+			
 			
 					<c:if test="${member != null }">
 						<c:choose>
@@ -170,6 +244,8 @@ td a:hover {
 <!-- 			<aside id="aside"> -->
 <%-- 				<%@ include file="../include/aside.jsp" %> --%>
 <!-- 			</aside> -->
+			
+			
 			
 		</div>
 	</section>

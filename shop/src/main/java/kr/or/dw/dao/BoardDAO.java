@@ -27,6 +27,12 @@ public interface BoardDAO {
 	BoardVO getBoard(int bno) throws SQLException;
 
 	int listCount() throws SQLException;
+	
+	// 게시판 페이지네이션 
+	List<BoardVO> listSearch(SearchCriteria scri) throws SQLException;
+	
+	// 갯수
+	int countSearch(SearchCriteria scri) throws SQLException;
 
 	
 

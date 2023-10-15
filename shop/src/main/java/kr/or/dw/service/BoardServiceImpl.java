@@ -61,6 +61,18 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.listCount();
 	}
 
+	@Override
+	public List<BoardVO> listSearch(SearchCriteria scri) throws SQLException {
+		
+		return boardDAO.listSearch(scri);
+	}
+
+	@Override
+	public int countSearch(SearchCriteria scri) throws SQLException {
+		// TODO Auto-generated method stub
+		return boardDAO.countSearch(scri);
+	}
+
 
 	
 	
