@@ -79,7 +79,7 @@ public class BoardController {
 	
 	// 게시글 조회
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public void getView(@RequestParam("bno") int bno, Model model) throws SQLException {
+	public void getView(@RequestParam("bno") int bno, Model model,HttpSession session) throws SQLException {
 		logger.info("get View");
 		BoardVO vo = boardService.view(bno);
 		
@@ -88,9 +88,9 @@ public class BoardController {
 		// 댓글 구현 부분
 		
 		List<BoardReplyVO> reply = null;
-			
-		reply = replyService.list(bno);
 		
+		reply = replyService.list(bno);			
+	
 		model.addAttribute("reply", reply);
 		
 	}

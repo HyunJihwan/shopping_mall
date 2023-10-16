@@ -11,11 +11,11 @@
    </li>
 </c:if>
 
+<!-- <li> -->
+<!-- 	<a href="/board/list">게시판</a> -->
+<!-- </li> -->
 <li>
-	<a href="/board/list">게시판</a>
-</li>
-<li>
-	<a href="/board/listSearch">글 목록 + 페이지 + 목록</a>
+	<a href="/board/listSearch">게시판</a>
 </li>
 
 

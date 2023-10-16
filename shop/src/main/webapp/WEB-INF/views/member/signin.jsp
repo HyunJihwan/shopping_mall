@@ -21,6 +21,74 @@
 			cursor: pointer;
 			transition: background-color 0.3s;
 	}
+	
+	/* Center the login form */
+#container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
+#container_box {
+  text-align: center;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  max-width: 400px;
+  width: 100%;
+  background-color: #fff;
+}
+
+/* Input Area Styles */
+.input_area {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.input_area label {
+  display: block;
+  font-weight: bold;
+}
+
+.input_area input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Button Styles */
+#signin_btn {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#signin_btn:hover {
+  background-color: #2980b9;
+}
+
+/* Error Message Styles */
+#error_message {
+  color: #f00;
+  margin-top: 10px;
+}
+
+/* Footer Styles */
+#footer_box {
+  text-align: center;
+  padding: 10px;
+  background-color: ;
+  color: #fff;
+}
+	
+	
 </style>
 <body>
 	<div id="root">

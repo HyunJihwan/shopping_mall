@@ -5,12 +5,11 @@
 <mapper namespace="kr.or.dw.mappers.replyMapper">
 
 <select id="list" resultType="kr.or.dw.domain.BoardReplyVO">
-	select r.*, m.USERNAME 
-	from tbl_board_reply r, TBL_BOARD b ,tbl_member m
-	where 1=1
-	AND r.BNO = b.BNO 
-	AND r.USERID = m.USERID
-	AND r.bno = #{bno}
+	select
+		rno, bno, tm.USERName, content, regDate
+	from TBL_BOARD_REPLY t,TBL_MEMBER tm  
+		where bno = #{bno}
+		AND t.USERID = tm.USERID
 </select>
 
 <insert id="reply">

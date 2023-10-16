@@ -11,93 +11,92 @@
 <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
 <script src="/resources/ckeditor/ckeditor.js"></script>
 <style>
-		body {
-			font-family: Arial, sans-serif;
-			background-color: #f4f4f4;
-		}
-		span{
-			font-weight: bold;
-		}
-		.container {
-			margin-top: 50px;
-		}
+/* Global Styles */
+/* Container Styles */
+#container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-		.form-container {
-			background-color: #ffffff;
-			padding: 20px;
-			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-			border-radius: 5px;
-		}
+#container_box {
+  text-align: center;
+  padding: 50px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  max-width: 400px;
+  width: 100%;
+  background-color: #fff;
+  padding: 20px;
+}
 
-		.form-group {
-			margin-bottom: 20px;
-		}
+/* Input Area Styles */
+.input_area {
+  margin-bottom: 15px;
+  text-align: left;
+}
 
-		label {
-			font-weight: bold;
-		}
+.input_area label {
+  display: block;
+  font-weight: bold;
+}
 
-		.input-group {
-			position: relative;
-		}
+.input_area input {
+  width: 70%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 
-		.input-group-addon {
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			padding: 6px 12px;
-			background-color: #eee;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-		}
+/* Button Styles */
+.chkbtn {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
 
-		.input-group input {
-			padding-left: 10px; /* 아이콘 공간 확보 */
-		}
+.chkbtn:hover {
+  background-color: #2980b9;
+}
 
-		.select-group {
-			display: flex;
-			align-items: center;
-		}
+/* Email Input Styles */
+.form-group.d-flex {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
 
-		.select-group select {
-			flex: 1;
-			margin-left: 10px;
-			border-radius: 3px;
-		}
+.input-group.inputText {
+  flex: 1;
+}
 
-		.button-group {
-			display: flex;
-			justify-content: space-between;
-		}
+/* Email Select Styles */
+#domainselect {
+  flex: 1;
+  margin-left: 10px;
+  border-radius: 3px;
+}
 
-		.chkbtn {
-			padding: 5px 10px;
-			background-color: #3498db;
-			color: #fff;
-			border: none;
-			border-radius: 4px;
-			cursor: pointer;
-			transition: background-color 0.3s;
-		}
+/* Success and Error Messages */
+.email-result {
+  font-weight: bold;
+  margin-top: 10px;
+}
 
-		.chkbtn:hover {
-			background-color: #2980b9;
-		}
+.success {
+  color: green;
+}
 
-		.email-result {
-			font-weight: bold;
-			margin-top: 10px;
-		}
+.error {
+  color: red;
+}
 
-		.success {
-			color: green;
-		}
-
-		.error {
-			color: red;
-		}
+		
 	</style>
 	<style>
     /* 기본 스타일 유지 */
@@ -165,32 +164,21 @@
    <input type="text" id="userName" name="userName" placeholder="닉네임을 입력해주세요" required="required" />      
   </div>
   
-<!--    <div class="input_area"> -->
-<!--    <label for="userPhon">연락처</label> -->
-<!--    <input type="text" id="userPhon" name="userphon" placeholder="연락처를 입력해주세요" required="required" />       -->
-<!--   </div> -->
-  
-  
-  <div class="input_area">
+   <div class="input_area">
    <label for="userPhon">연락처</label>
-   <div class="input-group-sm">
-   <input type="text" id="userPhon" name="userPhon" placeholder="연락처를 입력해주세요" required="required" style="width: 100px;" class="form-control float-left"/>
-         <label class="float-left" style="padding: 0; text-align: center;">&nbsp;-&nbsp;</label>
-         <input type="text" id="userPhon" name="userPhon" placeholder="연락처를 입력해주세요" required="required" style="width: 100px;" class="form-control float-left"/>
-          <label class="float-left" style="padding: 0; text-align: center;">&nbsp;-&nbsp;</label>
-         <input type="text" id="userPhon" name="userPhon" placeholder="연락처를 입력해주세요" required="required" style="width: 100px;" class="form-control float-left"/>
-  	</div>
-  	
+   <input type="text" id="userPhon" name="userPhon" placeholder="연락처를 입력해주세요" required="required" />      
   </div>
+  
+ 
   
   <!-- 이메일 -->
 	<div class="form-group d-flex">
 			<div class="input-group inputText">
-					<span class="fa"><i class="fa fa-envelope"></i></span><span style="width: 15px;">이메일</span>
-					<!-- 아 오타 진짜 짜증나.. id eamil 로해가지고 하.. -->
+					<span class="fa"><i class="fa fa-envelope"></i></span>이메일<span style="width: 15px;"></span>
+					
 					<input type="text" class="form-control" value="" placeholder="이메일" name="email" id="email" required="required"/> 
 				</div>
-					<div class="input-group" style="width: 50%;align-items: center;margin-right: 20px; margin-left: 10px;" >
+					<div class="input-group" style="width: 30%;align-items: center;margin-right: 20px; margin-left: 10px;" >
 						@
 						<select name="domainselect" id="domainselect" class="form-select form-select-sm" style="align-items: baseline;margin-left: 10px;border-radius: 3px;">
 							<option disabled="disabled" selected="selected">선택</option>
@@ -208,7 +196,7 @@
 	</div>
 	<div class="form-group d-flex">
 		<div class="input-group">
-			<span class="fa"><i class="fa fa-envelope"></i></span><span style="width: 15px;">인증번호 확인</span>
+			<span class="fa"><i class="fa fa-envelope"></i></span><span style="width: 70px;">인증번호 확인</span>
 			<input type="text" class="form-control mail-check-input" name="emailch" style="margin-right: 30px;" placeholder="인증번호" required="required">
 		</div>
 		<div>

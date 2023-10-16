@@ -214,21 +214,23 @@ td a:hover {
 			 
 				<li>
 				    <div>
-				        <p>${reply.userName} / <fmt:formatDate value="${reply.regDate}"
+				        <p>${reply.userName } / <fmt:formatDate value="${reply.regDate}"
 											pattern="yyyy-MM-dd" /></p>
 				        <p>${reply.content }</p>
 				    </div>
 				</li>		
 							<div>   
-							<c:if test="${member != null }">
-						
+							<c:if test="${member != null}">
+							
 							<button type="button" onclick="location.href='/board/replyUpdate?bno=${view.bno}&rno=${reply.rno}'">수정</button>
 							
 							<form role="form" action="/board/replyDelete" method="POST">
   							<input type="hidden" name="bno" value="${view.bno}" />
   							<input type="hidden" name="rno" value="${reply.rno}" />
   							<button type="submit" id="deleteBtn">삭제</button>
+  							
 							</form>
+							</c:if>
 							<script>
 							$("#deleteBtn").on("click",function(){
 								if(confirm("정말 삭제하시겠습니까?")){
@@ -236,7 +238,7 @@ td a:hover {
 								}
 							})
 							</script>
-   							</c:if>
+   							
 							</div>
 
 							<hr />
@@ -249,7 +251,7 @@ td a:hover {
 			 <c:if test="${member != null }">
     		<form method="post" action="/board/replyWrite">
 		        <p>
-		        	<input type="hidden" name="userId" value="${view.userId }"/>
+		        	<input type="hidden" name="userId" value="${member.userId }"/>
 		            <label>댓글 작성자</label> <input type="text" name="userName" value=${member.userName }>
 		        </p>
 		       

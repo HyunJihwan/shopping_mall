@@ -65,7 +65,7 @@
 		
 	</style>
 	<style>
-   section#content ul li { display:inline-block; margin:10px; }
+   section#content ul li { display:inline-block; margin:5px; }
    section#content div.goodsThumb img { width:200px; height:200px; }
    section#content div.goodsName { padding:10px 0; text-align:center; }
    section#content div.goodsName a { color:#000; }
@@ -164,7 +164,7 @@ td a:hover {
    });     
    </script>
 </div>
-					<table>
+					<table class="table table-hover">
 						<thead>
 							<tr>
 								<th>번호</th>
@@ -173,12 +173,13 @@ td a:hover {
 								<th>작성자</th>
 								<th>조회수</th>
 							</tr>
+							</thead>
 							<c:if test="${member != null}">
 							<tr>
 							<a href="/board/write">글 작성</a>
 							</tr>
 							</c:if>
-						</thead>
+						
 						
 						<tbody>
 							<c:forEach items="${searchList}" var="list">
@@ -196,14 +197,15 @@ td a:hover {
 
 					</table>
 					
-					<div>
-					   <ul>
+					<div class="col-md-offset-1">
+					   <ul class="pagination">
 					    <c:if test="${pageMaker.prev}">
 					     <li><a href="listSearch${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a></li>
 					    </c:if>   
 					    
 					    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-					     <li><a href="listSearch${pageMaker.makeSearch(idx)}">${idx}</a></li>
+					     <li <c:out value="${pageMaker.cri.page == idx ? 'class=active' : ''}"/>>
+					     <a href="listSearch${pageMaker.makeSearch(idx)}">${idx}</a></li>
 					    </c:forEach>
 					      
 					    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
