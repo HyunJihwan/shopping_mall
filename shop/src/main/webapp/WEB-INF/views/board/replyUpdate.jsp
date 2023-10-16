@@ -175,96 +175,24 @@ td a:hover {
 		<div id="container_box">
 			<section id="content">
 				
-			<label>제목</label>
-			${view.title}<br />
-			
-			<label readonly>작성자</label>
-			${view.userName}<br />
-			
-			<label>내용</label><br />
-			${view.content}<br />
-				<br>
-			
-			<c:if test="${member != null }">
-						<c:choose>
-							<c:when test="${view.userId eq member.userId}">
-								<div>
-									<button type="button" onclick="location.href='/board/modify?bno=${view.bno}'" >수정</button>
-<%-- 									<a href="/board/modify?bno=${view.bno}">게시물 수정</a> --%>
-<!-- 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  -->
-<%-- 									<a href="/board/delete?bno=${view.bno}">게시물 삭제</a> --%>
-									<button type="button" id="viewDel" onclick="location.href='/board/delete?bno=${view.bno}'" >삭제</button>
-									</div>
-							</c:when>
-							<c:otherwise>
-								<p>자신의 게시물이 아니면 삭제할수없습니다.</p>
-							</c:otherwise>
-						</c:choose>
-					</c:if>
-			
-			
-			
-			
-			
-			<!-- 댓글구현 부 -->
-			<hr />
-
-			<ul>
-			  <c:forEach items="${reply}" var="reply">
-			 
-				<li>
-				    <div>
-				        <p>${reply.userName} / <fmt:formatDate value="${reply.regDate}"
-											pattern="yyyy-MM-dd" /></p>
-				        <p>${reply.content }</p>
-				    </div>
-				</li>		
-							<div>   
-							<c:if test="${member != null }">
-						
-							<button type="button" onclick="location.href='/board/replyUpdate?bno=${view.bno}&rno=${reply.rno}'">수정</button>
-							
-							<form role="form" action="/board/replyDelete" method="POST">
-  							<input type="hidden" name="bno" value="${view.bno}" />
-  							<input type="hidden" name="rno" value="${reply.rno}" />
-  							<button type="submit" id="deleteBtn">삭제</button>
-							</form>
-							<script>
-							$("#deleteBtn").on("click",function(){
-								if(confirm("정말 삭제하시겠습니까?")){
-									alert("삭제 성공");
-								}
-							})
-							</script>
-   							</c:if>
-							</div>
-
-							<hr />
-						
-						</c:forEach>
-			  
-			</ul>
-			
-			<div>
-			 <c:if test="${member != null }">
-    		<form method="post" action="/board/replyWrite">
-		        <p>
-		        	<input type="hidden" name="userId" value="${view.userId }"/>
-		            <label>댓글 작성자</label> <input type="text" name="userName" value=${member.userName }>
-		        </p>
-		       
-		        <p>
-		            <textarea rows="5" cols="50" name="content"></textarea>
-		        </p>
-		        
-		        <p>
-		        	<input type="hidden" name="bno" value="${view.bno}">
-		            <button type="submit">댓글 작성</button>
-		        </p>
-		    </form>
-    		</c:if>
-			</div>
-			
+				
+				
+				
+				
+				<form method="post" action="/board/replyUpdate">
+    
+				    <p>
+				        <label>댓글 작성자</label> <input type="text" name="userName" readonly="readonly" value="${member.userName }">
+				    </p>
+				    <p>
+				        <textarea rows="5" cols="50" name="content">${reply.content }</textarea>
+				    </p>
+				    <p>
+				        <input type="hidden" name="bno" value="${reply.bno }">
+				        <input type="hidden" name="rno" value="${reply.rno }">	        
+				        <button type="submit">댓글 수정</button>
+				    </p>
+				</form>
 											
 				</section>
 

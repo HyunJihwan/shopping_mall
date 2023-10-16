@@ -18,5 +18,25 @@
 	values(tbl_board_reply_seq.nextval, #{bno}, #{userId}, #{content}, sysdate)
 </insert>
 
+<update id="replyUpdate">
+	update tbl_board_reply
+	set content = #{content}
+	where rno = #{rno}
+	AND bno = #{bno}
+</update>
+
+<delete id="replyDelete">
+	DELETE FROM tbl_board_reply
+	where rno = #{rno}
+	and bno = #{bno}
+	
+</delete>
+
+<select id="replySelect" resultType="kr.or.dw.domain.BoardReplyVO">
+SELECT rno, bno, userId, content, regDate
+from tbl_board_reply
+where bno = #{bno}
+AND rno = #{rno}
+</select>
 
 </mapper>

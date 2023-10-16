@@ -12,6 +12,17 @@ public interface ReplyService {
 	
 	// 댓글 추가
 	void wrtie(BoardReplyVO reply) throws SQLException;
+
+	void replyUpdate(BoardReplyVO vo) throws SQLException;
+	
+	// 댓글 삭제
+	void replyDelete(BoardReplyVO vo) throws SQLException;
+	
+	BoardReplyVO replySelect(BoardReplyVO vo) throws SQLException;
+
+
+	
+	
 	
 	
 	

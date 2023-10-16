@@ -27,6 +27,32 @@ public class ReplyServiceImpl implements ReplyService {
 		
 	}
 
+	@Override
+	public void replyUpdate(BoardReplyVO vo) throws SQLException {
+		replyDAO.replyUdpate(vo);
+		
+	}
+
+	@Override
+	public void replyDelete(BoardReplyVO vo) throws SQLException {
+		replyDAO.replyDelete(vo);
+		
+	}
+	
+
+	@Override
+	public BoardReplyVO replySelect(BoardReplyVO vo) throws SQLException {
+		
+		return replyDAO.replySelect(vo);
+	}
+
+
+	
+
+	
+	
+
+
 		
 	
 }
