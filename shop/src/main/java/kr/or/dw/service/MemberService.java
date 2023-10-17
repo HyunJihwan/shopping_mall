@@ -20,4 +20,8 @@ public interface MemberService {
 
 	public int getMail(Map<String, String> map) throws SQLException;
 
+	public void modify(MemberVO vo) throws SQLException;
+
+	public void delete(String userId) throws SQLException;
+
 }

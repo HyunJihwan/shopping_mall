@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.sql.SQLClientInfoException;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -23,11 +24,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.or.dw.domain.CartListVO;
 import kr.or.dw.domain.MemberVO;
 import kr.or.dw.service.MemberService;
 
@@ -135,6 +139,50 @@ public class MemberController {
 		int num = memberService.getMail(map);
 		
 		return Integer.toString(num);
+	}
+	
+	// 회원 정보 수정창
+	@GetMapping(value= "/modify")
+	public void getModify() {
+		logger.info("get modify");
+	
+	}
+	
+	// 회원정보 수정 포슽
+	@RequestMapping(value = "/modify", method = RequestMethod.POST)
+	public String postModify(MemberVO vo, HttpSession session) throws SQLException {
+	    logger.info("post modify");
+
+	    // Encode the new password
+	    String encodedPassword = passEncoder.encode(vo.getUserPass());
+	    vo.setUserPass(encodedPassword);
+
+	    // Call the modify method
+	    memberService.modify(vo);
+
+	    // Invalidate the session
+	    session.invalidate();
+
+	    // Check if the password is not null and matches
+	    if (vo.getUserPass() != null && passEncoder.matches(vo.getUserPass(), encodedPassword)) {
+	        session.setAttribute("member", vo);
+	    }
+
+	    return "redirect:/";
+	}
+	
+	@GetMapping(value="/delete")
+	public void getDelete(String userId) {
+		
+	}
+	
+	@RequestMapping(value="/delete", method = RequestMethod.POST)
+	public String postDelete(String userId) throws SQLException {
+		logger.info("post member delete");
+		
+		memberService.delete(userId);
+		
+		return "redirect:/";
 	}
 	
 }

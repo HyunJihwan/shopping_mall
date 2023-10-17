@@ -90,4 +90,16 @@ public class MemberServiceImpl implements MemberService {
 		return num;
 	}
 
+	@Override
+	public void modify(MemberVO vo) throws SQLException {
+		memberDAO.modfiy(vo);
+		
+	}
+
+	@Override
+	public void delete(String userId) throws SQLException {
+		memberDAO.delete(userId);
+		
+	}
+
 }

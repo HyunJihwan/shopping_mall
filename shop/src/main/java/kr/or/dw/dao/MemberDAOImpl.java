@@ -38,6 +38,18 @@ public class MemberDAOImpl implements MemberDAO {
 		return sql.selectOne(namespace + ".getMail", map);
 	}
 
+	@Override
+	public void modfiy(MemberVO vo) throws SQLException {
+		sql.update(namespace + ".modify", vo);
+		
+	}
+
+	@Override
+	public void delete(String userId) throws SQLException {
+		sql.delete(namespace + ".delete",userId);
+		
+	}
+
 	
 	
 	

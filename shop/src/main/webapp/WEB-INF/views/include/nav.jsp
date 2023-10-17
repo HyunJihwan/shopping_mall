@@ -26,7 +26,6 @@
    <a href="/admin/index">관리자 화면</a>   
 </li>   
 </c:if>
-	
    <li>
     ${member.userName}님 환영합니다.
    </li>
@@ -35,6 +34,9 @@
    </li>
    <li>
    	<a href="/shop/orderList">주문 리스트</a>
+   </li>
+   <li>
+    <a href="/member/modify">회원정보 수정</a>
    </li>
    <li>
     <a href="/member/signout">로그아웃</a>

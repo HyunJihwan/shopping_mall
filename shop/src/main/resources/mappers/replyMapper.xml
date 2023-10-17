@@ -10,6 +10,7 @@
 	from TBL_BOARD_REPLY t,TBL_MEMBER tm  
 		where bno = #{bno}
 		AND t.USERID = tm.USERID
+		order by rno desc
 </select>
 
 <insert id="reply">

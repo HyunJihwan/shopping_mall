@@ -31,5 +31,15 @@
 		AND "email" = #{email, jdbcType=VARCHAR}
 	</select>
 
+<update id="modify">
+	UPDATE tbl_member
+	set userPass = #{userPass}
+	where userName = #{userName}
+</update>
+
+<delete id="delete">
+DELETE FROM tbl_member
+where userId = #{userId}
+</delete>
 	
 </mapper>

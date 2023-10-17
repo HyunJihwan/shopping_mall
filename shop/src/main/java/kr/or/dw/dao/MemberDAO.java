@@ -16,5 +16,9 @@ public interface MemberDAO  {
 
 	int getMail(Map<String, String> map) throws SQLException;
 
+	void modfiy(MemberVO vo) throws SQLException;
+
+	void delete(String userId) throws SQLException;
+
 
 }
