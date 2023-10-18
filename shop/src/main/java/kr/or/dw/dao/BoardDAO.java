@@ -34,6 +34,10 @@ public interface BoardDAO {
 	// 갯수
 	int countSearch(SearchCriteria scri) throws SQLException;
 
+	void viewCnt(int bno) throws SQLException;
+	
+	
+
 	
 
 }

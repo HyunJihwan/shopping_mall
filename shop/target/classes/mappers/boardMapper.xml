@@ -91,6 +91,13 @@ AND 1=1
 	]]>
 </select>
 
+<update id="viewCnt">
+update tbl_board 
+set viewCnt = viewCnt + 1
+where bno = #{bno}
+
+</update>
+
 </mapper>
 
 

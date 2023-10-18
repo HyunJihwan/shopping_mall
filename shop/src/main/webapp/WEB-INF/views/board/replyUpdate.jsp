@@ -183,6 +183,7 @@ td a:hover {
     
 				    <p>
 				        <label>댓글 작성자</label> <input type="text" name="userName" readonly="readonly" value="${member.userName }">
+				        <input type="hidden" name="userId" value="${reply.userId }">
 				    </p>
 				    <p>
 				        <textarea rows="5" cols="50" name="content">${reply.content }</textarea>

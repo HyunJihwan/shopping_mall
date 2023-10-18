@@ -105,7 +105,23 @@ public class MemberController {
 	   
 	   return "redirect:/";
 	}
-	    
+	
+	@RequestMapping("/idCheck")
+	public ResponseEntity<String> idCheck(String userId, HttpServletRequest req){
+		
+		ResponseEntity<String> entity = null;
+		
+		try {
+			MemberVO member = memberService.selectMemberIdCheck(userId);
+			entity = new ResponseEntity<String>(member == null ? userId : "", HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
+	
 	// 로그아웃
 	@RequestMapping(value = "/signout", method = RequestMethod.GET)
 	public String signout(HttpSession session) throws Exception {

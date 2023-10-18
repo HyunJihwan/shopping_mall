@@ -102,4 +102,10 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
+	@Override
+	public MemberVO selectMemberIdCheck(String userId) throws SQLException {
+		
+		return memberDAO.selectMemberIdCheck(userId);
+	}
+
 }

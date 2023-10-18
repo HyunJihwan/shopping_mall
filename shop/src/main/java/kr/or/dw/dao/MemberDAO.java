@@ -20,5 +20,7 @@ public interface MemberDAO  {
 
 	void delete(String userId) throws SQLException;
 
+	MemberVO selectMemberIdCheck(String userId) throws SQLException;
+
 
 }

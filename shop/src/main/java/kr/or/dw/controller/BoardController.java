@@ -48,6 +48,7 @@ public class BoardController {
 		List<BoardVO> list = null;
 		list = boardService.list(cri);
 		
+		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(boardService.listCount());
@@ -77,14 +78,15 @@ public class BoardController {
 		 return "redirect:/board/list";
 	}
 	
-	// 게시글 조회
+	// 게시글 조회 + 조회수
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
 	public void getView(@RequestParam("bno") int bno, Model model,HttpSession session) throws SQLException {
 		logger.info("get View");
 		BoardVO vo = boardService.view(bno);
 		
+		boardService.viewCnt(bno);
 		model.addAttribute("view" ,vo);
-			
+		
 		// 댓글 구현 부분
 		
 		List<BoardReplyVO> reply = null;
@@ -148,7 +150,8 @@ public class BoardController {
 		model.addAttribute("pageMaker", pageMaker);
 		
 	}
-
+	
+	
 		
 		
 	

@@ -4,7 +4,7 @@
 <ul>
 <c:if test="${member != null}">
 	<li>
-		<a href="/board/list">게시판</a>
+		<a href="/board/listSearch">게시판</a>
 	</li>
 	<li>
 		<a href="/">일반 화면</a>

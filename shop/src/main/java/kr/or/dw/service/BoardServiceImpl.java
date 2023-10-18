@@ -73,6 +73,14 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.countSearch(scri);
 	}
 
+	@Override
+	public void viewCnt(int bno) throws SQLException {
+		boardDAO.viewCnt(bno);
+		
+	}
+
+	
+
 
 	
 	

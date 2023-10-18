@@ -185,6 +185,10 @@ td a:hover {
 			${view.content}<br />
 				<br>
 			
+			<label>조회수</label><br />
+			${view.viewCnt}<br />
+				<br>
+			
 			<c:if test="${member != null }">
 						<c:choose>
 							<c:when test="${view.userId eq member.userId}">
@@ -210,34 +214,29 @@ td a:hover {
 			<hr />
 
 			<ul>
-			  <c:forEach items="${reply}" var="reply">
+			  <c:forEach items="${reply}" var="comment">
 			 
 				<li>
 				    <div>
-				        <p>${reply.userName } / <fmt:formatDate value="${reply.regDate}"
+				        <p>${comment.userName } / <fmt:formatDate value="${comment.regDate}"
 											pattern="yyyy-MM-dd" /></p>
-				        <p>${reply.content }</p>
+				        <p>${comment.content }</p>
+				        <input type="hidden" name="userId" value="${comment.userId }">
 				    </div>
 				</li>		
 							<div>   
-							<c:if test="${member != null}">
+							<c:if test="${!empty member}">
 							
-							<button type="button" onclick="location.href='/board/replyUpdate?bno=${view.bno}&rno=${reply.rno}'">수정</button>
+							<button type="button" onclick="location.href='/board/replyUpdate?bno=${view.bno}&rno=${comment.rno}'">수정</button>
 							
 							<form role="form" action="/board/replyDelete" method="POST">
   							<input type="hidden" name="bno" value="${view.bno}" />
-  							<input type="hidden" name="rno" value="${reply.rno}" />
-  							<button type="submit" id="deleteBtn">삭제</button>
+  							<input type="hidden" name="rno" value="${comment.rno}" />
   							
+  							<button type="submit" id="deleteBtn">삭제</button>
 							</form>
 							</c:if>
-							<script>
-							$("#deleteBtn").on("click",function(){
-								if(confirm("정말 삭제하시겠습니까?")){
-									alert("삭제 성공");
-								}
-							})
-							</script>
+							
    							
 							</div>
 
@@ -245,14 +244,25 @@ td a:hover {
 						
 						</c:forEach>
 			  
+			 				
 			</ul>
-			
+			<script>
+			$("#deleteBtn").click(function() {
+			    if (confirm("정말 삭제하시겠습니까?")) {
+			       
+			        alert("삭제 성공");
+			        
+			    }else{
+					alert("삭제를 취소합니다");
+				  }
+			});
+							</script>
 			<div>
 			 <c:if test="${member != null }">
     		<form method="post" action="/board/replyWrite">
 		        <p>
-		        	<input type="hidden" name="userId" value="${member.userId }"/>
-		            <label>댓글 작성자</label> <input type="text" name="userName" value=${member.userName }>
+		        	<input type="hidden" name="userId" value="${member.userId }" readonly/>
+		            <label>댓글 작성자</label> <input type="text" name="userName" value=${member.userName } readonly/>
 		        </p>
 		       
 		        <p>

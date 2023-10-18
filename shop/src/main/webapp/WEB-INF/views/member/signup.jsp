@@ -148,11 +148,50 @@
 	<section id="container">
 		<div id="container_box">
 			<section id="content">
- <form role="form" method="post" autocomplete="off">
-  <div class="input_area">
-   <label for="userId">아이디</label>
-   <input type="email" id="userId" name="userId" placeholder="example@email.com" required="required" />      
-  </div>
+			 <form role="form" method="post" autocomplete="off">
+			  <div class="input_area">
+			   <label for="userId">아이디</label>
+			   <input type="email" id="userId" name="userId" placeholder="example@email.com" required="required" />
+			   <span class="input-group-append-lg">
+			        <button type="button" class="btn btn-primary btn-lg btn-append" onclick="idCheck_go();">중복확인</button>
+			    </span>      
+		</div>
+
+<script>
+    let checkedID = ""; // Corrected variable name
+
+    function idCheck_go() {
+        let input_ID = $('#userId');
+
+        if (input_ID.val() === "") { // Corrected the equality check
+            alert("아이디를 확인해주세요.");
+            input_ID.focus();
+            return;
+        }
+
+        let data = { userId: input_ID.val() };
+
+        $.ajax({
+            url: "/member/idCheck",
+            data: data,
+            type: 'post',
+            success: function (result) {
+                if (result) {
+                    alert("사용 가능한 아이디입니다.");
+                    checkedID = result;
+                    $('input[name="userId"]').val(checkedID);
+                } else {
+                    alert("중복된 아이디 입니다.");
+                    input_ID.focus();
+                }
+            },
+            error: function (error) {
+                console.error(error); // Handle the error, e.g., by logging it
+            }
+        });
+    }
+</script>
+  
   
   <div class="input_area">
    <label for="userPass">패스워드</label>

@@ -24,4 +24,6 @@ public interface MemberService {
 
 	public void delete(String userId) throws SQLException;
 
+	public MemberVO selectMemberIdCheck(String userId) throws SQLException;
+
 }

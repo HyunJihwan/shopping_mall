@@ -23,6 +23,7 @@
 <label>내용</label>
 <textarea cols="50" rows="5" name="content"></textarea><br />
 
+
 <button type="submit">작성</button>
 
 </form>

@@ -33,6 +33,9 @@ public interface BoardService {
 	
 	int countSearch(SearchCriteria scri) throws SQLException;
 
+	void viewCnt(int bno) throws SQLException;
+
+
 	
 
 

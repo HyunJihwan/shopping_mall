@@ -23,6 +23,11 @@
 	 where userId = #{userId}
 	</select>
 	
+	<select id="selectMemberIdCheck" resultType="kr.or.dw.domain.MemberVO">
+		select userId
+		from tbl_member
+		where userId = #{userId}
+	</select>
 
 <select id="getMail" resultType="kr.or.dw.domain.MemberVO">
 		SELECT COUNT(*)

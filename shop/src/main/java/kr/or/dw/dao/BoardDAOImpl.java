@@ -79,6 +79,14 @@ public class BoardDAOImpl implements BoardDAO {
 		return sql.selectOne(namespace + ".countSearch", scri);
 	}
 
+	@Override
+	public void viewCnt(int bno) throws SQLException {
+		sql.update(namespace + ".viewCnt", bno);
+		
+	}
+
+
+
 	
 	
 }

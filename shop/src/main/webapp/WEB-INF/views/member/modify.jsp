@@ -43,7 +43,7 @@
 							<input type="password" id="userPass" name="userPass"/>
 						</p>
 						<p>
-							<button type="submit">회원정보 수정</button>
+							<button type="submit" id="modify">회원정보 수정</button>
 							
 						</p>
 						
@@ -51,6 +51,18 @@
 							<a href="/">처음으로</a>
 						</p>
 					</form>
+					<script>
+					 $("#modify").click(function (event) {
+					        if (confirm("정말로 바꾸시겠습니까?")) {
+					            if ($("#userPass").val() === "") {
+					                alert("비밀번호를 확인해주세요");
+					                event.preventDefault(); // Prevent the form from submitting
+					            }else{
+									alert("성공적으로 변경되었습니다!");
+						           }
+					        }
+					    });
+					</script>
 					
 					<a href="/member/delete?userId=${member.userId}">회원 탈퇴로 가기</a>		 
 				
