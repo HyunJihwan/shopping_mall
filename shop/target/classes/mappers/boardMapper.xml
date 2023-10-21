@@ -95,8 +95,32 @@ AND 1=1
 update tbl_board 
 set viewCnt = viewCnt + 1
 where bno = #{bno}
-
 </update>
+
+<!-- <select id="selectLike" resultType="kr.or.dw.domain.LikeVO"> -->
+<!-- 	select count(*) -->
+<!-- 	from tbl_board_like -->
+<!-- 	where bno = #{bno} -->
+<!-- 	AND userId = #{userId} -->
+<!-- </select> -->
+
+<select id="likeChk" resultType="int">
+SELECT count(*)
+from tbl_board_like
+where bno = #{bno}
+AND userId = #{userId}
+</select>
+
+<insert id="likeUp">
+INSERT INTO TBL_BOARD_LIKE (like_no, bno, userId, heart)
+VALUES (tbl_board_like_seq.nextval, #{bno}, #{userId}, 1)
+</insert>
+
+<delete id="likeDown">
+	delete from tbl_board_like
+	where userId = #{userId}
+	AND bno = #{bno}
+</delete>
 
 </mapper>
 

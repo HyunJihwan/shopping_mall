@@ -155,6 +155,17 @@ td a:hover {
    div.modalContent button { font-size:20px; padding:5px 10px; margin:10px 0; background:#fff; border:1px solid #ccc; }
    div.modalContent button.modal_cancel { margin-left:20px; }
 </style>
+<style>
+        .like-button {
+            display: inline-block;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .liked {
+            color: red;
+        }
+    </style>
 
 <body>
 <div id="root">
@@ -188,6 +199,78 @@ td a:hover {
 			<label>조회수</label><br />
 			${view.viewCnt}<br />
 				<br>
+			
+			<input type="hidden" id="likeBno" name="bno" value="${view.bno}">
+			<input type="hidden" id="likeId" name="userId" value="${view.userId}">
+			
+			
+			<div id="mylike">
+				<div id="mylikeBtn">
+					<img id="mylikeImg" src="../resources/img/heart.jpg" style="width: 50px; height: 50px;">
+				</div>
+			</div>
+			
+			
+			<script>
+			$(document).ready(function(){
+			    var bno = $("#likeBno").val();
+			    var userId = $("#likeId").val();
+			    var likeValue;
+
+			    likeChk(bno,userId);
+
+			    $("#mylikeBtn").on("click", function(){
+			        alert("하트 누름");
+			        likeBtn({bno:bno,userId:userId});
+			        likeChk(bno, userId);
+			    });
+
+			    function likeChk(bno, userId){
+			        $.getJSON("/board/likeChk/" + bno + "/" + userId + ".json", function(data){
+			            likeValue = data;
+			            console.log(likeValue);
+
+			            if(likeValue === 0){
+			                $("#mylikeImg").attr("src", "../resources/img/heart.jpg");
+			            } else {
+			                $("#mylikeImg").attr("src", "../resources/img/heart.jpg");
+			            }
+			        });
+			    } // likeChk 닫음
+
+			    function likeBtn(like) {
+			        if(likeValue === 0){
+			            $.ajax({
+			                type:"post",
+			                url:"/board/likeUp",
+			                data: JSON.stringify(like),
+			                contentType: "application/json; charset=utf-8",
+			                success: function(result){
+			                    if(result === "success"){
+			                        alert("좋아요 _ 꽉하트");
+			                    }
+			                },error: function(){
+									alert("실패했습니다 ㅅㅂ");
+				               }
+			            });
+			        } else {
+			            $.ajax({
+			                type:"post",
+			                url:"/board/likeDown", // Fixed missing ':' in this line
+			                data: JSON.stringify(like),
+			                contentType: "application/json; charset=utf-8",
+			                success: function(result){
+			                    if(result == "success"){
+			                        alert("좋아요 _ 하트비움");
+			                    }
+			                }
+			            });
+			        }
+			    }
+			});
+					
+    </script>
+			
 			
 			<c:if test="${member != null }">
 						<c:choose>

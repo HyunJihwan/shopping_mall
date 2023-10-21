@@ -6,6 +6,7 @@ import java.util.List;
 import kr.or.dw.command.Criteria;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.domain.BoardVO;
+import kr.or.dw.domain.LikeVO;
 
 public interface BoardDAO {
 	
@@ -35,6 +36,16 @@ public interface BoardDAO {
 	int countSearch(SearchCriteria scri) throws SQLException;
 
 	void viewCnt(int bno) throws SQLException;
+
+//	void selectLike(LikeVO like) throws SQLException;
+	
+	//
+	int likeChk(int bno, String userId) throws SQLException;
+
+	int likeUp(LikeVO like) throws SQLException;
+
+	int likeDown(LikeVO like) throws SQLException;
+
 	
 	
 

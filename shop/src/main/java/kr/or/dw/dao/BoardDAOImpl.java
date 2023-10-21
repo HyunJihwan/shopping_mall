@@ -3,6 +3,7 @@ package kr.or.dw.dao;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -14,6 +15,7 @@ import com.sun.mail.imap.protocol.Namespaces.Namespace;
 import kr.or.dw.command.Criteria;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.domain.BoardVO;
+import kr.or.dw.domain.LikeVO;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
@@ -84,6 +86,36 @@ public class BoardDAOImpl implements BoardDAO {
 		sql.update(namespace + ".viewCnt", bno);
 		
 	}
+
+//	@Override
+//	public void selectLike(LikeVO like) throws SQLException {
+//		sql.selectOne(namespace + ".selectLike", like);
+//		
+//	}
+
+	@Override
+	public int likeChk(int bno, String userId) throws SQLException {
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("bno", bno);
+		dataMap.put("userId", userId);
+		
+		return sql.selectOne(namespace + ".likeChk" ,dataMap);
+
+	}
+
+	@Override
+	public int likeUp(LikeVO like) throws SQLException {
+		// TODO Auto-generated method stub
+		return sql.insert(namespace + ".likeUp" ,like);
+	}
+
+	@Override
+	public int likeDown(LikeVO like) throws SQLException {
+		// TODO Auto-generated method stub
+		return sql.delete(namespace + ".likeDown", like);
+	}
+
+	
 
 
 

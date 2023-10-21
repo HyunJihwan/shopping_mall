@@ -1,5 +1,6 @@
 package kr.or.dw.controller;
 
+import java.io.Reader;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -9,14 +10,18 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.Criteria;
@@ -24,6 +29,7 @@ import kr.or.dw.command.PageMaker;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.domain.BoardReplyVO;
 import kr.or.dw.domain.BoardVO;
+import kr.or.dw.domain.LikeVO;
 import kr.or.dw.domain.MemberVO;
 import kr.or.dw.service.BoardService;
 import kr.or.dw.service.ReplyService;
@@ -88,14 +94,34 @@ public class BoardController {
 		model.addAttribute("view" ,vo);
 		
 		// 댓글 구현 부분
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		System.out.println("Member object from session: " + member);
+		
+//		LikeVO like = new LikeVO();
+//		like.setBno(vo.getBno());
+//		like.setUserId(member.getUserId());
+//		
+//		System.out.println("확인용 1 : " + like.getBno());
+//		System.out.println("확인용 2 : " + like.getUserId());
+//		
+//		
+//		
+//		if(member != null) {
+//			boardService.selectLike(like);
+//			System.out.println("들어온 like :  " + like);
+//		}
+		
 		
 		List<BoardReplyVO> reply = null;
 		
 		reply = replyService.list(bno);			
-	
 		model.addAttribute("reply", reply);
 		
+		
+		
 	}
+	
+	
 	
 	@GetMapping
 	(value ="/modify")
@@ -151,8 +177,35 @@ public class BoardController {
 		
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = ("/likeChk/{bno}/{userId}"), method = RequestMethod.GET)
+	public ResponseEntity<Integer> likeChk(@PathVariable int bno,@PathVariable String userId) throws SQLException{
+		System.out.println("들어옴?");
+		return new ResponseEntity<>(boardService.likeChk(bno,userId),HttpStatus.OK);
+	}
 	
+	// 좋아요 등록
+	@ResponseBody
+	@RequestMapping(value ="/likeUp", method = RequestMethod.POST)
+	public ResponseEntity<String> likeUp(LikeVO like) throws SQLException{
+		int result = boardService.likeUp(like);
 		
+		System.out.println(result);
+		return result == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	// 좋아요 취소
+	@ResponseBody
+	@RequestMapping(value = "/likeDown", method = RequestMethod.POST)
+	public ResponseEntity<String> likeDown (LikeVO like) throws SQLException{
+		int result = boardService.likeDown(like);
+		
+		return result==1 ? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		
+	}
+	
 		
 	
 		

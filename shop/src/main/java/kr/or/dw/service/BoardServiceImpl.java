@@ -12,6 +12,7 @@ import kr.or.dw.command.Criteria;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.dao.BoardDAO;
 import kr.or.dw.domain.BoardVO;
+import kr.or.dw.domain.LikeVO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -79,6 +80,33 @@ public class BoardServiceImpl implements BoardService {
 		
 	}
 
+//	@Override
+//	public void selectLike(LikeVO like) throws SQLException {
+//		boardDAO.selectLike(like);
+//		
+//	}
+
+	@Override
+	public int likeChk(int bno, String userId) throws SQLException {
+		
+		return boardDAO.likeChk(bno,userId);
+	}
+
+	@Override
+	public int likeUp(LikeVO like) throws SQLException {
+		
+		return boardDAO.likeUp(like);
+	}
+	
+	@Override
+	public int likeDown(LikeVO like) throws SQLException {
+		// TODO Auto-generated method stub
+		return boardDAO.likeDown(like);
+	}
+
+	
+
+	
 	
 
 
