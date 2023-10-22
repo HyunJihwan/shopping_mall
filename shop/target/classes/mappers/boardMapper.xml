@@ -61,14 +61,25 @@ AND 1=1
  ]]>
 </select>
 
+<!-- <select id="listSearch" resultType="kr.or.dw.domain.BoardVO" parameterType="kr.or.dw.command.SearchCriteria"> -->
+<!-- 	SELECT bno, title, content, userId, regDate, viewCnt, USERNAME -->
+<!-- FROM ( -->
+<!--     SELECT b.bno, b.title, b.content, b.userId, b.regDate, b.viewCnt, t.USERNAME, row_number() over(order by bno desc) as rNum -->
+<!--     FROM TBL_BOARD b -->
+<!--     JOIN TBL_MEMBER t ON b.USERID = t.USERID   -->
+<!--     <include refid="search"/> -->
+<!-- )  -->
+<!-- WHERE rnum BETWEEN #{rowStart} AND #{rowEnd} -->
+<!-- AND 1=1 -->
+<!-- </select> -->
+
 <select id="listSearch" resultType="kr.or.dw.domain.BoardVO" parameterType="kr.or.dw.command.SearchCriteria">
-	SELECT bno, title, content, userId, regDate, viewCnt, USERNAME
+SELECT s.*,(SELECT count(*) FROM TBL_BOARD_LIKE tbl2 WHERE bno = s.BNO) AS CNT 
 FROM (
-    SELECT b.bno, b.title, b.content, b.userId, b.regDate, b.viewCnt, t.USERNAME, row_number() over(order by bno desc) as rNum
+    SELECT b.bno, b.title, b.content, b.userId, b.regDate, b.viewCnt, t.USERNAME, row_number() over(order by b.bno desc) as rNum
     FROM TBL_BOARD b
     JOIN TBL_MEMBER t ON b.USERID = t.USERID  
-    <include refid="search"/>
-) 
+) s
 WHERE rnum BETWEEN #{rowStart} AND #{rowEnd}
 AND 1=1
 </select>
@@ -113,7 +124,7 @@ AND userId = #{userId}
 
 <insert id="likeUp">
 INSERT INTO TBL_BOARD_LIKE (like_no, bno, userId, heart)
-VALUES (tbl_board_like_seq.nextval, #{bno}, #{userId}, 1)
+VALUES ((SELECT COALESCE(MAX(LIKE_NO), 0) + 1 FROM TBL_BOARD_LIKE), #{bno}, #{userId}, 1)
 </insert>
 
 <delete id="likeDown">

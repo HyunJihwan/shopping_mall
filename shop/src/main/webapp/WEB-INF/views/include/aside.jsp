@@ -3,12 +3,41 @@
 
 <h3>카테고리</h3>
 
-<style>
-.low {
-    z-index: 1;
-}
 
+<style>
+  /* 초기에 하위 항목 숨기기 */
+  .low {
+    display: none;
+    z-index: 1;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  ul li {
+    margin: 0;
+    padding: 0;
+  }
+
+  ul li a {
+    text-decoration: none;
+    color: #333;
+  }
+
+  /* 부모 항목에 마우스를 올리면 하위 항목 표시 */
+  ul li:hover .low {
+    display: block;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+  }
+
+  /* 스타일을 원하는대로 조정하세요. */
 </style>
+
+
 <script>
     const lowItems = document.querySelectorAll('.low li a');
     lowItems.forEach(item => {

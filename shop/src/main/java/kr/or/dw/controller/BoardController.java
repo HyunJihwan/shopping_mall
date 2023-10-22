@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -81,7 +82,7 @@ public class BoardController {
 		logger.info("post write");
 		boardService.write(vo);
 		 
-		 return "redirect:/board/list";
+		 return "redirect:/board/listSearch";
 	}
 	
 	// 게시글 조회 + 조회수
@@ -177,31 +178,36 @@ public class BoardController {
 		
 	}
 	
-	@ResponseBody
+	
+	// 좋아요 체크 여부
 	@RequestMapping(value = ("/likeChk/{bno}/{userId}"), method = RequestMethod.GET)
-	public ResponseEntity<Integer> likeChk(@PathVariable int bno,@PathVariable String userId) throws SQLException{
+	public ResponseEntity<Integer> likeChk(@PathVariable int bno, @PathVariable String userId) throws SQLException{
 		System.out.println("들어옴?");
-		return new ResponseEntity<>(boardService.likeChk(bno,userId),HttpStatus.OK);
+		
+		return new ResponseEntity<>(boardService.likeChk(bno, userId), HttpStatus.OK);
 	}
 	
+	
 	// 좋아요 등록
-	@ResponseBody
 	@RequestMapping(value ="/likeUp", method = RequestMethod.POST)
-	public ResponseEntity<String> likeUp(LikeVO like) throws SQLException{
+	public ResponseEntity<String> likeUp(@RequestBody LikeVO like, HttpSession session) throws SQLException{
+		
+		
 		int result = boardService.likeUp(like);
 		
-		System.out.println(result);
+		System.out.println(result + "하트 등록 ~");
+		
+		
 		return result == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	// 좋아요 취소
-	@ResponseBody
 	@RequestMapping(value = "/likeDown", method = RequestMethod.POST)
-	public ResponseEntity<String> likeDown (LikeVO like) throws SQLException{
+	public ResponseEntity<String> likeDown (@RequestBody LikeVO like) throws SQLException{
 		int result = boardService.likeDown(like);
-		
-		return result==1 ? new ResponseEntity<>("success", HttpStatus.OK)
+		System.out.println( result + "하트삭제 ~");
+		return result == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		
 	}

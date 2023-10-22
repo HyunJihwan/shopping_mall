@@ -172,6 +172,7 @@ td a:hover {
 								<th>작성일</th>
 								<th>작성자</th>
 								<th>조회수</th>
+								<th>좋아요 수</th>
 							</tr>
 							</thead>
 							<c:if test="${member != null}">
@@ -191,6 +192,7 @@ td a:hover {
 											pattern="yyyy-MM-dd" /></td>
 									<td>${list.userName}</td>
 									<td>${list.viewCnt}</td>
+									<td>${list.cnt }</td>
 								</tr>
 							</c:forEach>
 						</tbody>

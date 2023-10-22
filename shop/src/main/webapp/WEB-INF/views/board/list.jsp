@@ -164,6 +164,7 @@ td a:hover {
 											pattern="yyyy-MM-dd" /></td>
 									<td>${list.userName}</td>
 									<td>${list.viewCnt}</td>
+									<td>${list.cnt }</td>
 								</tr>
 							</c:forEach>
 						</tbody>

@@ -16,4 +16,5 @@ public class BoardVO {
 	
 	private String userName;
 	private int rownum;
+	private int cnt;
 }

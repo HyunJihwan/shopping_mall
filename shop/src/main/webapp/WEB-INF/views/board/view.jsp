@@ -201,74 +201,83 @@ td a:hover {
 				<br>
 			
 			<input type="hidden" id="likeBno" name="bno" value="${view.bno}">
-			<input type="hidden" id="likeId" name="userId" value="${view.userId}">
+			<input type="hidden" id="likeId" name="userId" value="${member.userId}">
 			
-			
+			<c:if test= "${member != null }">
 			<div id="mylike">
 				<div id="mylikeBtn">
 					<img id="mylikeImg" src="../resources/img/heart.jpg" style="width: 50px; height: 50px;">
 				</div>
 			</div>
-			
-			
+			</c:if>
+			<c:if test="${member == null }">
+			<h1>
+			좋아요는 로그인이 되야 보입니다.
+			</h1>
+			</c:if>
 			<script>
-			$(document).ready(function(){
-			    var bno = $("#likeBno").val();
-			    var userId = $("#likeId").val();
-			    var likeValue;
+			$(document).ready(function () {
+			    let bno = $("#likeBno").val();
+			    let userId = $("#likeId").val();
+			    let likeValue;
 
-			    likeChk(bno,userId);
+			    likeChk(bno, userId);
 
-			    $("#mylikeBtn").on("click", function(){
+			    $("#mylikeBtn").on("click", function () {
 			        alert("하트 누름");
-			        likeBtn({bno:bno,userId:userId});
+			        likeBtn({ bno: bno, userId: userId });
 			        likeChk(bno, userId);
 			    });
 
-			    function likeChk(bno, userId){
-			        $.getJSON("/board/likeChk/" + bno + "/" + userId + ".json", function(data){
+			    function likeChk(bno, userId) {
+			        $.getJSON("/board/likeChk/" + bno + "/" + userId + ".json", function (data) {
 			            likeValue = data;
 			            console.log(likeValue);
 
-			            if(likeValue === 0){
+			            if (likeValue === 0) {
 			                $("#mylikeImg").attr("src", "../resources/img/heart.jpg");
 			            } else {
-			                $("#mylikeImg").attr("src", "../resources/img/heart.jpg");
+			                $("#mylikeImg").attr("src", "../resources/img/full-heart.jpg");
 			            }
 			        });
-			    } // likeChk 닫음
+			    }
 
+				
 			    function likeBtn(like) {
-			        if(likeValue === 0){
+			        if (likeValue === 0) {
 			            $.ajax({
-			                type:"post",
-			                url:"/board/likeUp",
+			                type: "post",
+			                url: "/board/likeUp",
 			                data: JSON.stringify(like),
 			                contentType: "application/json; charset=utf-8",
-			                success: function(result){
-			                    if(result === "success"){
+			                success: function (result) {
+			                    if (result === "success") {
 			                        alert("좋아요 _ 꽉하트");
 			                    }
-			                },error: function(){
-									alert("실패했습니다 ㅅㅂ");
-				               }
+			                },
+			                error: function () {
+			                    alert("실패했습니다 하 좀 되라");
+			                },
 			            });
 			        } else {
 			            $.ajax({
-			                type:"post",
-			                url:"/board/likeDown", // Fixed missing ':' in this line
+			                type: "post",
+			                url: "/board/likeDown", // Fixed missing ':' in this line
 			                data: JSON.stringify(like),
 			                contentType: "application/json; charset=utf-8",
-			                success: function(result){
-			                    if(result == "success"){
+			                success: function (result) {
+			                    if (result == "success") {
 			                        alert("좋아요 _ 하트비움");
 			                    }
-			                }
+			                },
+			                error: function () {
+			                    alert("실패했습니다 하..");
+			                },
 			            });
 			        }
 			    }
 			});
-					
+						
     </script>
 			
 			
