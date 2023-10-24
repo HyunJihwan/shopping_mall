@@ -253,6 +253,7 @@ td a:hover {
 			                success: function (result) {
 			                    if (result === "success") {
 			                        alert("좋아요 _ 꽉하트");
+			                        
 			                    }
 			                },
 			                error: function () {
@@ -266,8 +267,11 @@ td a:hover {
 			                data: JSON.stringify(like),
 			                contentType: "application/json; charset=utf-8",
 			                success: function (result) {
-			                    if (result == "success") {
-			                        alert("좋아요 _ 하트비움");
+			                    if (result === "success") {
+				                    if(confirm("좋아요를 취소하시겠습니까?")){
+				                        alert("좋아요 _ 하트비움");
+			                        
+						             }
 			                    }
 			                },
 			                error: function () {
