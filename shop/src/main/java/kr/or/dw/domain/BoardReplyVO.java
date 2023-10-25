@@ -14,5 +14,7 @@ public class BoardReplyVO {
 	private Date regDate;
 	
 	private String userName;
-	
+	private int depth;
+	private int parent_no;
+	private String deleted;
 }
