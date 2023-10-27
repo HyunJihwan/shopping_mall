@@ -1,6 +1,12 @@
 package kr.or.dw.controller;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -288,41 +294,66 @@ public class ShopController {
 	}
 	
 	
-//	@ResponseBody
-//	@RequestMapping(value = "/kakaopay")
-//	public String kakaopay() {
-//		try {
-//			URL addr = new URL("https://kapi.kakao.com/v1/payment/ready");
-//			HttpsURLConnection link = (HttpsURLConnection) addr.openConnection();
-//			link.setRequestMethod("POST");
-//			link.setRequestProperty("Authorization", "KakaoAK 8ab01abeaaa82b02965e64d421cc028d");
-//			link.setRequestProperty("Content-type" ,"application/x-www-form-urlencoded;charset=utf-8");
-//			link.setDoOutput(true);
-//			String parameter = "cid=TC0ONETIME&tid=T1234567890123456789&partner_order_id=partner_order_id&";
-//		} catch (MalformedURIException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			
-//		}
-//		return null;
-//	}
-	
-	// 카카오페이 결제.
+	@RequestMapping(value = "/kakaopay")
 	@ResponseBody
-	@GetMapping("/kakopay")
-	public ReadyResponse payReady(ApproveResponse ap, OrderVO order, PaymentVO pay, int totalAmount, HttpSession session,Model model) throws SQLException {
-		
-		MemberVO member = (MemberVO) session.getAttribute("member");
-		String userId = member.getUserId();
-		
-		List<CartListVO> cartList = shopService.cartList(userId);
-		
-		ReadyResponse readyResponse = KakaoPayServiceImpl.payReady(ap.getItem_name(),ap.getQuantity(),userId, totalAmount);
-		logger.info("결제 고유번호: " + readyResponse.getTid());
-		logger.info("결제 요청 url : " + readyResponse.getNext_redirect_pc_url());
-		
-		return readyResponse;
+	public String kakaopay() {
+		try {
+			URL addr = new URL("https://kapi.kakao.com/v1/payment/ready");
+			HttpURLConnection link =  (HttpURLConnection) addr.openConnection();
+			link.setRequestMethod("POST");
+			link.setRequestProperty("Authorization", "KakaoAK 8ab01abeaaa82b02965e64d421cc028d");
+			link.setRequestProperty("Content-type","application/x-www-form-urlencoded;charset=utf-8");
+			link.setDoOutput(true);
+			String parameter = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id&item_name=초코파이&quantity=1&total_amount=2200&vat_amount=200&tax_free_amount=0&approval_url=https://developers.kakao.com/success&fail_url=https://developers.kakao.com/fail&cancel_url=https://developers.kakao.com/cancel";
+			OutputStream out = link.getOutputStream();
+			DataOutputStream data = new DataOutputStream(out);
+			data.writeBytes(parameter);
+			data.close();
+			
+			System.out.println("link 임 : " + link);
+			System.out.println(parameter);
+			int result = link.getResponseCode();
+			
+			InputStream input;
+			
+			if(result == 200) {
+				input = link.getInputStream();
+			}else {
+				input = link.getErrorStream();
+			}
+			
+			InputStreamReader reader = new InputStreamReader(input);
+			BufferedReader buffer = new BufferedReader(reader);
+			
+			System.out.println(buffer);
+			return buffer.readLine();
+			
+			
+			
+		} catch (MalformedURIException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "{\"result\":\"NO\"}";
 	}
+	
+// 카카오페이 결제.
+//	@ResponseBody
+//	@GetMapping("/kakopay")
+//	public ReadyResponse payReady(ApproveResponse ap, OrderVO order, PaymentVO pay, int totalAmount, HttpSession session,Model model) throws SQLException {
+//		
+//		MemberVO member = (MemberVO) session.getAttribute("member");
+//		String userId = member.getUserId();
+//		
+//		List<CartListVO> cartList = shopService.cartList(userId);
+//		
+//		ReadyResponse readyResponse = KakaoPayServiceImpl.payReady(ap.getItem_name(),ap.getQuantity(),userId, totalAmount);
+//		logger.info("결제 고유번호: " + readyResponse.getTid());
+//		logger.info("결제 요청 url : " + readyResponse.getNext_redirect_pc_url());
+//		
+//		return readyResponse;
+//	}
 	
 	
 	

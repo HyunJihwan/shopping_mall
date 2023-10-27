@@ -433,13 +433,17 @@ section#content div.gdsInfo .delete button:hover {
     		<option vlaue="카카오페이">카카오페이</option>
     	</select>
     </div>
-    <div id="payBtn">
-			<img id="payImg" src="../resources/img/payment_icon_yellow_medium.png"
-									style="width: 100px; height: 50px;">
-	</div>
+<!--     <div id="payBtn"> -->
+<!-- 			<img id="payImg" src="../resources/img/payment_icon_yellow_medium.png" -->
+<!-- 									style="width: 100px; height: 50px;"> -->
+<!-- 	</div> -->
+    
     
     
    </form>   
+  
+   <button id="payBtn" type="button">카카오 페이 결제</button>
+
 </div>
    
 </ul>
@@ -447,13 +451,14 @@ section#content div.gdsInfo .delete button:hover {
 	
 	<script>
 	$(function(){
-		$("#payBtn").click(function(){
+		$("#payBtn").on("click",function(){
+			alert("클릭");
+			
 			$.ajax({
 				url : "/shop/kakaopay",
 				dataType : "json",
 				success : function(data){
-					alert("여기");
-					
+					console.log(data);
 				},
 				error : function(error){
 					alert(error);
@@ -461,6 +466,7 @@ section#content div.gdsInfo .delete button:hover {
 			});
 		});
 	});
+
 	</script>
 			
 			
