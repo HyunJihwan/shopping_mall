@@ -1,13 +1,17 @@
 package kr.or.dw.controller;
 
+import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpSession;
 
+import org.apache.xerces.util.URI.MalformedURIException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LocationAwareLogger;
@@ -17,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,9 +37,14 @@ import kr.or.dw.domain.MemberVO;
 import kr.or.dw.domain.OrderDetailVO;
 import kr.or.dw.domain.OrderListVO;
 import kr.or.dw.domain.OrderVO;
+import kr.or.dw.domain.PaymentVO;
 import kr.or.dw.domain.ReplyListVO;
 import kr.or.dw.domain.ReplyVO;
+import kr.or.dw.kakaopay.ApproveResponse;
+import kr.or.dw.kakaopay.ReadyResponse;
+import kr.or.dw.service.KakaoPayServiceImpl;
 import kr.or.dw.service.ShopService;
+import lombok.Setter;
 
 @Controller
 @RequestMapping("/shop/*")
@@ -44,6 +54,9 @@ public class ShopController {
 
 	@Inject
 	ShopService shopService;
+	
+	@Autowired
+	private KakaoPayServiceImpl KakaoPayServiceImpl;
 	
 	// 카테고리별 상품 리스트 : 1차 분류
 	
@@ -273,6 +286,46 @@ public class ShopController {
 		
 		return "redirect:/shop/orderList";
 	}
+	
+	
+//	@ResponseBody
+//	@RequestMapping(value = "/kakaopay")
+//	public String kakaopay() {
+//		try {
+//			URL addr = new URL("https://kapi.kakao.com/v1/payment/ready");
+//			HttpsURLConnection link = (HttpsURLConnection) addr.openConnection();
+//			link.setRequestMethod("POST");
+//			link.setRequestProperty("Authorization", "KakaoAK 8ab01abeaaa82b02965e64d421cc028d");
+//			link.setRequestProperty("Content-type" ,"application/x-www-form-urlencoded;charset=utf-8");
+//			link.setDoOutput(true);
+//			String parameter = "cid=TC0ONETIME&tid=T1234567890123456789&partner_order_id=partner_order_id&";
+//		} catch (MalformedURIException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			
+//		}
+//		return null;
+//	}
+	
+	// 카카오페이 결제.
+	@ResponseBody
+	@GetMapping("/kakopay")
+	public ReadyResponse payReady(ApproveResponse ap, OrderVO order, PaymentVO pay, int totalAmount, HttpSession session,Model model) throws SQLException {
+		
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		String userId = member.getUserId();
+		
+		List<CartListVO> cartList = shopService.cartList(userId);
+		
+		ReadyResponse readyResponse = KakaoPayServiceImpl.payReady(ap.getItem_name(),ap.getQuantity(),userId, totalAmount);
+		logger.info("결제 고유번호: " + readyResponse.getTid());
+		logger.info("결제 요청 url : " + readyResponse.getNext_redirect_pc_url());
+		
+		return readyResponse;
+	}
+	
+	
+	
 	
 	// 주문 목록
 	@RequestMapping(value = "/orderList", method = RequestMethod.GET)

@@ -425,11 +425,43 @@ section#content div.gdsInfo .delete button:hover {
      </script>
      
     </div>
+    
+    <div class="form-group">
+    	<lable for="pay_method">결제방법</lable>
+    	<select name="pay_method" id="pay_method" class="form-control">
+    		<option value="">결제 방법을 선택하세요</option>
+    		<option vlaue="카카오페이">카카오페이</option>
+    	</select>
+    </div>
+    <div id="payBtn">
+			<img id="payImg" src="../resources/img/payment_icon_yellow_medium.png"
+									style="width: 100px; height: 50px;">
+	</div>
+    
+    
    </form>   
 </div>
    
 </ul>
 	</section>
+	
+	<script>
+	$(function(){
+		$("#payBtn").click(function(){
+			$.ajax({
+				url : "/shop/kakaopay",
+				dataType : "json",
+				success : function(data){
+					alert("여기");
+					
+				},
+				error : function(error){
+					alert(error);
+				}
+			});
+		});
+	});
+	</script>
 			
 			
 			<aside id="aside">

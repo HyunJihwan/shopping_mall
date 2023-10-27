@@ -71,11 +71,11 @@ public class ReplyController {
 		return "redirect:/board/view?bno=" +vo.getBno() +"&rno=" + vo.getRno();
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "/reply/commentList", method = RequestMethod.GET)
-	public ResponseEntity<String> commentList(){
-		
-	}
+//	@ResponseBody
+//	@RequestMapping(value = "/reply/commentList", method = RequestMethod.GET)
+//	public ResponseEntity<String> commentList(){
+//		
+//	}
 	
 	
 }
