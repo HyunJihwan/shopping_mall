@@ -440,9 +440,15 @@ section#content div.gdsInfo .delete button:hover {
     
     
     
-   </form>   
-  
-   <button id="payBtn" type="button">카카오 페이 결제</button>
+   </form>  
+    
+    <div id="apibtn">
+			<img id="kakaoImg" src="../resources/img/payment_icon_yellow_medium.png"
+				style="width: auto; height: 40px;">
+	</div>
+    
+<!--    <button id="apibtn" class="btn btn-primary" >카카오페이</button> -->
+   
 
 </div>
    
@@ -451,24 +457,36 @@ section#content div.gdsInfo .delete button:hover {
 	
 	<script>
 	$(function(){
-		$("#payBtn").on("click",function(){
-			alert("클릭");
-			
-			$.ajax({
-				url : "/shop/kakaopay",
-				dataType : "json",
-				success : function(data){
-					console.log(data);
-				},
-				error : function(error){
-					alert(error);
-				}
-			});
-		});
+	    $('#apibtn').click(function(){
+	        $.ajax({
+	            url: '/shop/kakaopay',
+	            dataType: 'json',
+	            success: function(data){
+	            	var box = data.next_redirect_pc_url;            	
+	            	var newWindow = OpenWindow(box, "카카오 페이 ", 600, 600);    
+	            },
+	            error: function(error){
+	                alert(error);
+	            }
+	        });
+	    });
 	});
+		
 
 	</script>
-			
+	
+	<script>
+	function OpenWindow(UrlStr, WinTitle, WinWidth, WinHeight){
+		winleft = (screen.width - WinWidth) / 2;
+		wintop = (screen.height - WinHeight) / 2;
+		var win = window.open(UrlStr, WinTitle, "scrollbars=yes,width=" + WinWidth+", "
+								+ "height=" + WinHeight + ",top="+ wintop + ",left="
+								+ winleft + ",resizable=yes,status=yes");
+		win.focus();
+		return win;
+	};
+
+	</script>		
 			
 			<aside id="aside">
 				<%@ include file="../include/aside.jsp" %>
