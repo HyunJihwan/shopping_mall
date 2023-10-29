@@ -455,7 +455,7 @@ section#content div.gdsInfo .delete button:hover {
 </ul>
 	</section>
 	
-	<script>
+<script>
 	$(function(){
 	    $('#apibtn').click(function(){
 	        $.ajax({
@@ -464,6 +464,8 @@ section#content div.gdsInfo .delete button:hover {
 	            success: function(data){
 	            	var box = data.next_redirect_pc_url;            	
 	            	var newWindow = OpenWindow(box, "카카오 페이 ", 600, 600);    
+// 					window.open(box);
+// 					location.href = box;
 	            },
 	            error: function(error){
 	                alert(error);
@@ -472,8 +474,7 @@ section#content div.gdsInfo .delete button:hover {
 	    });
 	});
 		
-
-	</script>
+</script>
 	
 	<script>
 	function OpenWindow(UrlStr, WinTitle, WinWidth, WinHeight){

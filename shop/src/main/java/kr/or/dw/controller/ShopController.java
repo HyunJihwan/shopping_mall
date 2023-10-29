@@ -311,7 +311,7 @@ public class ShopController {
 					+ "&partner_user_id=partner_user_id" // 가맹점 회원 id
 					+ "&item_name=초코파이" // 상품명
 					+ "&quantity=1" // 상품 수량
-					+ "&total_amount=5000" // 총 금액
+					+ "&total_amount=2200" // 총 금액
 					+ "&vat_amount=200" // 부가세
 					+ "&tax_free_amount=0" // 상품 비과세 금액
 					+ "&approval_url=http://localhost:8080/" // 결제 성공 시
