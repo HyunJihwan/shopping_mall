@@ -476,6 +476,8 @@ section#content div.gdsInfo .delete button:hover {
 		
 </script>
 	
+
+	
 	<script>
 	function OpenWindow(UrlStr, WinTitle, WinWidth, WinHeight){
 		winleft = (screen.width - WinWidth) / 2;
