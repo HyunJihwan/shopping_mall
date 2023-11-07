@@ -18,6 +18,12 @@
 	<a href="/board/listSearch">게시판</a>
 </li>
 
+<c:if test="${member != null }">
+<li>
+	<button type="button" id="chatting" class="btn btn-primary">채 팅</button>
+</li>
+</c:if>
+
 
 <c:if test="${member != null}">
 	
@@ -43,3 +49,24 @@
    </li>
 </c:if>
 </ul>
+
+<script>
+$(document).ready(function() {
+    // 페이지 로드 후 실행할 코드
+    $("#chatting").click(function() {
+        OpenWindow("/chatting", "채 팅 방 임", 600, 600);
+    });
+});
+
+	
+	function OpenWindow(UrlStr, WinTitle, WinWidth, WinHeight){
+		winleft = (screen.width - WinWidth) / 2;
+		wintop = (screen.height - WinHeight) / 2;
+		var win = window.open(UrlStr, WinTitle, "scrollbars=yes,width=" + WinWidth+", "
+								+ "height=" + WinHeight + ",top="+ wintop + ",left="
+								+ winleft + ",resizable=yes,status=yes");
+		win.focus();
+		return win;
+	};
+
+	</script>		

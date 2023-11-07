@@ -3,9 +3,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+		http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd"
+		>
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -28,13 +33,25 @@
 	<context:component-scan base-package="kr.or.dw.utils"/>
 	
 	<beans:bean id="AdminInterceptor" class="kr.or.dw.interceptor.AdminInterceptor" ></beans:bean>
-
+	
+	
 	<interceptors>
 	   <interceptor>
 	    <mapping path="/admin/**" />
 	    <beans:ref bean="AdminInterceptor" />
 	   </interceptor>
 	</interceptors>
+	
+	<!-- 채팅 빈등록 -->
+	<beans:bean id="chattingHandler" class="kr.or.dw.handler.ChattingHandler"></beans:bean>
+	
+	<websocket:handlers>
+		<websocket:mapping handler="chattingHandler" path="/chatting"/>
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+		</websocket:handshake-interceptors>
+		<websocket:sockjs/>
+	</websocket:handlers>
 	
 	<!-- 업로드 패스 설정 -->   
 <beans:bean class="java.lang.String" id="uploadPath">
