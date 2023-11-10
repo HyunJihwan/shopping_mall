@@ -31,6 +31,7 @@
 	<context:component-scan base-package="kr.or.dw.dao"/>
 	<context:component-scan base-package="kr.or.dw.service"/>
 	<context:component-scan base-package="kr.or.dw.utils"/>
+	<context:component-scan base-package="kr.or.dw.handler"/>
 	
 	<beans:bean id="AdminInterceptor" class="kr.or.dw.interceptor.AdminInterceptor" ></beans:bean>
 	
@@ -50,13 +51,13 @@
 		<websocket:handshake-interceptors>
 			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
 		</websocket:handshake-interceptors>
-		<websocket:sockjs/>
+		<websocket:sockjs></websocket:sockjs>
 	</websocket:handlers>
 	
 	<!-- 업로드 패스 설정 -->   
-<beans:bean class="java.lang.String" id="uploadPath">
-   <beans:constructor-arg value="C:\shopping_mall\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\shop\resources" />
-</beans:bean>
+	<beans:bean class="java.lang.String" id="uploadPath">
+	   <beans:constructor-arg value="C:\shopping_mall\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\shop\resources" />
+	</beans:bean>
 
 <!-- 일반 파일 업로드 경로 -->
 <resources mapping="/imgUpload/**" location="/resources/imgUpload/" />
