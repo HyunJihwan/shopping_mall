@@ -511,28 +511,32 @@ div.modalContent button.modal_cancel {
 											type="hidden" name="rno" value="${comment.rno}" />
 										<button type="submit" class="btn btn-danger" id="deleteBtn">삭제</button>
 									</form>
-									<button type="button" class="btn btn-info" id="reply_btn">답글 달기</button>
+									<button type="button" class="btn btn-info" id="reply_btn">답글
+										달기</button>
 
 								</c:if>
 							</div>
 							<hr />
 						</c:forEach>
-						
-						<script>
-						$("#reply_btn").on("click", function () {
 
-							
-						    $('#ul_input').append('<li>' +
-						        '<div>' +
-						        '<p>${comment.userName}gd' +
-						        '<fmt:formatDate value="${comment.regDate}" pattern="yyyy-MM-dd" />' +
-						        '</p>' +
-						        '<p>${comment.content}</p>' +
-						        '<input type="hidden" name="userId" value="${comment.userId}" />' +
-						        '</div>' +
-						        '</li>');
-						});
-												
+						<script>
+							$("#reply_btn")
+									.on(
+											"click",
+											function() {
+
+												$('#ul_input')
+														.append(
+																'<li>'
+																		+ '<div>'
+																		+ '<p>${comment.userName}gd'
+																		+ '<fmt:formatDate value="${comment.regDate}" pattern="yyyy-MM-dd" />'
+																		+ '</p>'
+																		+ '<p>${comment.content}</p>'
+																		+ '<input type="hidden" name="userId" value="${comment.userId}" />'
+																		+ '</div>'
+																		+ '</li>');
+											});
 						</script>
 
 					</ul>
@@ -551,7 +555,7 @@ div.modalContent button.modal_cancel {
 					</script>
 					<div>
 						<c:if test="${member != null }">
-						
+
 							<form method="post" action="/board/replyWrite">
 								<p>
 									<input type="hidden" name="userId" value="${member.userId }"

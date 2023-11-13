@@ -181,7 +181,7 @@ public class BoardController {
 	
 	// 좋아요 체크 여부
 	@RequestMapping(value = ("/likeChk/{bno}/{userId}"), method = RequestMethod.GET)
-	public ResponseEntity<Integer> likeChk(@PathVariable int bno, @PathVariable String userId) throws SQLException{
+	public ResponseEntity<Integer> likeChk(@PathVariable("bno") int bno, @PathVariable String userId) throws SQLException{
 		System.out.println("들어옴?");
 		
 		return new ResponseEntity<>(boardService.likeChk(bno, userId), HttpStatus.OK);
