@@ -88,21 +88,16 @@
 						data-bs-ride="carousel" data-bs-keyboard="false">
 						<div class="carousel-inner">
 							<div class="carousel-item active" data-bs-interval="2000">
-								<img src="/resources/img/slide5.png" class="d-block w-100"
-									alt="…">
+								<img src="/resources/img/s1.jpg" class="d-block w-100"
+									alt="…" style="weight: 500px; height: 500px;">
 							</div>
 							<div class="carousel-item" data-bs-interval="2000">
-								<img src="/resources/img/slide6.png" class="d-block w-100"
-									alt="…">
+								<img src="/resources/img/s2.jpg" class="d-block w-100"
+									alt="…" style="weight: 500px; height: 500px;">
 							</div>
 							<div class="carousel-item" data-bs-interval="2000">
-								<img src="/resources/img/slide7.png" class="d-block w-100"
-									alt="…">
-							</div>
-							
-							<div class="carousel-item" data-bs-interval="2000">
-								<img src="/resources/img/slide8.png" class="d-block w-100"
-									alt="…">
+								<img src="/resources/img/s3.jpg" class="d-block w-100"
+									alt="…" style="weight: 500px; height: 500px;">
 							</div>
 						</div>
 						<button class="carousel-control-prev" type="button"

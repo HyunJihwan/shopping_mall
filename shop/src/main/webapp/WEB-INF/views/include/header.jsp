@@ -22,7 +22,6 @@
   }
 </style>
 
-
 <h1 class="title">
-	<a href="/" >GUN GUN GUN</a>
+	<a href="/" style="font-size: 50px; font-family: inherit; ">fruit!</a>
 </h1>
