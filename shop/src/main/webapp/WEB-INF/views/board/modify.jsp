@@ -135,7 +135,7 @@ td a:hover {
 	<section id="container">
 			
 		<div id="container_box">
-			<section id="content">
+			<section id="contents">
 				<form role=form method="post">
 				
 				<label>제목</label>	
@@ -147,7 +147,17 @@ td a:hover {
 				
 				<label>내용</label>	
 				<textarea cols="50" rows="5" name="content">${view.content }</textarea></br/>	
-					
+				<script>
+				var ckeditor_config = {
+					     resize_enaleb : false,
+					     enterMode : CKEDITOR.ENTER_BR,
+					     shiftEnterMode : CKEDITOR.ENTER_P,
+					     filebrowserUploadUrl : "/board/ckUpload"
+					   };
+					   
+	   			CKEDITOR.replace("content", ckeditor_config);
+				</script>
+				
 				<button type="submit">수정 완료</button>	
 				
 				</form>	
