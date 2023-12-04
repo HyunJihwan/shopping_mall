@@ -6,9 +6,9 @@
 
 <select id="list" resultType="kr.or.dw.domain.BoardVO">
 
-SELECT bno, title, content, userId, regDate, viewCnt, USERNAME
+SELECT bno, title, content, userId, regDate, viewCnt, USERNAME, img
 FROM (
-    SELECT b.bno, b.title, b.content, b.userId, b.regDate, b.viewCnt, t.USERNAME, row_number() over(order by bno desc) as rNum
+    SELECT b.bno, b.title, b.content, b.userId, b.regDate, b.viewCnt,b.img,t.USERNAME, row_number() over(order by bno desc) as rNum
     FROM TBL_BOARD b
     JOIN TBL_MEMBER t ON b.USERID = t.USERID  
 ) 
@@ -20,13 +20,13 @@ AND 1=1
 
 <insert id="write" parameterType="kr.or.dw.domain.BoardVO">
 	insert into 
-	tbl_board(bno,title,content,userId)
-	values(tbl_board_seq.nextval,#{title}, #{content}, #{userId})
+	tbl_board(bno,title,content,userId,img)
+	values(tbl_board_seq.nextval,#{title}, #{content}, #{userId}, #{img})
 </insert>
 
 <select id="view" parameterType="int" resultType="kr.or.dw.domain.BoardVO">
 	select
-	b.bno,b.title,b.content,b.userId,b.regDate,b.viewCnt,t.userName
+	b.bno,b.title,b.content,b.userId,b.regDate,b.viewCnt,t.userName,b.img
 	from TBL_BOARD b, TBL_MEMBER t 
 	where bno = #{bno}
 	AND b.userId = t.userId
@@ -36,13 +36,15 @@ AND 1=1
 	update tbl_board
 	set title = #{title},
 		userId = #{userId},
-		content = #{content}
+		content = #{content},
+		img = #{img}
 	where bno = #{bno}
 </update>
 
-<delete id="delete">
+<delete id="delete" parameterType="int">
 	delete from tbl_board
 	where bno = #{bno}
+	AND viewCnt = #{viewCnt}
 </delete>
 
 <select id="getBoard" resultType="kr.or.dw.domain.BoardVO">

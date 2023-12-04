@@ -1,9 +1,12 @@
 package kr.or.dw.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Reader;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.Criteria;
@@ -34,10 +38,14 @@ import kr.or.dw.domain.LikeVO;
 import kr.or.dw.domain.MemberVO;
 import kr.or.dw.service.BoardService;
 import kr.or.dw.service.ReplyService;
+import kr.or.dw.utils.UploadFileUtils;
 
 @Controller
 @RequestMapping("/board/*")
 public class BoardController {
+	
+	@Resource(name="uploadPath")
+	private String uploadPath;
 	
 	@Autowired
 	BoardService boardService;
@@ -78,8 +86,26 @@ public class BoardController {
 	
 	// 게시물 작성
 	@RequestMapping(value="/write", method = RequestMethod.POST)
-	public String postWrite(BoardVO vo) throws Exception {
+	public String postWrite(BoardVO vo, MultipartFile file) throws Exception {
 		logger.info("post write");
+		
+		 String imgUploadPath = uploadPath + File.separator + "imgUpload";  // 이미지를 업로드할 폴더를 설정 = /uploadPath/imgUpload
+		 String ymdPath = UploadFileUtils.calcPath(imgUploadPath);  // 위의 폴더를 기준으로 연월일 폴더를 생성
+		 String fileName = null;  // 기본 경로와 별개로 작성되는 경로 + 파일이름
+		 
+		 if(file.getOriginalFilename() != null && !file.getOriginalFilename().equals("")) {
+			 
+			 fileName =  UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes(), ymdPath);
+			 
+			  
+			    vo.setImg(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
+			 	 
+		 }else {
+			 fileName = File.separator + "images" + File.separator + "none.png";
+			 vo.setImg(fileName);
+		 }
+		 
+		
 		boardService.write(vo);
 		 
 		 return "redirect:/board/listSearch";
@@ -90,7 +116,7 @@ public class BoardController {
 	public void getView(@RequestParam("bno") int bno, Model model,HttpSession session) throws SQLException {
 		logger.info("get View");
 		BoardVO vo = boardService.view(bno);
-		
+
 		boardService.viewCnt(bno);
 		model.addAttribute("view" ,vo);
 		
@@ -134,9 +160,30 @@ public class BoardController {
 		
 	}
 	
+	// 이미지만
 	@RequestMapping(value = "/modify" , method = RequestMethod.POST)
-	public String postModify(BoardVO board) throws SQLException {
+	public String postModify(BoardVO board, MultipartFile file, HttpServletRequest req) throws IOException, Exception {
 		logger.info("post Modify");
+		
+			// 새로운 파일이 등록되었는지 확인
+				 if(file.getOriginalFilename() != null && !file.getOriginalFilename().equals("")) {
+				  // 기존 파일을 삭제
+				  new File(uploadPath + req.getParameter("img")).delete();
+				  
+				  // 새로 첨부한 파일을 등록
+				  String imgUploadPath = uploadPath + File.separator + "imgUpload";
+				  String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
+				  String fileName = UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes(), ymdPath); 
+				  
+				  board.setImg(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
+				  
+				 } else {  // 새로운 파일이 등록되지 않았다면
+				  // 기존 이미지를 그대로 사용
+				  board.setImg(req.getParameter("img"));
+				  
+				 }
+				
+		
 		
 		boardService.modify(board);
 		
@@ -157,11 +204,11 @@ public class BoardController {
 	    BoardVO board = boardService.getBoard(bno);
 
 	    if (board == null || !board.getUserId().equals(member.getUserId())) {
-	        return "redirect:/board/list";
+	        return "redirect:/board/listSearch";
 	    }
 
 	    boardService.delete(bno);
-	    return "redirect:/board/list";
+	    return "redirect:/board/listSearch";
 	}
 	
 	@RequestMapping(value = "/listSearch", method = RequestMethod.GET)

@@ -17,7 +17,7 @@
 	<%@ include file="../include/nav.jsp" %>
 </div>
 
-<form method="post" id="form">
+<form method="post" id="form" autocomplete="off" enctype="multipart/form-data">
 
 <label>제목</label>
 <input type="text" name="title" id="title"/><br />
@@ -37,6 +37,30 @@ var ckeditor_config = {
 	   
 	   CKEDITOR.replace("content", ckeditor_config);
 </script>
+
+<div class="inputArea">
+						<label for="img">이미지</label> <input type="file" id="img"
+							name="file" />
+						<div class="select_img">
+							<img src="" />
+						</div>
+
+						<script>
+					    $("#img").change(function(){
+						     if(this.files && this.files[0]) {
+						      var reader = new FileReader;
+						      reader.onload = function(data) {
+						       $(".select_img img").attr("src", data.target.result).width(100);          
+						      }
+						      reader.readAsDataURL(this.files[0]);
+						     }
+					    });
+   						</script>
+   						
+   						<%=request.getRealPath("/") %>
+   						
+					</div>
+
 
 <button type="submit" id="sb">작성</button>
 

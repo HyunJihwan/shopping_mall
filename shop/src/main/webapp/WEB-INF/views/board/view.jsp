@@ -326,6 +326,10 @@ div.modalContent button.modal_cancel {
 .liked {
 	color: red;
 }
+.oriImg {
+width:500px; heigth:auto;
+}
+
 </style>
 
 <body>
@@ -351,10 +355,26 @@ div.modalContent button.modal_cancel {
 					${view.userName}<br /> <label>내용</label><br /> ${view.content}<br />
 					<br> <label>조회수</label><br /> ${view.viewCnt}<br /> <br>
 
+					
+					<div class="inputArea">
+				    <label for="img">이미지</label>
+				    <p>원본 이미지</p>
+				    <c:if test="${empty view.img}">
+				        <p>이미지가 없습니다.</p>
+				    </c:if>
+				    <c:if test="${!empty view.img}">
+				        <img src="${view.img}" class="oriImg" />
+				    </c:if>
+					</div>
+					
+					<div class="inputArea">
+					<label>좋아요</label>
+					<br>
 					<input type="hidden" id="likeBno" name="bno" value="${view.bno}">
 					<input type="hidden" id="likeId" name="userId"
 						value="${member.userId}">
-
+					
+					
 					<c:if test="${member != null }">
 						<div id="mylike">
 							<div id="mylikeBtn">
@@ -460,8 +480,11 @@ div.modalContent button.modal_cancel {
 											}
 										});
 					</script>
-
-
+					</div>
+					
+					
+										
+					<div>
 					<c:if test="${member != null }">
 						<c:choose>
 							<c:when test="${view.userId eq member.userId}">
@@ -480,7 +503,7 @@ div.modalContent button.modal_cancel {
 							</c:otherwise>
 						</c:choose>
 					</c:if>
-
+					</div>
 
 
 

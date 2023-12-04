@@ -115,6 +115,10 @@ td a {
 td a:hover {
     text-decoration: underline;
 }
+
+.orgImg {
+width:500px; heigth:auto;
+}
 </style>
 
 
@@ -136,7 +140,7 @@ td a:hover {
 			
 		<div id="container_box">
 			<section id="contents">
-				<form role=form method="post">
+				<form role=form method="post" autocomplete="off" enctype="multipart/form-data">
 				
 				<label>제목</label>	
 				<input type="text" name="title" value="${view.title }"/></br/>
@@ -157,6 +161,28 @@ td a:hover {
 					   
 	   			CKEDITOR.replace("content", ckeditor_config);
 				</script>
+				
+				<div class="inputArea">
+					   <label for="img">이미지</label>
+					   <input type="file" id="img" name="file" />
+					   <div class="select_img">
+					    <img src="${view.img}" class="orgImg"/>
+					    <input type="hidden" name="img" value="${view.img}" />
+					   </div>
+					   
+					   <script>
+					    $("img").change(function(){
+					     if(this.files && this.files[0]) {
+					      var reader = new FileReader;
+					      reader.onload = function(data) {
+					       $(".select_img img").attr("src", data.target.result).width(100);          
+					      }
+					      reader.readAsDataURL(this.files[0]);
+					     }
+					    });
+					   </script>
+					   <%=request.getRealPath("/") %>
+					</div>
 				
 				<button type="submit">수정 완료</button>	
 				
