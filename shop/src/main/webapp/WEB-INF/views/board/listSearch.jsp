@@ -228,6 +228,48 @@ td a:hover {
 		</div>
 	</section>
 	
+<div class="modal" id="myModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="documnet">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function(){
+	console.log("스크립트 실행");
+	var result = "${result}";
+	console.log(" reuslt : " + result);
+
+	checkModal(result);
+
+	function checkModal(result){
+
+		if (result === ''){
+			console.log(1);
+			return;
+		}
+
+			$(".modal-body").html(
+				"게시글 " + result + " 번이 등록되었습니다!");
+		
+		$("#myModal").modal("show");
+	}	
+});
+</script>
+
+	
 
 	<footer class="py-3 my-4" id="footer_box">
   		<%@ include file="../include/footer.jsp" %>

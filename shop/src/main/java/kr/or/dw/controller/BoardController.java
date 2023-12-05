@@ -1,13 +1,18 @@
 package kr.or.dw.controller;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.Reader;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -28,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.or.dw.command.Criteria;
 import kr.or.dw.command.PageMaker;
@@ -86,7 +92,7 @@ public class BoardController {
 	
 	// 게시물 작성
 	@RequestMapping(value="/write", method = RequestMethod.POST)
-	public String postWrite(BoardVO vo, MultipartFile file) throws Exception {
+	public String postWrite(BoardVO vo, MultipartFile file, RedirectAttributes rttr) throws Exception {
 		logger.info("post write");
 		
 		 String imgUploadPath = uploadPath + File.separator + "imgUpload";  // 이미지를 업로드할 폴더를 설정 = /uploadPath/imgUpload
@@ -105,11 +111,69 @@ public class BoardController {
 			 vo.setImg(fileName);
 		 }
 		 
-		
-		boardService.write(vo);
 		 
+		 boardService.write(vo);
+		 rttr.addFlashAttribute("result" , vo.getBno());
+		 System.out.println("result : "  + vo.getBno());
+		
 		 return "redirect:/board/listSearch";
 	}
+	
+	
+		// ck 에디터에서 파일 업로드
+		@RequestMapping(value = "/board/ckUpload", method = RequestMethod.POST)
+		public void postCKEditorImgUpload(HttpServletRequest req, HttpServletResponse res,
+				@RequestParam MultipartFile upload) throws Exception {
+			logger.info("post CKEditor img upload");
+			
+			System.out.println("chk업로드 쪽: ");
+			// 랜덤 문자 생성
+			UUID uid = UUID.randomUUID();
+
+			OutputStream out = null;
+			PrintWriter printWriter = null;
+
+			// 인코딩
+			res.setCharacterEncoding("utf-8");
+			res.setContentType("text/html;charset=utf-8");
+			
+			try {
+
+				String fileName = upload.getOriginalFilename(); // 파일 이름 가져오기
+				byte[] bytes = upload.getBytes();
+
+				// 업로드 경로
+				String ckUploadPath = uploadPath + File.separator + "ckUpload" + File.separator + uid + "_" + fileName;
+
+				out = new FileOutputStream(new File(ckUploadPath));
+				out.write(bytes);
+				out.flush(); // out에 저장된 데이터를 전송하고 초기화
+
+				String callback = req.getParameter("CKEditorFuncNum");
+				printWriter = res.getWriter();
+				String fileUrl = "/resources/ckUpload/" + uid + "_" + fileName; // 작성화면
+
+				// 업로드시 메시지 출력
+				printWriter.println("{\"filename\" : \""+fileName+"\", \"uploaded\" : 1, \"url\":\""+fileUrl+"\"}");
+				printWriter.flush();
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (out != null) {
+						out.close();
+					}
+					if (printWriter != null) {
+						printWriter.close();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+			return;
+		}
 	
 	// 게시글 조회 + 조회수
 	@RequestMapping(value = "/view", method = RequestMethod.GET)

@@ -164,6 +164,7 @@ width:500px; heigth:auto;
 				
 				<div class="inputArea">
 					   <label for="img">이미지</label>
+					   <br>
 					   <input type="file" id="img" name="file" />
 					   <div class="select_img">
 					    <img src="${view.img}" class="orgImg"/>
@@ -184,7 +185,8 @@ width:500px; heigth:auto;
 					   <%=request.getRealPath("/") %>
 					</div>
 				
-				<button type="submit">수정 완료</button>	
+				<br>
+				<button type="submit" class="btn btn-dark">수정 완료</button>	
 				
 				</form>	
 			

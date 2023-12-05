@@ -327,7 +327,7 @@ div.modalContent button.modal_cancel {
 	color: red;
 }
 .oriImg {
-width:500px; heigth:auto;
+width:300px; heigth:auto;
 }
 
 </style>
@@ -490,12 +490,12 @@ width:500px; heigth:auto;
 							<c:when test="${view.userId eq member.userId}">
 								<div>
 									<button type="button"
-										onclick="location.href='/board/modify?bno=${view.bno}'">수정</button>
+										onclick="location.href='/board/modify?bno=${view.bno}'" class="btn btn-success">수정</button>
 									<%-- 									<a href="/board/modify?bno=${view.bno}">게시물 수정</a> --%>
 									<!-- 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  -->
 									<%-- 									<a href="/board/delete?bno=${view.bno}">게시물 삭제</a> --%>
 									<button type="button" id="viewDel"
-										onclick="location.href='/board/delete?bno=${view.bno}'">삭제</button>
+										onclick="location.href='/board/delete?bno=${view.bno}'" class="btn btn-warning">삭제</button>
 								</div>
 							</c:when>
 							<c:otherwise>

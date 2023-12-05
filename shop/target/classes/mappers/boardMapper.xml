@@ -44,7 +44,6 @@ AND 1=1
 <delete id="delete" parameterType="int">
 	delete from tbl_board
 	where bno = #{bno}
-	AND viewCnt = #{viewCnt}
 </delete>
 
 <select id="getBoard" resultType="kr.or.dw.domain.BoardVO">

@@ -13,11 +13,64 @@
 	href="/resources/bootstrap/css/bootstrap-theme.min.css">
 <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
 <script src="/resources/ckeditor/ckeditor.js"></script>
+<style>
+        /* 스타일 추가 */
+        body {
+            font-family: Arial, sans-serif;
+
+            margin: 0;
+            padding: 100px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        textarea {
+            width: calc(100% - 12px);
+            padding: 6px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .inputArea {
+            margin-bottom: 20px;
+        }
+
+        .select_img img {
+            max-width: 300px;
+            height: auto;
+            margin-top: 10px;
+            display: block;
+        }
+    </style>
+
+
 <div id="nav">
 	<%@ include file="../include/nav.jsp" %>
 </div>
 
 <form method="post" id="form" autocomplete="off" enctype="multipart/form-data">
+
 
 <label>제목</label>
 <input type="text" name="title" id="title"/><br />
@@ -26,7 +79,7 @@
 <input type="text" name="userId"  value="${member.userId }" readonly /><br />
 
 <label>내용</label>
-<textarea cols="50" rows="5" name="content"></textarea><br />
+<textarea cols="50" rows="5" name="content" id="content"></textarea><br />
 <script>
 var ckeditor_config = {
 	     resize_enaleb : false,
@@ -42,7 +95,7 @@ var ckeditor_config = {
 						<label for="img">이미지</label> <input type="file" id="img"
 							name="file" />
 						<div class="select_img">
-							<img src="" />
+							<img src="" / class="orgImg">
 						</div>
 
 						<script>
@@ -70,12 +123,14 @@ var ckeditor_config = {
 
 <script>
 $("#sb").on('click', function(event) {
-	
-    if($("#title").val() === "")) {
+    var title = $("#title").val();
+    var content = $("#content").val();
+
+    if (title === "") {
         alert("제목을 입력해주세요");
-        event.preventDefault(); 
+        event.preventDefault();
     } else {
-        // 제목이 비어있지 않으면 폼 서브밋
+        // 제목과 내용이 모두 비어있지 않으면 폼 서브밋
         $("#form").submit();
     }
 });
